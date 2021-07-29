@@ -1,0 +1,83 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.playgroundContainer {
+  margin-bottom: var(--ifm-leading);
+  border-radius: var(--ifm-global-radius);
+  box-shadow: var(--ifm-global-shadow-lw);
+  overflow: hidden;
+}
+
+.brythonCodeBlock {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.brythonTurtleResult {
+  position: absolute;
+  top: 55%;
+  cursor: move;
+  width: min-content;
+  z-index: 999;
+  border: 2px solid;
+  border-color: var(--ifm-color-primary);
+  border-radius: 8px;
+  padding: 0px;
+  background-color: rgba(240, 239, 239, 0.808);
+}
+
+.slimStrippedButton { 
+    background: transparent;
+    border: 0px;
+    padding: 6px;
+}
+.slimStrippedButton:hover {
+  border: 1px solid var(--ifm-color-gray-400);
+  padding: 5px;
+  border-radius: 6px;
+  background-color: var(--ifm-color-gray-300);
+}
+
+.brythonEditor {
+  flex-grow: 1;
+  flex-basis: 80ch;
+  font: var(--ifm-code-font-size) / var(--ifm-pre-line-height)
+    var(--ifm-font-family-monospace) !important;
+  /*rtl:ignore*/
+  direction: ltr;
+}
+
+.brythonOut {
+  flex-grow: 1;
+  flex-basis: 80ch;
+}
+
+.brythonOut> pre {
+  margin-bottom: 0px;
+}
+
+
+.brythonCodeBlockHeader {
+  display: flex;
+  align-content: center;
+  letter-spacing: 0.08rem;
+  padding: 0.75rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-content);
+  font-size: var(--ifm-code-font-size);
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.playgroundHeader:first-of-type {
+  background: var(--ifm-color-emphasis-600);
+  color: var(--ifm-color-content-inverse);
+}
