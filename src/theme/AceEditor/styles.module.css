@@ -19,7 +19,7 @@
 
 .brythonTurtleResult {
   position: absolute;
-  top: 55%;
+  left: 0;
   cursor: move;
   width: min-content;
   z-index: 999;
@@ -27,7 +27,22 @@
   border-color: var(--ifm-color-primary);
   border-radius: 8px;
   padding: 0px;
-  background-color: rgba(240, 239, 239, 0.808);
+  background-color: rgba(240, 239, 239, 0.8);
+}
+
+
+.brythonTurtleResultHead {
+  display: flex;
+  align-items: center;
+  background-color: rgba(170, 170, 170, 0.8);
+  border-radius: 8px 8px 0 0;
+}
+
+.brythonTurtleResultHead > span {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  color: var(--ifm-color-primary);
+  margin-left: 8px;
 }
 
 .slimStrippedButton { 
@@ -36,10 +51,11 @@
     padding: 6px;
 }
 .slimStrippedButton:hover {
-  border: 1px solid var(--ifm-color-gray-400);
-  padding: 5px;
+  border: 2px solid var(--ifm-color-primary);
+  padding: 4px;
   border-radius: 6px;
-  background-color: var(--ifm-color-gray-300);
+  cursor: pointer;
+  min-width: 4ch;
 }
 
 .brythonEditor {
@@ -56,16 +72,28 @@
   flex-basis: 80ch;
 }
 
+
 .brythonOut> pre {
   margin-bottom: 0px;
 }
 
+.playButton {
+  background-color: var(--ifm-color-success);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.playButton:hover {
+  box-shadow: 2px 2px 45px var(--ifm-color-primary);
+}
 
 .brythonCodeBlockHeader {
   display: flex;
   align-content: center;
-  letter-spacing: 0.08rem;
-  padding: 0.75rem;
+  letter-spacing: 0.08em;
+  padding: 0.5em;
   text-transform: uppercase;
   font-weight: bold;
   background: var(--ifm-color-emphasis-200);

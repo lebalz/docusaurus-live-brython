@@ -1,12 +1,18 @@
 {
   "name": "docusaurus-live-brython",
-  "version": "0.0.1-alpha149",
-  "description": "Docusaurus live code block component.",
+  "version": "0.0.1-beta.3",
+  "description": "Docusaurus live code block component for python.",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lebalz/dokusaurus-live-brython.git"
+  },
+  "author": "Balthasar Hofer <lebalz@outlook.com>",
+  "bugs": "https://github.com/lebalz/dokusaurus-live-brython/issues",
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.3",
     "@docusaurus/utils-validation": "2.0.0-beta.3",

@@ -12,8 +12,7 @@ import CodeBlock from '@theme-init/CodeBlock';
 
 function uniqueId() {
   const id = [...Array(8)].map((v) => String.fromCharCode(97 + Math.floor(Math.random() * 26))).join('');
-  console.log(id)
-  return `py-${id}`
+  return `py_${id}`
 }
 
 /**
@@ -23,6 +22,7 @@ function uniqueId() {
  */
 function sanitizeId(id) {
   return id.replaceAll('.', '_')
+    .replaceAll('-', '_')
     .replaceAll('#', '_')
     .replaceAll(':', '')
     .replaceAll(',', '')

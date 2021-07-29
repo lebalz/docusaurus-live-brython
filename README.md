@@ -1,4 +1,4 @@
-# Docusaurus Live Codeblock
+# Docusaurus Live Codeblock for Python
 
 You can create live code editors with a code block `live_py` meta string.
 
@@ -44,3 +44,7 @@ t.goto(0, 125)
 t.color('purple')
 t.write("I love Brython!", font=("Arial", 20, "normal"))
 ```
+
+results in an live editable code block:
+
+![Brython Demo](brython-demo.gif)

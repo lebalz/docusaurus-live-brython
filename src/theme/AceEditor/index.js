@@ -12,7 +12,7 @@ import styles from './styles.module.css';
 import AceEditor from 'react-ace';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPython } from "@fortawesome/free-brands-svg-icons"
-import { faDownload } from '@fortawesome/free-solid-svg-icons'
+import { faDownload, faTimes, faPlay } from '@fortawesome/free-solid-svg-icons'
 
 import Draggable from 'react-draggable';
 
@@ -150,6 +150,13 @@ export default function PyAceEditor({ children, codeId, title, ...props }) {
           exec: execScript
         });
       }
+      if (node.refEditor) {
+        node.refEditor.querySelectorAll('.ace_scrollbar').forEach((scroller) => {
+          if (!scroller.classList.contains('thin-scrollbar')) {
+            scroller.classList.add('thin-scrollbar');
+          }
+        })
+      }
       // resizeEditor(node.editor)
     }
   }, []);
@@ -185,14 +192,10 @@ export default function PyAceEditor({ children, codeId, title, ...props }) {
         </div>
         <div className={styles.spacer} ></div>
         <button
-          className="button button--success"
           onClick={execScript}
-          style={{
-            paddingLeft: '12px',
-            paddingRight: '12px',
-          }}
+          className={styles.playButton}
         >
-          {executing ? <FontAwesomeIcon icon={faPython} spin id={`${codeId}_loader`} /> : '▶'}
+          {executing ? <FontAwesomeIcon icon={faPython} spin id={`${codeId}_loader`} /> : <FontAwesomeIcon icon={faPlay} />}
         </button>
       </div>
       <div className={clsx(styles.brythonCodeBlock)}>
@@ -240,7 +243,7 @@ export default function PyAceEditor({ children, codeId, title, ...props }) {
           turtleModalOpen && (
             <Draggable>
               <div className={styles.brythonTurtleResult}>
-                <div style={{ display: 'flex' }}>
+                <div className={styles.brythonTurtleResultHead}>
                   <span>Output</span>
                   <span className={styles.spacer} ></span>
                   <button
@@ -262,7 +265,7 @@ export default function PyAceEditor({ children, codeId, title, ...props }) {
                     type="button"
                     className={styles.slimStrippedButton}
                     onClick={() => clearResult(true)}>
-                    <span aria-hidden="true">×</span>
+                    <span aria-hidden="true"><FontAwesomeIcon icon={faTimes} /></span>
                   </button>
                 </div>
                 <div
