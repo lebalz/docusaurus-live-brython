@@ -8,6 +8,7 @@
 import React from 'react';
 import PyAceEditor from '@theme/AceEditor';
 import CodeBlock from '@theme-init/CodeBlock';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
 
 function uniqueId() {
@@ -34,11 +35,20 @@ function sanitizeId(id) {
 const withLiveEditor = (Component) => {
   const WrappedComponent = (props) => {
     if (props.live_py) {
-      return <PyAceEditor
-        {...props}
-        codeId={sanitizeId(props.title || uniqueId())}
-        title={props.title || 'Python'}
-      />;
+      return (
+        <BrowserOnly
+          fallback={<Component {...props} />}
+          children={() => {
+            return (
+              <PyAceEditor
+                {...props}
+                codeId={sanitizeId(props.title || uniqueId())}
+                title={props.title || 'Python'}
+              />
+            );
+          }}
+        />
+      );
     }
 
     return <Component {...props} />;

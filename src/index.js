@@ -25,11 +25,6 @@ function theme() {
             },
           ],
         },
-        resolve: {
-          alias: {
-            buble: path.resolve(__dirname, './custom-buble.js'),
-          },
-        },
       };
     },
     injectHtmlTags({ content }) {

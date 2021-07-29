@@ -7,6 +7,7 @@
 
 import * as React from 'react';
 import clsx from 'clsx';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 import AceEditor from 'react-ace';
@@ -185,103 +186,112 @@ export default function PyAceEditor({ children, codeId, title, ...props }) {
   }
 
   return (
-    <div className={styles.playgroundContainer} id={codeId} ref={setupEventListeners}>
-      <div className={clsx(styles.brythonCodeBlockHeader)}>
-        <div>
-          {title}
-        </div>
-        <div className={styles.spacer} ></div>
-        <button
-          onClick={execScript}
-          className={styles.playButton}
-        >
-          {executing ? <FontAwesomeIcon icon={faPython} spin id={`${codeId}_loader`} /> : <FontAwesomeIcon icon={faPlay} />}
-        </button>
-      </div>
-      <div className={clsx(styles.brythonCodeBlock)}>
-        <AceEditor
-          className={styles.brythonEditor}
-          style={{
-            width: '100%',
-          }}
-          maxLines={Infinity}
-          ref={editorRef}
-          mode="python"
-          theme="dracula"
-          keyBindings="VSCode"
-          onChange={onChange}
-          value={pyScript}
-          defaultValue={pyScript}
-          name={codeId}
-          editorProps={{ $blockScrolling: true }}
-          showPrintMargin={false}
-          highlightActiveLine={true}
-          enableBasicAutocompletion
-          enableLiveAutocompletion
-          showGutter
-        />
-        <div className={styles.brythonOut}>
-          {
-            logMessages.length > 0 && (
-              <pre>
-                {logMessages.map((msg, idx) => {
-                  return (
-                    <code
-                      key={idx}
-                      style={{
-                        color: msg.type === 'stderr' ? 'var(--ifm-color-danger-darker)' : undefined
-                      }}
-                    >
-                      {msg.msg}
-                    </code>)
-                })}
-              </pre>
-            )
-          }
-        </div>
-        {
-          turtleModalOpen && (
-            <Draggable>
-              <div className={styles.brythonTurtleResult}>
-                <div className={styles.brythonTurtleResultHead}>
-                  <span>Output</span>
-                  <span className={styles.spacer} ></span>
-                  <button
-                    aria-label="Download SVG"
-                    type="button"
-                    className={styles.slimStrippedButton}
-                    onClick={() => {
-                      if (turtleModalOpen) {
-                        const turtleResult = document.getElementById(`${codeId}_svg`);
-                        if (turtleResult) {
-                          saveSvg(turtleResult, `${codeId}.svg`)
-                        }
-                      }
-                    }}>
-                    <span aria-hidden="true"><FontAwesomeIcon icon={faDownload} /></span>
-                  </button>
-                  <button
-                    aria-label="Close"
-                    type="button"
-                    className={styles.slimStrippedButton}
-                    onClick={() => clearResult(true)}>
-                    <span aria-hidden="true"><FontAwesomeIcon icon={faTimes} /></span>
-                  </button>
-                </div>
-                <div
-                  id={`${codeId}_turtle_result`}
-                  className="brython-turtle-result"
-                >
-                </div>
-              </div>
-            </Draggable>
-          )
-        }
-        <script id={`${codeId}_src`} type="text/py_disabled" className="brython-script">
-          {`${run_template}\nrun("""${sanitizePyScript(pyScript)}""", '${codeId}')`}
-        </script>
+    <BrowserOnly
+      children={() => {
+        return (
 
-      </div>
-    </div>
+          <div className={styles.playgroundContainer} id={codeId} ref={setupEventListeners}>
+            <div className={clsx(styles.brythonCodeBlockHeader)}>
+              <div>
+                {title}
+              </div>
+              <div className={styles.spacer} ></div>
+              <button
+                onClick={execScript}
+                className={styles.playButton}
+              >
+                {executing ? <FontAwesomeIcon icon={faPython} spin id={`${codeId}_loader`} /> : <FontAwesomeIcon icon={faPlay} />}
+              </button>
+
+            </div>
+            <div className={clsx(styles.brythonCodeBlock)}>
+
+              <AceEditor
+                className={styles.brythonEditor}
+                style={{
+                  width: '100%',
+                }}
+                maxLines={Infinity}
+                ref={editorRef}
+                mode="python"
+                theme="dracula"
+                keyBindings="VSCode"
+                onChange={onChange}
+                value={pyScript}
+                defaultValue={pyScript}
+                name={codeId}
+                editorProps={{ $blockScrolling: true }}
+                showPrintMargin={false}
+                highlightActiveLine={true}
+                enableBasicAutocompletion
+                enableLiveAutocompletion
+                showGutter
+              />
+              <div className={styles.brythonOut}>
+                {
+                  logMessages.length > 0 && (
+                    <pre>
+                      {logMessages.map((msg, idx) => {
+                        return (
+                          <code
+                            key={idx}
+                            style={{
+                              color: msg.type === 'stderr' ? 'var(--ifm-color-danger-darker)' : undefined
+                            }}
+                          >
+                            {msg.msg}
+                          </code>)
+                      })}
+                    </pre>
+                  )
+                }
+              </div>
+              {
+                turtleModalOpen && (
+                  <Draggable>
+                    <div className={styles.brythonTurtleResult}>
+                      <div className={styles.brythonTurtleResultHead}>
+                        <span>Output</span>
+                        <span className={styles.spacer} ></span>
+                        <button
+                          aria-label="Download SVG"
+                          type="button"
+                          className={styles.slimStrippedButton}
+                          onClick={() => {
+                            if (turtleModalOpen) {
+                              const turtleResult = document.getElementById(`${codeId}_svg`);
+                              if (turtleResult) {
+                                saveSvg(turtleResult, `${codeId}.svg`)
+                              }
+                            }
+                          }}>
+                          <span aria-hidden="true"><FontAwesomeIcon icon={faDownload} /></span>
+                        </button>
+                        <button
+                          aria-label="Close"
+                          type="button"
+                          className={styles.slimStrippedButton}
+                          onClick={() => clearResult(true)}>
+                          <span aria-hidden="true"><FontAwesomeIcon icon={faTimes} /></span>
+                        </button>
+                      </div>
+                      <div
+                        id={`${codeId}_turtle_result`}
+                        className="brython-turtle-result"
+                      >
+                      </div>
+                    </div>
+                  </Draggable>
+                )
+              }
+              <script id={`${codeId}_src`} type="text/py_disabled" className="brython-script">
+                {`${run_template}\nrun("""${sanitizePyScript(pyScript)}""", '${codeId}')`}
+              </script>
+
+            </div>
+          </div>
+        )
+      }}
+    />
   );
 }
