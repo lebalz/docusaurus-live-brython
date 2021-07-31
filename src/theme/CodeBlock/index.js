@@ -12,8 +12,18 @@ import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 
 function uniqueId() {
-  const id = [...Array(8)].map((v) => String.fromCharCode(97 + Math.floor(Math.random() * 26))).join('');
-  return `py_${id}`
+  try {
+    if (!window.__LIVE_BRYTHON__) {
+      window.__LIVE_BRYTHON__ = {};
+    }
+    if (!window.__LIVE_BRYTHON__.code_counter) {
+      window.__LIVE_BRYTHON__.code_counter = 0;
+    }
+    window.__LIVE_BRYTHON__.code_counter = window.__LIVE_BRYTHON__.code_counter + 1;
+    return `py_${window.__LIVE_BRYTHON__.code_counter}`;
+  } catch (e) {
+    return `py_${Math.floor(Math.random() * 999999)}`
+  }
 }
 
 /**
