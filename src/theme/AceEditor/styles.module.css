@@ -49,13 +49,13 @@
     background: transparent;
     border: 0px;
     padding: 6px;
+    min-width: 4ch;
 }
 .slimStrippedButton:hover {
   border: 2px solid var(--ifm-color-primary);
   padding: 4px;
   border-radius: 6px;
   cursor: pointer;
-  min-width: 4ch;
 }
 
 .brythonEditor {

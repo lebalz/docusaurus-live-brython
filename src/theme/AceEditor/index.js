@@ -10,21 +10,33 @@ import clsx from 'clsx';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
-import AceEditor from 'react-ace';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPython } from "@fortawesome/free-brands-svg-icons"
 import { faDownload, faTimes, faPlay } from '@fortawesome/free-solid-svg-icons'
-
 import Draggable from 'react-draggable';
+var AceEditor = undefined
 
 
-import 'ace-builds/src-noconflict/mode-python';
+const loadLibs = (callback) => {
+  if (AceEditor) {
+      return callback();
+  }
 
-// import 'ace-builds/src-noconflict/theme-textmate';
-import 'ace-builds/src-noconflict/theme-dracula';
+  import('react-ace').then((aceModule) => {
+      return Promise.all([
+          import('ace-builds/src-noconflict/mode-python'),
+          // import 'ace-builds/src-noconflict/theme-textmate';
+          import('ace-builds/src-noconflict/theme-dracula'),
 
-import 'ace-builds/src-noconflict/snippets/python';
-import "ace-builds/src-noconflict/ext-language_tools";
+          import('ace-builds/src-noconflict/snippets/python'),
+          import("ace-builds/src-noconflict/ext-language_tools"),
+      ]).then(obj => {
+          AceEditor = aceModule.default;
+          callback();
+      });
+  })
+};
+
 
 const TURTLE_IMPORTS_TESTER = /(^from turtle import)|(^import turtle)/m
 
@@ -50,7 +62,7 @@ function saveSvg(svgEl, name) {
  * @param {String} script 
  */
 function sanitizePyScript(script) {
-  return script.replaceAll('"""', "'''")
+  return script.replace(/"{3}/g, "'''")
 }
 
 /**
@@ -85,6 +97,12 @@ export default function PyAceEditor({ children, codeId, title, ...props }) {
   const [executing, setExecuting] = React.useState(false);
   const [logMessages, setLogMessages] = React.useState([]);
   const [turtleModalOpen, setTurtleModalOpen] = React.useState(false);
+  const [loaded, setLoaded] = React.useState(false);
+  React.useEffect(() => {
+      loadLibs(() => {
+          setLoaded(true);
+      });
+  }, [loaded]);
 
   React.useEffect(() => {
     if (execCounter > 0) {
@@ -205,28 +223,37 @@ export default function PyAceEditor({ children, codeId, title, ...props }) {
 
             </div>
             <div className={clsx(styles.brythonCodeBlock)}>
+              {
+                loaded ? (
+                  <AceEditor
+                    className={styles.brythonEditor}
+                    style={{
+                      width: '100%',
+                    }}
+                    maxLines={Infinity}
+                    ref={editorRef}
+                    mode="python"
+                    theme="dracula"
+                    keyBindings="VSCode"
+                    onChange={onChange}
+                    value={pyScript}
+                    defaultValue={pyScript}
+                    name={codeId}
+                    editorProps={{ $blockScrolling: true }}
+                    showPrintMargin={false}
+                    highlightActiveLine={true}
+                    enableBasicAutocompletion
+                    enableLiveAutocompletion
+                    showGutter
+                  />
+                ) :
+                (<pre>
+                  <code>
+                    {children}
+                  </code>
+                </pre>)
+              }
 
-              <AceEditor
-                className={styles.brythonEditor}
-                style={{
-                  width: '100%',
-                }}
-                maxLines={Infinity}
-                ref={editorRef}
-                mode="python"
-                theme="dracula"
-                keyBindings="VSCode"
-                onChange={onChange}
-                value={pyScript}
-                defaultValue={pyScript}
-                name={codeId}
-                editorProps={{ $blockScrolling: true }}
-                showPrintMargin={false}
-                highlightActiveLine={true}
-                enableBasicAutocompletion
-                enableLiveAutocompletion
-                showGutter
-              />
               <div className={styles.brythonOut}>
                 {
                   logMessages.length > 0 && (

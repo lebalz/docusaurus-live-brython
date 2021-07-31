@@ -8,7 +8,7 @@
 import React from 'react';
 import PyAceEditor from '@theme/AceEditor';
 import CodeBlock from '@theme-init/CodeBlock';
-import BrowserOnly from '@docusaurus/BrowserOnly';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 
 function uniqueId() {
@@ -22,31 +22,20 @@ function uniqueId() {
  * @returns string
  */
 function sanitizeId(id) {
-  return id.replaceAll('.', '_')
-    .replaceAll('-', '_')
-    .replaceAll('#', '_')
-    .replaceAll(':', '')
-    .replaceAll(',', '')
-    .replaceAll('"', '')
-    .replaceAll("'", '')
-    .replaceAll(' ', '')
+  if (!id) {
+    return;
+  }
+  return id.replace(/[\.\-#]/g, '_').replace(/[\.:,"'\s]/g, '')
 }
 
 const withLiveEditor = (Component) => {
   const WrappedComponent = (props) => {
-    if (props.live_py) {
+    if (props.live_py && ExecutionEnvironment.canUseDOM) {
       return (
-        <BrowserOnly
-          fallback={<Component {...props} />}
-          children={() => {
-            return (
-              <PyAceEditor
-                {...props}
-                codeId={sanitizeId(props.title || uniqueId())}
-                title={props.title || 'Python'}
-              />
-            );
-          }}
+        <PyAceEditor
+          {...props}
+          codeId={sanitizeId(props.title || uniqueId())}
+          title={props.title || 'Python'}
         />
       );
     }
