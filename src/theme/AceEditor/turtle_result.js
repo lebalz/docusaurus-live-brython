@@ -10,8 +10,8 @@ import { faDownload, faTimes } from '@fortawesome/free-solid-svg-icons';
 export default function TurtleResult({ clearResult, codeId }) {
     return (
         <Draggable
-            // onMouseDown={checkForButtonClick}
             onStop={checkForButtonClick}
+            positionOffset={{x: 0, y: '-50%'}}
         >
             <div className={styles.brythonTurtleResult}>
                 <div className={styles.brythonTurtleResultHead}>

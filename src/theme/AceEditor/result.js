@@ -6,7 +6,7 @@ export default function Result({ logMessages }) {
     <div className={styles.brythonOut}>
       {
         logMessages.length > 0 && (
-          <pre>
+          <pre style={{overflowX: 'auto'}}>
             {logMessages.map((msg, idx) => {
               return (
                 <code

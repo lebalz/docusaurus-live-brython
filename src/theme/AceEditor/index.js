@@ -75,7 +75,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
   React.useEffect(() => {
     if (execCounter > 0) {
       setLogMessages([])
-      window.brython(1, { ids: [`${codeId}_src`] })
+      window.brython(1, { ids: [DOM_ELEMENT_IDS.scriptSource(codeId)] })
     }
   }, [execCounter])
 

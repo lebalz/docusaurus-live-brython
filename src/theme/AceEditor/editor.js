@@ -84,7 +84,7 @@ export default function Editor({
                         style={{
                             width: '100%',
                         }}
-                        maxLines={36}
+                        maxLines={25}
                         ref={editorRef}
                         mode="python"
                         theme="dracula"
