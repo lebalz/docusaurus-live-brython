@@ -5,6 +5,39 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+ .containerBig {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content 1fr min-content;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "controls"
+    "editor"
+    "result";
+}
+
+.controls {
+  grid-area: controls;
+}
+
+.editor { grid-area: editor; }
+
+.result { grid-area: result; }
+
+.containerSlim {
+  display: grid;
+  grid-template-columns: 1fr min-content;
+  grid-template-rows: 1fr min-content;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "editor controls"
+    "result result";
+}
+
+/**/
+
 .playgroundContainer {
   margin-bottom: var(--ifm-leading);
   border-radius: var(--ifm-global-radius);
@@ -87,6 +120,16 @@
   box-shadow: 2px 2px 45px var(--ifm-color-primary);
 }
 
+
+
+.containerSlim .headerButton {
+  height: 100%;
+  border-radius: 0px;
+  padding: 2px 6px;
+  margin: 0px;
+}
+
+
 .playButton {
   background-color: var(--ifm-color-success);
   color: white;
@@ -113,6 +156,9 @@
   background: var(--ifm-color-emphasis-200);
   color: var(--ifm-color-content);
   font-size: calc(var(--ifm-code-font-size) * 1.2);
+}
+.containerSlim > .brythonCodeBlockHeader {
+  padding: 0px;
 }
 
 .spacer {

@@ -7,7 +7,6 @@
 
 import * as React from 'react';
 import clsx from 'clsx';
-import BrowserOnly from '@docusaurus/BrowserOnly';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -22,9 +21,10 @@ import { setItem, getItem } from '../utils/storage';
 const BRYTHON_NOTIFICATION_EVENT = 'bry_notify'
 const CLOSE_TURTLE_MODAL_EVENT = 'close_turtle_modal'
 const DOM_ELEMENT_IDS = {
+  component: (codeId) => `${codeId}`,
   turtleResult: (codeId) => `${codeId}_turtle_result`,
   loaderIcon: (codeId) => `${codeId}_loader`,
-  aceEditor: (codeId) => `${codeId}`,
+  aceEditor: (codeId) => `${codeId}_editor`,
   turtleSvgContainer: (codeId) => `${codeId}_svg`,
   scriptSource: (codeId) => `${codeId}_src`
 }
@@ -104,7 +104,7 @@ function useRefWithCallback(onMount, onUnmount) {
   return setRef;
 }
 
-export default function PyAceEditor({ children, codeId, title, resettable, ...props }) {
+export default function PyAceEditor({ children, codeId, title, resettable, slim, ...props }) {
   const { isClient } = useDocusaurusContext();
   const [execCounter, setExecCounter] = React.useState(0);
   const [executing, setExecuting] = React.useState(false);
@@ -131,7 +131,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, ...pr
   }, [loaded]);
 
   const _checkForChanges = (script) => {
-    if (showRaw) {
+    if (showRaw || slim) {
       return;
     }
     const hasChanges = hashCode(script) !== pristineHash;
@@ -144,7 +144,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, ...pr
   };
   const checkForChanges = React.useMemo(
     () => debounce(_checkForChanges, 300)
-    , [codeId, children, showRaw]);
+    , [codeId, children, showRaw, slim]);
 
   // setup cleanup of debounce handler
   React.useEffect(() => {
@@ -249,13 +249,15 @@ export default function PyAceEditor({ children, codeId, title, resettable, ...pr
   }
 
   const execScript = () => {
-    setItem(codeId, { edited: pyScript })
+    if (!slim) {
+      setItem(codeId, { edited: pyScript })
+    }
     clearResult()
     // make sure brython always processes only one script per page
     document.querySelectorAll('.brython-script[type="text/python"]').forEach((scr) => {
       scr.setAttribute('type', 'text/py_disabled')
     })
-    const active = document.getElementById(`${codeId}_src`)
+    const active = document.getElementById(DOM_ELEMENT_IDS.scriptSource(codeId))
     active.setAttribute('type', 'text/python');
     setExecuting(true);
     if (TURTLE_IMPORTS_TESTER.test(pyScript)) {
@@ -265,7 +267,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, ...pr
   }
 
   const onChange = (value) => {
-    if (showRaw) {
+    if (showRaw && !slim) {
       setShowRaw(false);
       if (getItem(codeId, {}).edited) {
         return;
@@ -301,13 +303,17 @@ export default function PyAceEditor({ children, codeId, title, resettable, ...pr
   }
 
   return (
-    <div className={clsx(styles.playgroundContainer, 'live_py')} id={codeId} ref={setupEventListeners}>
-      <div className={clsx(styles.brythonCodeBlockHeader)}>
-        <div>
-          {title}
-        </div>
-        <div className={styles.spacer} ></div>
-        {(hasEdits && !showRaw && resettable) && (
+    <div className={clsx(styles.playgroundContainer, slim ? styles.containerSlim : styles.containerBig, 'live_py')} id={DOM_ELEMENT_IDS.component(codeId)} ref={setupEventListeners}>
+      <div className={clsx(styles.brythonCodeBlockHeader, styles.controls)}>
+        {!slim && (
+          <React.Fragment>
+            <div>
+              {title}
+            </div>
+            <div className={styles.spacer} ></div>
+          </React.Fragment>
+        )}
+        {(!slim && hasEdits && !showRaw && resettable) && (
           <button
             onClick={() => {
               if (!resettable) {
@@ -325,7 +331,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, ...pr
             <FontAwesomeIcon icon={faUndo} />
           </button>
         )}
-        {hasEdits && (
+        {(!slim && hasEdits) && (
           <button
             className={clsx(styles.showRawButton, styles.headerButton, showRaw ? styles.showRawButtonDisabled : undefined)}
             onClick={() => setShowRaw(!showRaw)}
@@ -347,7 +353,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, ...pr
         </button>
 
       </div>
-      <div className={clsx(styles.brythonCodeBlock)}>
+      <div className={clsx(styles.brythonCodeBlock, styles.editor)}>
         {
           loaded ? (
             <AceEditor
@@ -379,7 +385,8 @@ export default function PyAceEditor({ children, codeId, title, resettable, ...pr
               </code>
             </pre>)
         }
-
+      </div>
+      <div className={clsx(styles.result)}>
         <div className={styles.brythonOut}>
           {
             logMessages.length > 0 && (
@@ -445,7 +452,6 @@ export default function PyAceEditor({ children, codeId, title, resettable, ...pr
         <script id={DOM_ELEMENT_IDS.scriptSource(codeId)} type="text/py_disabled" className="brython-script">
           {`${run_template}\nrun("""${sanitizePyScript(pyScript)}""", '${codeId}')`}
         </script>
-
       </div>
     </div>
   )

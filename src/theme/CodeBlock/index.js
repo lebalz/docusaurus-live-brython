@@ -49,6 +49,7 @@ const withLiveEditor = (Component) => {
           {...props}
           codeId={codeId}
           resettable={!props.persist}
+          slim={!!props.slim}
           title={sanitizedTitle(props.title) || 'Python'}
         />
       );

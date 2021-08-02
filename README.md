@@ -55,6 +55,7 @@ A brython live code block can have additional options in the meta string:
 
 - `title=Some-Text` The title shown in the codeblock header. The title must be unique per page. Single hyphens/underscores (`-` and `_`) are replaced by a space, double hyphens/underscores are replaced with a single hyphen/undescore: `title=Foo-Bar--Bazz` => `Foo Bar-Bazz`; `title=Foo_Bar__Bazz` => `Foo Bar_Bazz`
 - `persistent` when added, the reset button will not be shown.
+- `slim` displays only the play button, without a header and without the option to persist changes.
 
 
 # Storage
