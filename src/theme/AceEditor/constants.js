@@ -1,7 +1,6 @@
 const DOM_ELEMENT_IDS = {
     component: (codeId) => `${codeId}`,
     turtleResult: (codeId) => `${codeId}_turtle_result`,
-    loaderIcon: (codeId) => `${codeId}_loader`,
     aceEditor: (codeId) => `${codeId}_editor`,
     turtleSvgContainer: (codeId) => `${codeId}_svg`,
     scriptSource: (codeId) => `${codeId}_src`

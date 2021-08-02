@@ -1,17 +1,7 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
 import * as React from 'react';
 import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPython } from "@fortawesome/free-brands-svg-icons"
-import { faPlay, faUndo, faFileSignature, faFileCode } from '@fortawesome/free-solid-svg-icons'
 import hashCode from '../utils/hash_code';
 import debounce from 'lodash.debounce';
 import { setItem, getItem } from '../utils/storage';
@@ -21,6 +11,7 @@ import { useRefWithCallback } from '../utils/use_ref_with_clbk';
 import TurtleResult from './turtle_result';
 import PyScriptSrc from './py_script_src';
 import Result from './result';
+import Header from './header';
 
 
 export default function PyAceEditor({ children, codeId, title, resettable, slim, ...props }) {
@@ -133,7 +124,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
   }
 
   const execScript = () => {
-    if (!slim) {
+    if (!slim && !showRaw) {
       setItem(codeId, { edited: pyScript })
     }
     clearResult()
@@ -160,57 +151,33 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
     setPyScript(value);
   }
 
+  const onReset = () => {
+    if (!resettable) {
+      return;
+    }
+    const item = getItem(codeId, {})
+    if (item.original) {
+      setShowRaw(true)
+      setItem(codeId, { edited: undefined })
+      setHasEdits(false)
+    }
+  }
+  const onToggleRaw = () => setShowRaw(!showRaw)
+
+
   return (
     <div className={clsx(styles.playgroundContainer, slim ? styles.containerSlim : styles.containerBig, 'live_py')} id={DOM_ELEMENT_IDS.component(codeId)} ref={setupEventListeners}>
-      <div className={clsx(styles.brythonCodeBlockHeader, styles.controls)}>
-        {!slim && (
-          <React.Fragment>
-            <div>
-              {title}
-            </div>
-            <div className={styles.spacer} ></div>
-          </React.Fragment>
-        )}
-        {(!slim && hasEdits && !showRaw && resettable) && (
-          <button
-            onClick={() => {
-              if (!resettable) {
-                return;
-              }
-              const item = getItem(codeId, {})
-              if (item.original) {
-                setShowRaw(true)
-                setItem(codeId, { edited: undefined })
-                setHasEdits(false)
-              }
-            }}
-            className={styles.headerButton}
-          >
-            <FontAwesomeIcon icon={faUndo} />
-          </button>
-        )}
-        {(!slim && hasEdits) && (
-          <button
-            className={clsx(styles.showRawButton, styles.headerButton, showRaw ? styles.showRawButtonDisabled : undefined)}
-            onClick={() => setShowRaw(!showRaw)}
-          >
-            {
-              showRaw ? (
-                <FontAwesomeIcon icon={faFileCode} />
-              ) : (
-                <FontAwesomeIcon icon={faFileSignature} />
-              )
-            }
-          </button>
-        )}
-        <button
-          onClick={execScript}
-          className={clsx(styles.playButton, styles.headerButton)}
-        >
-          {executing ? <FontAwesomeIcon icon={faPython} spin id={DOM_ELEMENT_IDS.loaderIcon(codeId)} /> : <FontAwesomeIcon icon={faPlay} />}
-        </button>
-
-      </div>
+      <Header
+        slim={slim}
+        title={title}
+        executing={executing}
+        onReset={onReset}
+        onToggleRaw={onToggleRaw}
+        hasEdits={hasEdits}
+        showRaw={showRaw}
+        resettable={resettable}
+        execScript={execScript}
+      />
       <Editor
         onChange={onChange}
         execScript={execScript}
@@ -226,7 +193,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
           codeId={codeId}
           pyScript={pyScript}
         />
-        {turtleModalOpen && 
+        {turtleModalOpen &&
           <TurtleResult codeId={codeId} clearResult={clearResult} />
         }
         <PyScriptSrc codeId={codeId} pyScript={pyScript} />
