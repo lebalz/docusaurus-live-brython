@@ -273,7 +273,33 @@ export default function PyAceEditor({ children, codeId, title, resettable, ...pr
     }
     setPyScript(value);
   }
-  
+
+  const checkForButtonClick = (event) => {
+    if (!event.type || event.type.toLowerCase() !== 'touchend') {
+      return;
+    }
+    var elem = event.target;
+    if (!elem) {
+      return;
+    }
+    while (elem.tagName.toLowerCase() !== 'button') {
+      elem = elem.parentNode;
+      if (!elem || !elem.tagName) {
+        break;
+      }
+      if (elem.tagName.toLowerCase() === 'div') {
+        if (elem.classList.contains('react-draggable')) {
+          elem = null
+          break;
+        }
+      }
+    }
+    if (elem) {
+      // add the click to the end of the event queue
+      setTimeout(() => elem.click(), 1);
+    }
+  }
+
   return (
     <div className={clsx(styles.playgroundContainer, 'live_py')} id={codeId} ref={setupEventListeners}>
       <div className={clsx(styles.brythonCodeBlockHeader)}>
@@ -290,7 +316,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, ...pr
               const item = getItem(codeId, {})
               if (item.original) {
                 setShowRaw(true)
-                setItem(codeId, {edited: undefined})
+                setItem(codeId, { edited: undefined })
                 setHasEdits(false)
               }
             }}
@@ -300,7 +326,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, ...pr
           </button>
         )}
         {hasEdits && (
-          <button 
+          <button
             className={clsx(styles.showRawButton, styles.headerButton, showRaw ? styles.showRawButtonDisabled : undefined)}
             onClick={() => setShowRaw(!showRaw)}
           >
@@ -375,7 +401,10 @@ export default function PyAceEditor({ children, codeId, title, resettable, ...pr
         </div>
         {
           turtleModalOpen && (
-            <Draggable>
+            <Draggable
+              // onMouseDown={checkForButtonClick}
+              onStop={checkForButtonClick}
+            >
               <div className={styles.brythonTurtleResult}>
                 <div className={styles.brythonTurtleResultHead}>
                   <span>Output</span>
@@ -384,7 +413,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, ...pr
                     aria-label="Download SVG"
                     type="button"
                     className={styles.slimStrippedButton}
-                    style={{zIndex: 1000}}
+                    style={{ zIndex: 1000 }}
                     onClick={() => {
                       if (turtleModalOpen) {
                         const turtleResult = document.getElementById(DOM_ELEMENT_IDS.turtleSvgContainer(codeId));
@@ -398,7 +427,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, ...pr
                   <button
                     aria-label="Close"
                     type="button"
-                    style={{zIndex: 1000}}
+                    style={{ zIndex: 1000 }}
                     className={styles.slimStrippedButton}
                     onClick={() => clearResult(true)}>
                     <span aria-hidden="true"><FontAwesomeIcon icon={faTimes} /></span>
