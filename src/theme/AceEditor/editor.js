@@ -3,6 +3,7 @@ var AceEditor = undefined
 import clsx from 'clsx';
 import styles from './styles.module.css';
 import { setItem, getItem } from '../utils/storage';
+import { DOM_ELEMENT_IDS } from './constants';
 
 
 function PlaceholderEditor({ pyScript }) {
@@ -40,8 +41,7 @@ export default function Editor({
     execScript,
     pyScript,
     setPyScript,
-    codeId,
-    name }) {
+    codeId }) {
     const [loaded, setLoaded] = React.useState(false);
 
     React.useEffect(() => {
@@ -84,7 +84,7 @@ export default function Editor({
                         style={{
                             width: '100%',
                         }}
-                        maxLines={20}
+                        maxLines={36}
                         ref={editorRef}
                         mode="python"
                         theme="dracula"
@@ -92,7 +92,7 @@ export default function Editor({
                         onChange={onChange}
                         value={pyScript}
                         defaultValue={pyScript}
-                        name={name}
+                        name={DOM_ELEMENT_IDS.aceEditor(codeId)}
                         editorProps={{ $blockScrolling: true }}
                         setOptions={{
                             displayIndentGuides: true,

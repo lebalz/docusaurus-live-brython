@@ -11,77 +11,17 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPython } from "@fortawesome/free-brands-svg-icons"
-import { faDownload, faTimes, faPlay, faUndo, faFileSignature, faFileCode } from '@fortawesome/free-solid-svg-icons'
-import Draggable from 'react-draggable';
+import { faPlay, faUndo, faFileSignature, faFileCode } from '@fortawesome/free-solid-svg-icons'
 import hashCode from '../utils/hash_code';
 import debounce from 'lodash.debounce';
 import { setItem, getItem } from '../utils/storage';
 import Editor from './editor';
+import { DOM_ELEMENT_IDS, BRYTHON_NOTIFICATION_EVENT, CLOSE_TURTLE_MODAL_EVENT, TURTLE_IMPORTS_TESTER } from './constants'
+import { useRefWithCallback } from '../utils/use_ref_with_clbk';
+import TurtleResult from './turtle_result';
+import PyScriptSrc from './py_script_src';
+import Result from './result';
 
-const BRYTHON_NOTIFICATION_EVENT = 'bry_notify'
-const CLOSE_TURTLE_MODAL_EVENT = 'close_turtle_modal'
-const DOM_ELEMENT_IDS = {
-  component: (codeId) => `${codeId}`,
-  turtleResult: (codeId) => `${codeId}_turtle_result`,
-  loaderIcon: (codeId) => `${codeId}_loader`,
-  aceEditor: (codeId) => `${codeId}_editor`,
-  turtleSvgContainer: (codeId) => `${codeId}_svg`,
-  scriptSource: (codeId) => `${codeId}_src`
-}
-
-
-const TURTLE_IMPORTS_TESTER = /(^from turtle import)|(^import turtle)/m
-
-const run_template = require("./brython_runner.raw.py")
-
-
-function saveSvg(svgEl, name) {
-  svgEl.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-  var svgData = svgEl.outerHTML;
-  var preface = '<?xml version="1.0" standalone="no"?>\r\n';
-  var svgBlob = new Blob([preface, svgData], { type: "image/svg+xml;charset=utf-8" });
-  var svgUrl = URL.createObjectURL(svgBlob);
-  var downloadLink = document.createElement("a");
-  downloadLink.href = svgUrl;
-  downloadLink.download = name;
-  document.body.appendChild(downloadLink);
-  downloadLink.click();
-  document.body.removeChild(downloadLink);
-}
-
-/**
- * The python script is transformed to a string by embedding it with """ characters.
- * So we must prevent the script itself to contain this sequence of characters.
- * @param {String} script 
- */
-function sanitizePyScript(script) {
-  return script.replace(/"{3}/g, "'''")
-}
-
-/**
- * @url https://medium.com/welldone-software/usecallback-might-be-what-you-meant-by-useref-useeffect-773bc0278ae
- * 
- * @param {(node: any) => void} onMount 
- * @param {(node: any) => void} onUnmount
- * @returns (node: any) => void
- */
-function useRefWithCallback(onMount, onUnmount) {
-  const nodeRef = React.useRef(null);
-
-  const setRef = React.useCallback(node => {
-    if (nodeRef.current) {
-      onUnmount(nodeRef.current);
-    }
-
-    nodeRef.current = node;
-
-    if (nodeRef.current) {
-      onMount(nodeRef.current);
-    }
-  }, [onMount, onUnmount]);
-
-  return setRef;
-}
 
 export default function PyAceEditor({ children, codeId, title, resettable, slim, ...props }) {
   const { isClient } = useDocusaurusContext();
@@ -220,32 +160,6 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
     setPyScript(value);
   }
 
-  const checkForButtonClick = (event) => {
-    if (!event.type || event.type.toLowerCase() !== 'touchend') {
-      return;
-    }
-    var elem = event.target;
-    if (!elem) {
-      return;
-    }
-    while (elem.tagName.toLowerCase() !== 'button') {
-      elem = elem.parentNode;
-      if (!elem || !elem.tagName) {
-        break;
-      }
-      if (elem.tagName.toLowerCase() === 'div') {
-        if (elem.classList.contains('react-draggable')) {
-          elem = null
-          break;
-        }
-      }
-    }
-    if (elem) {
-      // add the click to the end of the event queue
-      setTimeout(() => elem.click(), 1);
-    }
-  }
-
   return (
     <div className={clsx(styles.playgroundContainer, slim ? styles.containerSlim : styles.containerBig, 'live_py')} id={DOM_ELEMENT_IDS.component(codeId)} ref={setupEventListeners}>
       <div className={clsx(styles.brythonCodeBlockHeader, styles.controls)}>
@@ -305,72 +219,17 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
         codeId={codeId}
         name={DOM_ELEMENT_IDS.aceEditor(codeId)}
       />
+
       <div className={clsx(styles.result)}>
-        <div className={styles.brythonOut}>
-          {
-            logMessages.length > 0 && (
-              <pre>
-                {logMessages.map((msg, idx) => {
-                  return (
-                    <code
-                      key={idx}
-                      style={{
-                        color: msg.type === 'stderr' ? 'var(--ifm-color-danger-darker)' : undefined
-                      }}
-                    >
-                      {msg.msg}
-                    </code>)
-                })}
-              </pre>
-            )
-          }
-        </div>
-        {
-          turtleModalOpen && (
-            <Draggable
-              // onMouseDown={checkForButtonClick}
-              onStop={checkForButtonClick}
-            >
-              <div className={styles.brythonTurtleResult}>
-                <div className={styles.brythonTurtleResultHead}>
-                  <span>Output</span>
-                  <span className={styles.spacer} ></span>
-                  <button
-                    aria-label="Download SVG"
-                    type="button"
-                    className={styles.slimStrippedButton}
-                    style={{ zIndex: 1000 }}
-                    onClick={() => {
-                      if (turtleModalOpen) {
-                        const turtleResult = document.getElementById(DOM_ELEMENT_IDS.turtleSvgContainer(codeId));
-                        if (turtleResult) {
-                          saveSvg(turtleResult, `${codeId}.svg`)
-                        }
-                      }
-                    }}>
-                    <span aria-hidden="true"><FontAwesomeIcon icon={faDownload} /></span>
-                  </button>
-                  <button
-                    aria-label="Close"
-                    type="button"
-                    style={{ zIndex: 1000 }}
-                    className={styles.slimStrippedButton}
-                    onClick={() => clearResult(true)}>
-                    <span aria-hidden="true"><FontAwesomeIcon icon={faTimes} /></span>
-                  </button>
-                </div>
-                <div
-                  id={DOM_ELEMENT_IDS.turtleResult(codeId)}
-                  className="brython-turtle-result"
-                >
-                </div>
-              </div>
-            </Draggable>
-          )
+        <Result
+          logMessages={logMessages}
+          codeId={codeId}
+          pyScript={pyScript}
+        />
+        {turtleModalOpen && 
+          <TurtleResult codeId={codeId} clearResult={clearResult} />
         }
-        <script id={DOM_ELEMENT_IDS.scriptSource(codeId)} type="text/py_disabled" className="brython-script">
-          {`${run_template}\nrun("""${sanitizePyScript(pyScript)}""", '${codeId}')`}
-        </script>
+        <PyScriptSrc codeId={codeId} pyScript={pyScript} />
       </div>
     </div>
   )

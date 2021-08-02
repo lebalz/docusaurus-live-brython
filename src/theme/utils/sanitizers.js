@@ -22,4 +22,14 @@ function sanitizeId(id) {
     return id.replace(/[\/\.\-#]/g, '_').replace(/%201/g, '_').replace(/[\.:,"'\s]/g, '')
 }
 
-export {sanitizeId, sanitizedTitle}
+
+/**
+ * The python script is transformed to a string by embedding it with """ characters.
+ * So we must prevent the script itself to contain this sequence of characters.
+ * @param {String} script 
+ */
+ function sanitizePyScript(script) {
+    return script.replace(/"{3}/g, "'''")
+  }
+
+export {sanitizeId, sanitizedTitle, sanitizePyScript}
