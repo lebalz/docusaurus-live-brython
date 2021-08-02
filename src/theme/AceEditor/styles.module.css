@@ -30,7 +30,6 @@
   background-color: rgba(240, 239, 239, 0.8);
 }
 
-
 .brythonTurtleResultHead {
   display: flex;
   align-items: center;
@@ -45,11 +44,11 @@
   margin-left: 8px;
 }
 
-.slimStrippedButton { 
-    background: transparent;
-    border: 0px;
-    padding: 6px;
-    min-width: 4ch;
+.slimStrippedButton {
+  background: transparent;
+  border: 0px;
+  padding: 6px;
+  min-width: 4ch;
 }
 .slimStrippedButton:hover {
   border: 2px solid var(--ifm-color-primary);
@@ -72,33 +71,48 @@
   flex-basis: 80ch;
 }
 
-
-.brythonOut> pre {
+.brythonOut > pre {
   margin-bottom: 0px;
+}
+
+.headerButton {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  margin: 0px 2px;
+}
+
+.headerButton:hover {
+  box-shadow: 2px 2px 45px var(--ifm-color-primary);
 }
 
 .playButton {
   background-color: var(--ifm-color-success);
-  border: none;
-  border-radius: 6px;
   color: white;
-  padding: 6px 12px;
-  cursor: pointer;
 }
-.playButton:hover {
-  box-shadow: 2px 2px 45px var(--ifm-color-primary);
+
+.showRawButton {
+  background-color: var(--ifm-color-primary);
+  color: white;
+}
+.showRawButtonDisabled {
+  background-color: transparent;
+  border: 2px solid var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+  padding: 4px 10px;
 }
 
 .brythonCodeBlockHeader {
   display: flex;
-  align-content: center;
+  align-items: center;
   letter-spacing: 0.08em;
   padding: 0.5em;
   text-transform: uppercase;
   font-weight: bold;
   background: var(--ifm-color-emphasis-200);
   color: var(--ifm-color-content);
-  font-size: var(--ifm-code-font-size);
+  font-size: calc(var(--ifm-code-font-size) * 1.2);
 }
 
 .spacer {

@@ -9,43 +9,47 @@ import React from 'react';
 import PyAceEditor from '@theme/AceEditor';
 import CodeBlock from '@theme-init/CodeBlock';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import hashCode from '../utils/hash_code';
+import { sanitizedTitle, sanitizeId } from '../utils/sanitizers';
 
 
-function uniqueId() {
+
+function pageId() {
   try {
-    if (!window.__LIVE_BRYTHON__) {
-      window.__LIVE_BRYTHON__ = {};
-    }
-    if (!window.__LIVE_BRYTHON__.code_counter) {
-      window.__LIVE_BRYTHON__.code_counter = 0;
-    }
-    window.__LIVE_BRYTHON__.code_counter = window.__LIVE_BRYTHON__.code_counter + 1;
-    return `py_${window.__LIVE_BRYTHON__.code_counter}`;
+    const pageId = sanitizeId(window.location.pathname.replace(/^\/|\/$/g, ''))
+    return pageId
   } catch (e) {
-    return `py_${Math.floor(Math.random() * 999999)}`
+    return `py`
   }
+
 }
 
-/**
- * 
- * @param {string} id 
- * @returns string
- */
-function sanitizeId(id) {
-  if (!id) {
-    return;
+const CONSOLE_ENUMERATION_MAPPING = {}
+
+const getCodeId = (title, children) => {
+  const page = pageId();
+  if (!CONSOLE_ENUMERATION_MAPPING[page]) {
+    CONSOLE_ENUMERATION_MAPPING[page] = {}
   }
-  return id.replace(/[\.\-#]/g, '_').replace(/[\.:,"'\s]/g, '')
+
+  const codeHash = hashCode(children)
+  if (!CONSOLE_ENUMERATION_MAPPING[page][codeHash]) {
+    CONSOLE_ENUMERATION_MAPPING[page][codeHash] = Object.keys(CONSOLE_ENUMERATION_MAPPING[page]).length + 1;
+  }
+  const codeId = title ? `${page}__${sanitizeId(title)}` : `${page}__${CONSOLE_ENUMERATION_MAPPING[page][codeHash]}`;
+  return codeId;
 }
 
 const withLiveEditor = (Component) => {
   const WrappedComponent = (props) => {
     if (props.live_py && ExecutionEnvironment.canUseDOM) {
+      const codeId = getCodeId(props.title, props.children.replace(/\n$/, ''));
       return (
         <PyAceEditor
           {...props}
-          codeId={sanitizeId(props.title || uniqueId())}
-          title={props.title || 'Python'}
+          codeId={codeId}
+          resettable={!props.persist}
+          title={sanitizedTitle(props.title) || 'Python'}
         />
       );
     }

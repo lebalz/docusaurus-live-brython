@@ -48,3 +48,18 @@ t.write("I love Brython!", font=("Arial", 20, "normal"))
 results in an live editable code block:
 
 ![Brython Demo](brython-demo.gif)
+
+## Options
+
+A brython live code block can have additional options in the meta string:
+
+- `title=Some-Text` The title shown in the codeblock header. The title must be unique per page. Single hyphens/underscores (`-` and `_`) are replaced by a space, double hyphens/underscores are replaced with a single hyphen/undescore: `title=Foo-Bar--Bazz` => `Foo Bar-Bazz`; `title=Foo_Bar__Bazz` => `Foo Bar_Bazz`
+- `persistent` when added, the reset button will not be shown.
+
+
+# Storage
+
+User edited code is stored in the localStorage. To lookup the edits, id's for each codeblock are generated after the following rules:
+
+- `title` is present -> use a sanitized version as the key.
+- `title` is not present -> all codeblocks on the page are enumerated and the index number is used as the key. !! Saved Edits are probably not correctly applied.  
