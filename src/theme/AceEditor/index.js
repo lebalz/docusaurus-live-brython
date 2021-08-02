@@ -15,8 +15,8 @@ import { faDownload, faTimes, faPlay, faUndo, faFileSignature, faFileCode } from
 import Draggable from 'react-draggable';
 import hashCode from '../utils/hash_code';
 import debounce from 'lodash.debounce';
-var AceEditor = undefined
 import { setItem, getItem } from '../utils/storage';
+import Editor from './editor';
 
 const BRYTHON_NOTIFICATION_EVENT = 'bry_notify'
 const CLOSE_TURTLE_MODAL_EVENT = 'close_turtle_modal'
@@ -28,27 +28,6 @@ const DOM_ELEMENT_IDS = {
   turtleSvgContainer: (codeId) => `${codeId}_svg`,
   scriptSource: (codeId) => `${codeId}_src`
 }
-
-
-const loadLibs = (callback) => {
-  if (AceEditor) {
-    return callback();
-  }
-
-  import('react-ace').then((aceModule) => {
-    return Promise.all([
-      import('ace-builds/src-noconflict/mode-python'),
-      // import 'ace-builds/src-noconflict/theme-textmate';
-      import('ace-builds/src-noconflict/theme-dracula'),
-
-      // import('ace-builds/src-noconflict/snippets/python'),
-      import("ace-builds/src-noconflict/ext-language_tools"),
-    ]).then(obj => {
-      AceEditor = aceModule.default;
-      callback();
-    });
-  })
-};
 
 
 const TURTLE_IMPORTS_TESTER = /(^from turtle import)|(^import turtle)/m
@@ -110,25 +89,12 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
   const [executing, setExecuting] = React.useState(false);
   const [logMessages, setLogMessages] = React.useState([]);
   const [turtleModalOpen, setTurtleModalOpen] = React.useState(false);
-  const [loaded, setLoaded] = React.useState(false);
 
   const [hasEdits, setHasEdits] = React.useState(getItem(codeId, {}).edited ? true : false);
   const [pyScript, setPyScript] = React.useState(hasEdits ? getItem(codeId, {}).edited : '');
   const [showRaw, setShowRaw] = React.useState(!hasEdits);
 
   const pristineHash = hashCode(isClient ? children.replace(/\n$/, '') : '');
-
-
-  React.useEffect(() => {
-    loadLibs(() => {
-      setLoaded(true);
-      setItem(codeId, { original: pyScript });
-      const item = getItem(codeId)
-      if (item.edited) {
-        setPyScript(item.edited);
-      }
-    });
-  }, [loaded]);
 
   const _checkForChanges = (script) => {
     if (showRaw || slim) {
@@ -220,19 +186,6 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
       document.removeEventListener(CLOSE_TURTLE_MODAL_EVENT, onTurtleModalClose)
     }
   );
-
-  const editorRef = React.useCallback(node => {
-    if (node !== null) {
-      if (node.editor) {
-        node.editor.commands.addCommand({
-          // commands is array of key bindings.
-          name: 'execute',
-          bindKey: { win: 'Ctrl-Enter', mac: 'Command-Enter' },
-          exec: execScript
-        });
-      }
-    }
-  }, []);
 
   const clearResult = (force = false) => {
     /* only one turtle modal shall be opened at a time */
@@ -344,40 +297,14 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
         </button>
 
       </div>
-      <div className={clsx(styles.brythonCodeBlock, styles.editor)}>
-        {
-          loaded ? (
-            <AceEditor
-              className={styles.brythonEditor}
-              style={{
-                width: '100%',
-              }}
-              maxLines={20}
-              ref={editorRef}
-              mode="python"
-              theme="dracula"
-              keyBindings="VSCode"
-              onChange={onChange}
-              value={pyScript}
-              defaultValue={pyScript}
-              name={DOM_ELEMENT_IDS.aceEditor(codeId)}
-              editorProps={{ $blockScrolling: true }}
-              setOptions={{displayIndentGuides: true, vScrollBarAlwaysVisible: false, highlightGutterLine: false}}
-              showPrintMargin={false}
-              highlightActiveLine={false}
-              enableBasicAutocompletion
-              enableLiveAutocompletion={false}
-              enableSnippets={false}
-              showGutter
-            />
-          ) :
-            (<pre>
-              <code>
-                {children}
-              </code>
-            </pre>)
-        }
-      </div>
+      <Editor
+        onChange={onChange}
+        execScript={execScript}
+        pyScript={pyScript}
+        setPyScript={setPyScript}
+        codeId={codeId}
+        name={DOM_ELEMENT_IDS.aceEditor(codeId)}
+      />
       <div className={clsx(styles.result)}>
         <div className={styles.brythonOut}>
           {
