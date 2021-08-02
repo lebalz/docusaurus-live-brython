@@ -362,7 +362,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
               defaultValue={pyScript}
               name={DOM_ELEMENT_IDS.aceEditor(codeId)}
               editorProps={{ $blockScrolling: true }}
-              setOptions={{displayIndentGuides: true, vScrollBarAlwaysVisible: false}}
+              setOptions={{displayIndentGuides: true, vScrollBarAlwaysVisible: false, highlightGutterLine: false}}
               showPrintMargin={false}
               highlightActiveLine={false}
               enableBasicAutocompletion
