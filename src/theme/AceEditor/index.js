@@ -231,15 +231,6 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
           exec: execScript
         });
       }
-      if (node.refEditor) {
-        // setup ace to use the style of docusaurus
-        node.refEditor.querySelectorAll('.ace_scrollbar').forEach((scroller) => {
-          if (!scroller.classList.contains('thin-scrollbar')) {
-            scroller.classList.add('thin-scrollbar');
-          }
-        })
-      }
-      // resizeEditor(node.editor)
     }
   }, []);
 
@@ -361,7 +352,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
               style={{
                 width: '100%',
               }}
-              maxLines={Infinity}
+              maxLines={20}
               ref={editorRef}
               mode="python"
               theme="dracula"
@@ -371,8 +362,9 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
               defaultValue={pyScript}
               name={DOM_ELEMENT_IDS.aceEditor(codeId)}
               editorProps={{ $blockScrolling: true }}
+              setOptions={{displayIndentGuides: true, vScrollBarAlwaysVisible: false}}
               showPrintMargin={false}
-              highlightActiveLine={true}
+              highlightActiveLine={false}
               enableBasicAutocompletion
               enableLiveAutocompletion={false}
               enableSnippets={false}
