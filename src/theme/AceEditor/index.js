@@ -120,7 +120,12 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
 
   const clearResult = (force = false) => {
     /* only one turtle modal shall be opened at a time */
-    document.dispatchEvent(new CustomEvent(CLOSE_TURTLE_MODAL_EVENT, { detail: { codeId: codeId, force: force } }));
+    document.dispatchEvent(
+      new CustomEvent(
+        CLOSE_TURTLE_MODAL_EVENT,
+        { detail: { codeId: codeId, force: force } }
+      )
+    );
   }
 
   const execScript = () => {
@@ -166,7 +171,15 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
 
 
   return (
-    <div className={clsx(styles.playgroundContainer, slim ? styles.containerSlim : styles.containerBig, 'live_py')} id={DOM_ELEMENT_IDS.component(codeId)} ref={setupEventListeners}>
+    <div
+      className={clsx(
+        styles.playgroundContainer,
+        slim ? styles.containerSlim : styles.containerBig,
+        'live_py'
+      )}
+      id={DOM_ELEMENT_IDS.component(codeId)}
+      ref={setupEventListeners}
+    >
       <Header
         slim={slim}
         title={title}
@@ -186,7 +199,6 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
         codeId={codeId}
         name={DOM_ELEMENT_IDS.aceEditor(codeId)}
       />
-
       <div className={clsx(styles.result)}>
         <Result
           logMessages={logMessages}
