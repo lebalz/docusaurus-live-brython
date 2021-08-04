@@ -132,6 +132,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
     if (!slim && !showRaw) {
       setItem(codeId, { edited: pyScript })
     }
+    setItem(codeId, { executed: pyScript })
     clearResult()
     // make sure brython always processes only one script per page
     document.querySelectorAll('.brython-script[type="text/python"]').forEach((scr) => {

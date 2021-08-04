@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-live-brython",
-  "version": "0.0.1-beta.4.99",
+  "version": "0.0.1-beta.4.111",
   "description": "Docusaurus live code block component for python.",
   "main": "src/index.js",
   "publishConfig": {
@@ -22,7 +22,8 @@
     "clsx": "^1.1.1",
     "lodash": "^4.17.21",
     "react-ace": "^9.4.3",
-    "react-draggable": "^4.4.3"
+    "react-draggable": "^4.4.3",
+    "svg-parser": "^2.0.4"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
