@@ -23,6 +23,7 @@ const loadLibs = (callback) => {
 
     import('react-ace').then((aceModule) => {
         return Promise.all([
+            import('ace-builds/src-noconflict/ext-searchbox'),
             import('ace-builds/src-noconflict/mode-python'),
             // import 'ace-builds/src-noconflict/theme-textmate';
             import('ace-builds/src-noconflict/theme-dracula'),
