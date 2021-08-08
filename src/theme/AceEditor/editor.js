@@ -42,7 +42,9 @@ export default function Editor({
     execScript,
     pyScript,
     setPyScript,
-    codeId }) {
+    codeId,
+    save
+ }) {
     const [loaded, setLoaded] = React.useState(false);
 
     React.useEffect(() => {
@@ -63,6 +65,12 @@ export default function Editor({
                     name: 'execute',
                     bindKey: { win: 'Ctrl-Enter', mac: 'Command-Enter' },
                     exec: execScript
+                });
+                node.editor.commands.addCommand({
+                    // commands is array of key bindings.
+                    name: 'save',
+                    bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
+                    exec: () => save(pyScript, true)
                 });
             }
         }

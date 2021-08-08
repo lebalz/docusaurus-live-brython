@@ -24,8 +24,20 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
   const [hasEdits, setHasEdits] = React.useState(getItem(codeId, {}).edited ? true : false);
   const [pyScript, setPyScript] = React.useState(hasEdits ? getItem(codeId, {}).edited : '');
   const [showRaw, setShowRaw] = React.useState(!hasEdits);
+  const [showSavedNotification, setShowSavedNotification] = React.useState(false);
 
   const pristineHash = hashCode(isClient ? children.replace(/\n$/, '') : '');
+
+  const _save = (script, showNotification = false) => {
+    setItem(codeId, { edited: script })
+    if (showNotification) {
+      setShowSavedNotification(true)
+    }
+  }
+  const save = React.useMemo(
+    () => debounce(_save, 1000)
+    , [codeId, children, showRaw, slim]
+  );
 
   const _checkForChanges = (script) => {
     if (showRaw || slim) {
@@ -34,9 +46,9 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
     const hasChanges = hashCode(script) !== pristineHash;
     setHasEdits(hasChanges)
     if (hasChanges) {
-      setItem(codeId, { edited: script })
+      save(script, true)
     } else {
-      setItem(codeId, { edited: undefined })
+      save(undefined)
     }
   };
   const checkForChanges = React.useMemo(
@@ -48,8 +60,17 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
     checkForChanges(pyScript);
     return () => {
       checkForChanges.cancel();
+      save.cancel();
     }
   }, [pyScript]);  // setup cleanup of debounce handler
+
+  React.useEffect(() => {
+    const timer = window.setTimeout(() => setShowSavedNotification(false), 1500);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [showSavedNotification])
 
   React.useEffect(() => {
     if (showRaw) {
@@ -130,7 +151,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
 
   const execScript = () => {
     if (!slim && !showRaw) {
-      setItem(codeId, { edited: pyScript })
+      _save(pyScript, hasEdits)
     }
     setItem(codeId, { executed: pyScript })
     clearResult()
@@ -191,6 +212,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
         showRaw={showRaw}
         resettable={resettable}
         execScript={execScript}
+        showSavedNotification={showSavedNotification}
       />
       <Editor
         onChange={onChange}
@@ -199,6 +221,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
         setPyScript={setPyScript}
         codeId={codeId}
         name={DOM_ELEMENT_IDS.aceEditor(codeId)}
+        save={_save}
       />
       <div className={clsx(styles.result)}>
         <Result
