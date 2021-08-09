@@ -34,8 +34,7 @@ function theme() {
           {
             tagName: 'script',
             attributes: {
-              src: "https://cdnjs.cloudflare.com/ajax/libs/brython/3.9.5/brython.min.js",
-              integrity: "sha512-Oe3i0p3zVIqykQ2TZhGOA/+JGe0WAqVoPVMHJGnubFjr3n+FYJTpctq98B9VBBvFMaHgDm18i1XsH2Lt1heQ1Q==",
+              src: "https://raw.githack.com/brython-dev/brython/master/www/src/brython.js",
               crossorigin: "anonymous",
               referrerpolicy: "no-referrer"
             },
@@ -43,8 +42,7 @@ function theme() {
           {
             tagName: 'script',
             attributes: {
-              src: "https://cdnjs.cloudflare.com/ajax/libs/brython/3.9.5/brython_stdlib.min.js",
-              integrity: "sha512-nXYxmap54wPG2SPS9Z6kQdZy4q1jkbJi6hfCivwP9HjbOiWEeyPSFy5kr1IoW296mcwVsqKWD1EOGqw7YAxO+Q==",
+              src: "https://raw.githack.com/brython-dev/brython/master/www/src/brython_stdlib.js",
               crossorigin: "anonymous",
               referrerpolicy: "no-referrer"
             },
