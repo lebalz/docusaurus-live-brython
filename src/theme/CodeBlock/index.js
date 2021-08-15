@@ -21,7 +21,6 @@ function pageId() {
   } catch (e) {
     return `py`
   }
-
 }
 
 const CONSOLE_ENUMERATION_MAPPING = {}
@@ -36,18 +35,20 @@ const getCodeId = (title, children) => {
   if (!CONSOLE_ENUMERATION_MAPPING[page][codeHash]) {
     CONSOLE_ENUMERATION_MAPPING[page][codeHash] = Object.keys(CONSOLE_ENUMERATION_MAPPING[page]).length + 1;
   }
-  const codeId = title ? `${page}__${sanitizeId(title)}` : `${page}__${CONSOLE_ENUMERATION_MAPPING[page][codeHash]}`;
+  const codeId = title ? sanitizeId(title) : `${CONSOLE_ENUMERATION_MAPPING[page][codeHash]}`;
   return codeId;
 }
 
 const withLiveEditor = (Component) => {
   const WrappedComponent = (props) => {
     if (props.live_py && ExecutionEnvironment.canUseDOM) {
+      const contextId = pageId();
       const codeId = getCodeId(props.title, props.children.replace(/\n$/, ''));
       return (
         <PyAceEditor
           {...props}
           codeId={codeId}
+          contextId={contextId}
           resettable={!props.persist}
           slim={!!props.slim}
           title={sanitizedTitle(props.title) || 'Python'}

@@ -1,6 +1,6 @@
 import { removeAnimations } from "./svg_without_animations";
 import { getItem } from "./storage";
-const saveSvg = (svgEl, name, codeId) => {
+const saveSvg = (svgEl, name, codeId, contextId) => {
     svgEl.setAttribute("xmlns", "http://www.w3.org/2000/svg");
     
     const bbox = svgEl.getBBox();
@@ -19,7 +19,7 @@ const saveSvg = (svgEl, name, codeId) => {
       const svg = wrapper.querySelector('svg');
       const metadata = document.createElement('metadata');
       const script = document.createElement('raw');
-      script.innerHTML = getItem(codeId,{}).executed || ''
+      script.innerHTML = getItem(codeId, contextId, {}).executed || ''
       metadata.appendChild(script);
       svg.appendChild(metadata)
     }

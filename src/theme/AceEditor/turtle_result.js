@@ -7,7 +7,7 @@ import { saveSvg } from '../utils/save_svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faTimes } from '@fortawesome/free-solid-svg-icons';
 
-export default function TurtleResult({ clearResult, codeId, pyScript }) {
+export default function TurtleResult({ clearResult, codeId, pyScript, contextId }) {
     return (
         <Draggable
             onStop={checkForButtonClick}
@@ -25,7 +25,7 @@ export default function TurtleResult({ clearResult, codeId, pyScript }) {
                         onClick={() => {
                             const turtleResult = document.getElementById(DOM_ELEMENT_IDS.turtleSvgContainer(codeId));
                             if (turtleResult) {
-                                saveSvg(turtleResult, `${codeId}.svg`, codeId)
+                                saveSvg(turtleResult, `${codeId}.svg`, codeId, contextId)
                             }
                         }}>
                         <span aria-hidden="true"><FontAwesomeIcon icon={faDownload} /></span>

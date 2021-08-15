@@ -43,6 +43,7 @@ export default function Editor({
     pyScript,
     setPyScript,
     codeId,
+    contextId,
     save
  }) {
     const [loaded, setLoaded] = React.useState(false);
@@ -50,8 +51,8 @@ export default function Editor({
     React.useEffect(() => {
         loadLibs(() => {
             setLoaded(true);
-            setItem(codeId, { original: pyScript });
-            const item = getItem(codeId)
+            setItem(codeId, { original: pyScript }, contextId);
+            const item = getItem(codeId, contextId)
             if (item.edited) {
                 setPyScript(item.edited);
             }

@@ -14,22 +14,22 @@ import Result from './result';
 import Header from './header';
 
 
-export default function PyAceEditor({ children, codeId, title, resettable, slim, ...props }) {
+export default function PyAceEditor({ children, codeId, contextId, title, resettable, slim, ...props }) {
   const { isClient } = useDocusaurusContext();
   const [execCounter, setExecCounter] = React.useState(0);
   const [executing, setExecuting] = React.useState(false);
   const [logMessages, setLogMessages] = React.useState([]);
   const [turtleModalOpen, setTurtleModalOpen] = React.useState(false);
 
-  const [hasEdits, setHasEdits] = React.useState(getItem(codeId, {}).edited ? true : false);
-  const [pyScript, setPyScript] = React.useState(hasEdits ? getItem(codeId, {}).edited : '');
+  const [hasEdits, setHasEdits] = React.useState(getItem(codeId, contextId, {}).edited ? true : false);
+  const [pyScript, setPyScript] = React.useState(hasEdits ? getItem(codeId, contextId, {}).edited : '');
   const [showRaw, setShowRaw] = React.useState(!hasEdits);
   const [showSavedNotification, setShowSavedNotification] = React.useState(false);
 
   const pristineHash = hashCode(isClient ? children.replace(/\n$/, '') : '');
 
   const _save = (script, showNotification = false) => {
-    setItem(codeId, { edited: script })
+    setItem(codeId, { edited: script }, contextId)
     if (showNotification) {
       setShowSavedNotification(true)
     }
@@ -76,7 +76,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
     if (showRaw) {
       setPyScript(children.replace(/\n$/, ''));
     } else {
-      const item = getItem(codeId, {});
+      const item = getItem(codeId, contextId, {});
       if (item.edited) {
         setPyScript(item.edited)
       }
@@ -153,7 +153,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
     if (!slim && !showRaw) {
       _save(pyScript, hasEdits)
     }
-    setItem(codeId, { executed: pyScript })
+    setItem(codeId, { executed: pyScript }, contextId)
     clearResult()
     // make sure brython always processes only one script per page
     document.querySelectorAll('.brython-script[type="text/python"]').forEach((scr) => {
@@ -171,7 +171,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
   const onChange = (value) => {
     if (showRaw && !slim) {
       setShowRaw(false);
-      if (getItem(codeId, {}).edited) {
+      if (getItem(codeId, contextId, {}).edited) {
         return;
       }
     }
@@ -182,10 +182,10 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
     if (!resettable) {
       return;
     }
-    const item = getItem(codeId, {})
+    const item = getItem(codeId, contextId, {})
     if (item.original) {
       setShowRaw(true)
-      setItem(codeId, { edited: undefined })
+      setItem(codeId, { edited: undefined }, contextId)
       setHasEdits(false)
     }
   }
@@ -220,6 +220,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
         pyScript={pyScript}
         setPyScript={setPyScript}
         codeId={codeId}
+        contextId={contextId}
         name={DOM_ELEMENT_IDS.aceEditor(codeId)}
         save={_save}
       />
@@ -230,7 +231,7 @@ export default function PyAceEditor({ children, codeId, title, resettable, slim,
           pyScript={pyScript}
         />
         {turtleModalOpen &&
-          <TurtleResult codeId={codeId} clearResult={clearResult} />
+          <TurtleResult codeId={codeId} clearResult={clearResult} contextId={contextId} />
         }
         <PyScriptSrc codeId={codeId} pyScript={pyScript} />
       </div>
