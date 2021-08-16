@@ -16,7 +16,12 @@ import Header from './header';
 
 export default function PyAceEditor({ children, codeId, contextId, title, resettable, slim, ...props }) {
   const { isClient } = useDocusaurusContext();
+  const [rerender, setRerender] = React.useState(0);
+  const rerenderRef = React.useRef(0);
+  rerenderRef.current = rerender;
   const [execCounter, setExecCounter] = React.useState(0);
+  const execCounterRef = React.useRef(0);
+  execCounterRef.current = execCounter;
   const [executing, setExecuting] = React.useState(false);
   const [logMessages, setLogMessages] = React.useState([]);
   const [turtleModalOpen, setTurtleModalOpen] = React.useState(false);
@@ -34,9 +39,10 @@ export default function PyAceEditor({ children, codeId, contextId, title, resett
       setShowSavedNotification(true)
     }
   }
+
   const save = React.useMemo(
     () => debounce(_save, 1000)
-    , [codeId, children, showRaw, slim]
+    , [codeId, contextId, children, showRaw, slim]
   );
 
   const _checkForChanges = (script) => {
@@ -51,9 +57,10 @@ export default function PyAceEditor({ children, codeId, contextId, title, resett
       save(undefined)
     }
   };
+
   const checkForChanges = React.useMemo(
     () => debounce(_checkForChanges, 300)
-    , [codeId, children, showRaw, slim]);
+    , [codeId, contextId, children, showRaw, slim]);
 
   // setup cleanup of debounce handler
   React.useEffect(() => {
@@ -83,13 +90,16 @@ export default function PyAceEditor({ children, codeId, contextId, title, resett
     }
   }, [showRaw]);
 
+  React.useEffect(() => {
+    setExecCounter(0);
+  }, [codeId])
 
   React.useEffect(() => {
     if (execCounter > 0) {
       setLogMessages([])
       window.brython(1, { ids: [DOM_ELEMENT_IDS.scriptSource(codeId)] })
     }
-  }, [execCounter])
+  }, [execCounter, codeId])
 
   const onBryNotify = React.useCallback((event) => {
     if (event.detail) {
@@ -130,6 +140,9 @@ export default function PyAceEditor({ children, codeId, contextId, title, resett
 
   const setupEventListeners = useRefWithCallback(
     (node) => { // mount
+      if (node.id !== DOM_ELEMENT_IDS.component(codeId)) {
+        setRerender(rerenderRef.current + 1);
+      }
       node.addEventListener(BRYTHON_NOTIFICATION_EVENT, onBryNotify)
       document.addEventListener(CLOSE_TURTLE_MODAL_EVENT, onTurtleModalClose)
     },
@@ -156,8 +169,8 @@ export default function PyAceEditor({ children, codeId, contextId, title, resett
     setItem(codeId, { executed: pyScript }, contextId)
     clearResult()
     // make sure brython always processes only one script per page
-    document.querySelectorAll('.brython-script[type="text/python"]').forEach((scr) => {
-      scr.setAttribute('type', 'text/py_disabled')
+    document.querySelectorAll('.brython-script[type="text/python"]').forEach((src) => {
+      src.setAttribute('type', 'text/py_disabled');
     })
     const active = document.getElementById(DOM_ELEMENT_IDS.scriptSource(codeId))
     active.setAttribute('type', 'text/python');
@@ -165,7 +178,7 @@ export default function PyAceEditor({ children, codeId, contextId, title, resett
     if (TURTLE_IMPORTS_TESTER.test(pyScript)) {
       setTurtleModalOpen(true)
     }
-    setExecCounter(execCounter + 1)
+    setExecCounter(execCounterRef.current + 1)
   }
 
   const onChange = (value) => {
@@ -189,17 +202,18 @@ export default function PyAceEditor({ children, codeId, contextId, title, resett
       setHasEdits(false)
     }
   }
+  
   const onToggleRaw = () => setShowRaw(!showRaw)
-
 
   return (
     <div
+      id={DOM_ELEMENT_IDS.component(codeId)}
       className={clsx(
         styles.playgroundContainer,
         slim ? styles.containerSlim : styles.containerBig,
         'live_py'
       )}
-      id={DOM_ELEMENT_IDS.component(codeId)}
+      key={rerender}
       ref={setupEventListeners}
     >
       <Header

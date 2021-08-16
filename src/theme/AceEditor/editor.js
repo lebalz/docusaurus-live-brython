@@ -45,6 +45,7 @@ export default function Editor({
     codeId,
     contextId,
     save
+    
  }) {
     const [loaded, setLoaded] = React.useState(false);
 
@@ -57,7 +58,8 @@ export default function Editor({
                 setPyScript(item.edited);
             }
         });
-    }, [loaded]);
+    }, []);
+
     const editorRef = React.useCallback(node => {
         if (node !== null) {
             if (node.editor) {

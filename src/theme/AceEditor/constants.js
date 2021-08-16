@@ -1,5 +1,5 @@
 const DOM_ELEMENT_IDS = {
-    component: (codeId) => `${codeId}`,
+    component: (codeId) => `py_${codeId}`,
     turtleResult: (codeId) => `${codeId}_turtle_result`,
     aceEditor: (codeId) => `${codeId}_editor`,
     turtleSvgContainer: (codeId) => `${codeId}_svg`,

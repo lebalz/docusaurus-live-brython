@@ -8,7 +8,7 @@ log_line_number_shift = 0
 
 def notify(node_id, data):
     event = window.CustomEvent.new('bry_notify', {'detail': data})
-    document[node_id].dispatchEvent(event)
+    document[f'py_{node_id}'].dispatchEvent(event)
 
 class EventOutput:
     encoding = 'utf-8'
