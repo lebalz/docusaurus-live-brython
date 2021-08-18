@@ -1,5 +1,8 @@
 # Docusaurus Live Codeblock for Python
 
+## [Live demo here](https://lebalz.github.io/docusaurus-live-brython/)
+## [Python-Playground](https://lebalz.github.io/docusaurus-live-brython/playground)
+
 You can create live code editors with a code block `live_py` meta string.
 
 Install
