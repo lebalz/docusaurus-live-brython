@@ -57,7 +57,6 @@ A brython live code block can have additional options in the meta string:
 - `persistent` when added, the reset button will not be shown.
 - `slim` displays only the play button, without a header and without the option to persist changes.
 
-
 # Storage
 
 User edited code is stored in the localStorage. To lookup the edits, id's for each codeblock are generated after the following rules:
