@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-live-brython",
-  "version": "0.0.1-beta.4.136dev",
+  "version": "0.0.1-beta.4.138",
   "description": "Docusaurus live code block component for python.",
   "main": "src/index.js",
   "publishConfig": {
@@ -15,6 +15,7 @@
   "bugs": "https://github.com/lebalz/dokusaurus-live-brython/issues",
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.4",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
