@@ -7,7 +7,7 @@
 
 const path = require('path');
 
-function theme() {
+function theme(context, options) {
   return {
     name: 'docusaurus-live-brython',
 
@@ -34,7 +34,7 @@ function theme() {
           {
             tagName: 'script',
             attributes: {
-              src: "https://raw.githack.com/brython-dev/brython/master/www/src/brython.js",
+              src: options.brython_src || "https://cdn.jsdelivr.net/npm/brython@3.9.5/brython.min.js",
               crossorigin: "anonymous",
               referrerpolicy: "no-referrer"
             },
@@ -42,7 +42,7 @@ function theme() {
           {
             tagName: 'script',
             attributes: {
-              src: "https://raw.githack.com/brython-dev/brython/master/www/src/brython_stdlib.js",
+              src: options.brython_stdlib_src || "https://cdn.jsdelivr.net/npm/brython@3.9.5/brython_stdlib.js",
               crossorigin: "anonymous",
               referrerpolicy: "no-referrer"
             },

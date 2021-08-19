@@ -19,6 +19,22 @@ module.exports = {
 }
 ```
 
+Configure Brython source:
+
+
+```diff
+module.exports = {
+  ...
++ themes: [
++   ['docusaurus-live-brython'],
++   {
++     brython_src: 'https://cdn.jsdelivr.net/npm/brython@3.9.5/brython.min.js', // default
++     brython_stdlib_src: 'https://cdn.jsdelivr.net/npm/brython@3.9.5/brython_stdlib.js' // default
++   }
+  presets: ['@docusaurus/preset-classic']
+  ...
+}
+```
 ## Example:
 
 ```py live_py
