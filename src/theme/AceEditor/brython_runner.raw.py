@@ -20,6 +20,7 @@ class EventOutput:
 
     def write(self, data):
         self.buf += str(data)
+        self.flush()
 
     def flush(self):
         if len(self.buf) > 0:

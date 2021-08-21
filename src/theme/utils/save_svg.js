@@ -13,7 +13,13 @@ const saveSvg = (svgEl, name, codeId, contextId) => {
     var preface = '<?xml version="1.0" standalone="no"?>';
     const svgWithoutAnim = removeAnimations(`${preface}${svgData}`, svgProps)
     const wrapper = document.createElement('div');
-    wrapper.innerHTML = svgWithoutAnim;
+
+    // if no metadata should be added, set window.__DISABLE_TURTLE_METADATA__ = true
+    if (window.__KEEP_TURTLE_ANIMATIONS__) {
+      wrapper.innerHTML = `${preface}\r\n${svgEl.outerHTML}`;
+    } else {
+      wrapper.innerHTML = svgWithoutAnim;
+    }
     // if no metadata should be added, set window.__DISABLE_TURTLE_METADATA__ = true
     if (!window.__DISABLE_TURTLE_METADATA__) {
       const svg = wrapper.querySelector('svg');

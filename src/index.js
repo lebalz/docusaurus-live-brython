@@ -28,7 +28,20 @@ function theme(context, options) {
       };
     },
     injectHtmlTags({ content }) {
-      const remoteHeadTags = content ? content.remoteHeadTags : []
+      const remoteHeadTags = content ? content.remoteHeadTags : [];
+      const brython_pips = [];
+      (options.brython_pips || []).forEach(pip => {
+        brython_pips.push(
+          {
+            tagName: 'script',
+            attributes: {
+              src: pip,
+              crossorigin: "anonymous",
+              referrerpolicy: "no-referrer"
+            },
+          }
+        );
+      });
       return {
         headTags: [
           {
@@ -47,6 +60,7 @@ function theme(context, options) {
               referrerpolicy: "no-referrer"
             },
           },
+          ...brython_pips,
           ...remoteHeadTags,
         ],
       };

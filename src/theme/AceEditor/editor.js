@@ -50,14 +50,18 @@ export default function Editor({
     const [loaded, setLoaded] = React.useState(false);
 
     React.useEffect(() => {
+        let isMounted = true;
         loadLibs(() => {
-            setLoaded(true);
-            setItem(codeId, { original: pyScript }, contextId);
-            const item = getItem(codeId, contextId)
-            if (item.edited) {
-                setPyScript(item.edited);
+            if (isMounted) {
+                setLoaded(true);
+                setItem(codeId, { original: pyScript }, contextId);
+                const item = getItem(codeId, contextId)
+                if (item.edited) {
+                    setPyScript(item.edited);
+                }
             }
         });
+        return () => isMounted = false;
     }, []);
 
     const editorRef = React.useCallback(node => {
