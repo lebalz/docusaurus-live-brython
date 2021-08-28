@@ -1,6 +1,6 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import styles from './styles.module.css';
 import hashCode from '../utils/hash_code';
 import debounce from 'lodash.debounce';
@@ -15,7 +15,7 @@ import Header from './header';
 
 
 export default function PyAceEditor({ children, codeId, contextId, title, resettable, slim, ...props }) {
-  const { isClient } = useDocusaurusContext();
+  const isClient = useIsBrowser();
   const [rerender, setRerender] = React.useState(0);
   const rerenderRef = React.useRef(0);
   rerenderRef.current = rerender;
