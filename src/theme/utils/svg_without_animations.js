@@ -55,7 +55,7 @@ const svgWithoutAnimations = (element) => {
             break;
         case 'line':
             children.forEach(child => {
-                if (child.tagName === 'animate' && !!child.properties) {
+                if (['animate', 'set'].includes(child.tagName) && !!child.properties) {
                     const animProps = child.properties;
                     if (!('to' in animProps) || !('attributeName' in animProps)) {
                         return;
@@ -69,7 +69,7 @@ const svgWithoutAnimations = (element) => {
             break;
         case 'circle':
             children.forEach(child => {
-                if (child.tagName === 'animate' && !!child.properties) {
+                if (['animate', 'set'].includes(child.tagName) && !!child.properties) {
                     const animProps = child.properties;
                     if (!('to' in animProps) || !('attributeName' in animProps)) {
                         return;
@@ -93,7 +93,7 @@ const svgWithoutAnimations = (element) => {
                         break;
                     case 'element':
                         const textProps = child.properties;
-                        if (child.tagName !== 'animate') {
+                        if (!['animate', 'set'].includes(child.tagName)) {
                             return;
                         }
                         if (!('to' in textProps) || !('attributeName' in textProps)) {
@@ -117,6 +117,7 @@ const svgWithoutAnimations = (element) => {
             children.forEach(child => {
                 const polyProps = child.properties;
                 switch (child.tagName) {
+                    case 'set':
                     case 'animate':
                         if (!('to' in polyProps) || !('attributeName' in polyProps)) {
                             return;
