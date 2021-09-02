@@ -5,9 +5,9 @@ const saveSvg = (svgEl, name, codeId, contextId) => {
     
     const bbox = svgEl.getBBox();
     const svgProps = {
-      viewBox: `${bbox.x},${bbox.y},${bbox.width},${bbox.height}`,
-      width: bbox.width,
-      height: bbox.height
+      viewBox: `${bbox.x - 5},${bbox.y - 5},${bbox.width + 10},${bbox.height + 10}`,
+      width: bbox.width + 10,
+      height: bbox.height + 10
     }
     var svgData = svgEl.outerHTML;
     var preface = '<?xml version="1.0" standalone="no"?>';
