@@ -60,9 +60,7 @@ const svgWithoutAnimations = (element) => {
                     if (!('to' in animProps) || !('attributeName' in animProps)) {
                         return;
                     }
-                    if (animProps.attributeName in properties) {
-                        properties[animProps.attributeName] = animProps.to
-                    }
+                    properties[animProps.attributeName] = animProps.to
                 }
             })
             newSvg.push(`<line ${objToAttr(properties)}></line>`)
@@ -103,9 +101,7 @@ const svgWithoutAnimations = (element) => {
                             properties.style = properties.style.replace(/display:\s*\b\w+\b;/g, `display: ${textProps.to};`);
                         }
 
-                        if (textProps.attributeName in properties) {
-                            properties[textProps.attributeName] = textProps.to
-                        }
+                        properties[textProps.attributeName] = textProps.to
                         break;
                 }
             })
@@ -126,9 +122,7 @@ const svgWithoutAnimations = (element) => {
                             properties.style = properties.style.replace(/display:\s*\b\w+\b;/g, `display: ${polyProps.to};`);
                         }
 
-                        if (polyProps.attributeName in properties) {
-                            properties[polyProps.attributeName] = polyProps.to
-                        }
+                        properties[polyProps.attributeName] = polyProps.to
                         break;
                     case 'animateTransform':
                         if (child.properties.type === 'rotate') {
