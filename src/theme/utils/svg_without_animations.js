@@ -57,7 +57,7 @@ const svgWithoutAnimations = (element) => {
             children.forEach(child => {
                 if (child.tagName === 'animate' && !!child.properties) {
                     const animProps = child.properties;
-                    if (!('from' in animProps) || !('to' in animProps) || !('attributeName' in animProps)) {
+                    if (!('to' in animProps) || !('attributeName' in animProps)) {
                         return;
                     }
                     if (animProps.attributeName in properties) {
@@ -71,7 +71,7 @@ const svgWithoutAnimations = (element) => {
             children.forEach(child => {
                 if (child.tagName === 'animate' && !!child.properties) {
                     const animProps = child.properties;
-                    if (!('from' in animProps) || !('to' in animProps) || !('attributeName' in animProps)) {
+                    if (!('to' in animProps) || !('attributeName' in animProps)) {
                         return;
                     }
                     if (child.attributeName === 'display' && child.attributeType === 'CSS') {
@@ -96,7 +96,7 @@ const svgWithoutAnimations = (element) => {
                         if (child.tagName !== 'animate') {
                             return;
                         }
-                        if (!('from' in textProps) || !('to' in textProps) || !('attributeName' in textProps)) {
+                        if (!('to' in textProps) || !('attributeName' in textProps)) {
                             return;
                         }
                         if (textProps.attributeName === 'display' && textProps.attributeType === 'CSS') {
@@ -118,7 +118,7 @@ const svgWithoutAnimations = (element) => {
                 const polyProps = child.properties;
                 switch (child.tagName) {
                     case 'animate':
-                        if (!('from' in polyProps) || !('to' in polyProps) || !('attributeName' in polyProps)) {
+                        if (!('to' in polyProps) || !('attributeName' in polyProps)) {
                             return;
                         }
                         if (polyProps.attributeName === 'display' && polyProps.attributeType === 'CSS') {
