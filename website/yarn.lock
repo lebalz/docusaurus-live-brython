@@ -3492,6 +3492,21 @@ dns-txt@^2.0.2:
   dependencies:
     buffer-indexof "^1.0.0"
 
+docusaurus-live-brython@../:
+  version "0.0.1-beta.5.7"
+  dependencies:
+    "@docusaurus/core" "2.0.0-beta.5"
+    "@fortawesome/fontawesome-svg-core" "^1.2.36"
+    "@fortawesome/free-brands-svg-icons" "^5.15.3"
+    "@fortawesome/free-solid-svg-icons" "^5.15.3"
+    "@fortawesome/react-fontawesome" "^0.1.14"
+    ace-builds "^1.4.12"
+    clsx "^1.1.1"
+    lodash "^4.17.21"
+    react-ace "^9.4.3"
+    react-draggable "^4.4.3"
+    svg-parser "^2.0.4"
+
 docusaurus-live-brython@^0.0.1-beta.5.1:
   version "0.0.1-beta.5.1"
   resolved "https://registry.yarnpkg.com/docusaurus-live-brython/-/docusaurus-live-brython-0.0.1-beta.5.1.tgz#bac3828815997c5ad81b7680f48e2f9c965e97d8"

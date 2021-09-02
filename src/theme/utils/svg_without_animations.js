@@ -42,7 +42,23 @@ const svgWithoutAnimations = (element) => {
                 newSvg.push(...svgWithoutAnimations(child))
             })
             newSvg.push(`</svg>`)
-            break;    
+            break;
+        case 'rect':
+            children.forEach(child => {
+                if (['animate', 'set'].includes(child.tagName) && !!child.properties) {
+                    const animProps = child.properties;
+                    if (!('to' in animProps) || !('attributeName' in animProps)) {
+                        return;
+                    }
+                    if (animProps.attributeName === 'display' && animProps.attributeType === 'CSS') {
+                        properties.style = properties.style.replace(/display:\s*\b\w+\b;/g, `display: ${animProps.to};`);
+                    }
+                    properties[animProps.attributeName] = animProps.to
+                }
+            })
+            newSvg.push(`<rect ${objToAttr(properties)}></rect>`)
+            break;
+
         case 'g':
             if ((children || []).length === 0) {
                 return newSvg;
