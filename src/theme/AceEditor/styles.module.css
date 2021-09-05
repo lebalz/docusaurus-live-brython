@@ -43,6 +43,8 @@
   border-radius: var(--ifm-global-radius);
   box-shadow: var(--ifm-global-shadow-lw);
   overflow: hidden;
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 .brythonCodeBlock {

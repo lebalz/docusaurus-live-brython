@@ -26,12 +26,12 @@ export default function PyAceEditor({ children, codeId, contextId, title, resett
   const [logMessages, setLogMessages] = React.useState([]);
   const [turtleModalOpen, setTurtleModalOpen] = React.useState(false);
 
-  const [hasEdits, setHasEdits] = React.useState(getItem(codeId, contextId, {}).edited ? true : false);
+  const [hasEdits, setHasEdits] = React.useState(getItem(codeId, contextId, {}).edited ? !slim : false);
   const [pyScript, setPyScript] = React.useState(hasEdits ? getItem(codeId, contextId, {}).edited : '');
   const [showRaw, setShowRaw] = React.useState(!hasEdits);
   const [showSavedNotification, setShowSavedNotification] = React.useState(false);
 
-  const pristineHash = hashCode(isClient ? children.replace(/\n$/, '') : '');
+  const [pristineHash, setPristineHash] = React.useState('');
 
   const _save = (script, showNotification = false) => {
     setItem(codeId, { edited: script }, contextId)
@@ -60,7 +60,7 @@ export default function PyAceEditor({ children, codeId, contextId, title, resett
 
   const checkForChanges = React.useMemo(
     () => debounce(_checkForChanges, 300)
-    , [codeId, contextId, children, showRaw, slim]);
+    , [codeId, contextId, children, showRaw, slim, pristineHash]);
 
   // setup cleanup of debounce handler
   React.useEffect(() => {
@@ -92,7 +92,8 @@ export default function PyAceEditor({ children, codeId, contextId, title, resett
 
   React.useEffect(() => {
     setExecCounter(0);
-  }, [codeId])
+    setPristineHash(hashCode(children.replace(/\n$/, '')));
+  }, [codeId, children])
 
   React.useEffect(() => {
     if (execCounter > 0) {
@@ -197,9 +198,12 @@ export default function PyAceEditor({ children, codeId, contextId, title, resett
     }
     const item = getItem(codeId, contextId, {})
     if (item.original) {
-      setShowRaw(true)
-      setItem(codeId, { edited: undefined }, contextId)
-      setHasEdits(false)
+      const shouldReset = window.confirm('Änderungen verwerfen? (Ihre Version geht verloren!)')
+      if (shouldReset) {
+        setShowRaw(true)
+        setItem(codeId, { edited: undefined }, contextId)
+        setHasEdits(false)
+      } 
     }
   }
   

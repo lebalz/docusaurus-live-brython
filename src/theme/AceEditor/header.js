@@ -51,6 +51,7 @@ export default function Header({
                 <button
                     onClick={onReset}
                     className={styles.headerButton}
+                    title="Änderungen Verwerfen"
                 >
                     <FontAwesomeIcon icon={faUndo} />
                 </button>
@@ -59,6 +60,7 @@ export default function Header({
                 <button
                     className={clsx(styles.showRawButton, styles.headerButton, showRaw ? styles.showRawButtonDisabled : undefined)}
                     onClick={onToggleRaw}
+                    title={showRaw ? "Mein Code Anzeigen" : "Original Anzeigen"}
                 >
                     {
                         showRaw ? (
@@ -69,7 +71,7 @@ export default function Header({
                     }
                 </button>
             )}
-            <PlayButton execScript={execScript} executing={executing} />
+            <PlayButton execScript={execScript} executing={executing} title="Code Ausführen" />
 
         </div>
     )
