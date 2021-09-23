@@ -36,16 +36,14 @@ export default function Header({
         <div className={clsx(styles.brythonCodeBlockHeader, styles.controls)}>
             {!slim && (
                 <React.Fragment>
-                    <div>
+                    <div className={styles.title}>
                         {title}
                     </div>
                     <div className={styles.spacer} ></div>
                 </React.Fragment>
             )}
             {(!slim && showSavedNotification) && (
-                <React.Fragment>
-                    <FontAwesomeIcon icon={faCheckCircle} style={{color: "var(--ifm-color-success)"}} />
-                </React.Fragment>
+                <FontAwesomeIcon icon={faCheckCircle} style={{color: "var(--ifm-color-success)"}} />
             )}
             {(!slim && hasEdits && !showRaw && resettable) && (
                 <button
