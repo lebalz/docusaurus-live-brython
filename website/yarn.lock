@@ -3498,10 +3498,10 @@ dns-txt@^2.0.2:
   dependencies:
     buffer-indexof "^1.0.0"
 
-docusaurus-live-brython@^0.0.1-beta.6.8:
-  version "0.0.1-beta.6.8"
-  resolved "https://registry.yarnpkg.com/docusaurus-live-brython/-/docusaurus-live-brython-0.0.1-beta.6.8.tgz#2b62c4b336720aa6b8dd085e6d9e6de7764f4ad1"
-  integrity sha512-YO1vQhAVKuC2mfakQMtj3IckrYPoe4wutWR9+9tjDHjtTzdgjXITKIMZKlvPsM5T/7aj3oXesVBlCgSPR8+VKA==
+docusaurus-live-brython@^0.0.1-beta.6.9:
+  version "0.0.1-beta.6.9"
+  resolved "https://registry.yarnpkg.com/docusaurus-live-brython/-/docusaurus-live-brython-0.0.1-beta.6.9.tgz#140a1fe79a9dd2e3595e79a75429d8cce7efb4eb"
+  integrity sha512-hJNu9ETWADFsZlgGqjM6S9BU3YooaUMvB2jxu0/0umwggzc9hibSwg4QbplSpk4Ws6eIOcNBayY8ezuJmYJ1ZQ==
   dependencies:
     "@docusaurus/core" "2.0.0-beta.6"
     "@fortawesome/fontawesome-svg-core" "^1.2.36"
