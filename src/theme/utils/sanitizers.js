@@ -29,7 +29,7 @@ function sanitizeId(id) {
  * @param {String} script 
  */
  function sanitizePyScript(script) {
-    return script.replace(/"{3}/g, "'''")
+    return script.replace(/"{3}/g, "'''").replace(/\\n/, '\\\\n')
   }
 
 export {sanitizeId, sanitizedTitle, sanitizePyScript}
