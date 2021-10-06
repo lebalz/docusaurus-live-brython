@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.css';
 import { setItem, getItem } from '../utils/storage';
 import { DOM_ELEMENT_IDS } from './constants';
+import PyScriptSrc from './py_script_src';
 
 
 function PlaceholderEditor({ pyScript }) {
@@ -71,7 +72,7 @@ export default function Editor({
                     // commands is array of key bindings.
                     name: 'execute',
                     bindKey: { win: 'Ctrl-Enter', mac: 'Command-Enter' },
-                    exec: execScript
+                    exec: () => execScript()
                 });
                 node.editor.commands.addCommand({
                     // commands is array of key bindings.
@@ -89,7 +90,7 @@ export default function Editor({
                 }
             }
         }
-    }, []);
+    }, [pyScript]);
 
     return (
         <div className={clsx(styles.brythonCodeBlock, styles.editor)}>
@@ -125,6 +126,7 @@ export default function Editor({
                 ) : (
                     <PlaceholderEditor pyScript={pyScript} />
                 )}
+            <PyScriptSrc codeId={codeId} pyScript={pyScript} />
         </div>
     )
 }

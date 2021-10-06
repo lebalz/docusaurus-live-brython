@@ -82,3 +82,17 @@ User edited code is stored in the localStorage. To lookup the edits, id's for ea
 
 - `title` is present -> use a sanitized version as the key.
 - `title` is not present -> all codeblocks on the page are enumerated and the index number is used as the key. !! Saved Edits are probably not correctly applied.  
+
+
+# Development
+
+Ensure to locally link the plugin to the website, s.t. changes take place immediately.
+
+```sh
+# in the project root
+yarn link
+
+cd website
+
+yarn link docusaurus-live-brython
+```

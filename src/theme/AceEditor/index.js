@@ -1,6 +1,5 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import useIsBrowser from '@docusaurus/useIsBrowser';
 import styles from './styles.module.css';
 import hashCode from '../utils/hash_code';
 import debounce from 'lodash.debounce';
@@ -9,22 +8,26 @@ import Editor from './editor';
 import { DOM_ELEMENT_IDS, BRYTHON_NOTIFICATION_EVENT, CLOSE_TURTLE_MODAL_EVENT, TURTLE_IMPORTS_TESTER } from './constants'
 import { useRefWithCallback } from '../utils/use_ref_with_clbk';
 import TurtleResult from './turtle_result';
-import PyScriptSrc from './py_script_src';
 import Result from './result';
 import Header from './header';
 
-
-export default function PyAceEditor({ children, codeId, contextId, title, resettable, slim, ...props }) {
-  const isClient = useIsBrowser();
-  const [rerender, setRerender] = React.useState(0);
-  const rerenderRef = React.useRef(0);
-  rerenderRef.current = rerender;
+function PyEditor({
+  children,
+  codeId,
+  contextId,
+  title,
+  resettable,
+  slim,
+  executing,
+  setExecuting,
+  turtleModalOpen,
+  setTurtleModalOpen,
+  logMessages,
+  setLogMessages
+}) {
   const [execCounter, setExecCounter] = React.useState(0);
   const execCounterRef = React.useRef(0);
   execCounterRef.current = execCounter;
-  const [executing, setExecuting] = React.useState(false);
-  const [logMessages, setLogMessages] = React.useState([]);
-  const [turtleModalOpen, setTurtleModalOpen] = React.useState(false);
 
   const [hasEdits, setHasEdits] = React.useState(getItem(codeId, contextId, {}).edited ? !slim : false);
   const [pyScript, setPyScript] = React.useState(hasEdits ? getItem(codeId, contextId, {}).edited : '');
@@ -80,7 +83,7 @@ export default function PyAceEditor({ children, codeId, contextId, title, resett
   }, [showSavedNotification])
 
   React.useEffect(() => {
-    if (showRaw) {
+    if (showRaw || slim) {
       setPyScript(children.replace(/\n$/, ''));
     } else {
       const item = getItem(codeId, contextId, {});
@@ -95,63 +98,15 @@ export default function PyAceEditor({ children, codeId, contextId, title, resett
     setPristineHash(hashCode(children.replace(/\n$/, '')));
   }, [codeId, children])
 
+  /**
+   * this effect triggers the brython execution 
+   */
   React.useEffect(() => {
     if (execCounter > 0) {
       setLogMessages([])
       window.brython(1, { ids: [DOM_ELEMENT_IDS.scriptSource(codeId)] })
     }
   }, [execCounter, codeId])
-
-  const onBryNotify = React.useCallback((event) => {
-    if (event.detail) {
-      const data = event.detail;
-      switch (data.type) {
-        case 'done':
-          setExecuting(false);
-          break;
-        case 'stdout':
-        case 'stderr':
-          if (data.output.length > 0) {
-            setLogMessages(oldArray => {
-              return [
-                ...oldArray,
-                {
-                  type: data.type,
-                  msg: data.output,
-                  time: event.timeStamp
-                }
-              ].sort((a, b) => a.time > b.time ? 1 : (a.time < b.time ? -1 : 0));
-            })
-          }
-          break;
-      }
-    }
-  }, []);
-
-  const onTurtleModalClose = React.useCallback((event) => {
-    if (event.detail.force || event.detail.codeId !== codeId) {
-      setTurtleModalOpen(false);
-    } else {
-      const resNode = document.getElementById(DOM_ELEMENT_IDS.turtleResult(codeId))
-      while (resNode && resNode.lastElementChild) {
-        resNode.removeChild(resNode.lastElementChild);
-      }
-    }
-  }, [])
-
-  const setupEventListeners = useRefWithCallback(
-    (node) => { // mount
-      if (node.id !== DOM_ELEMENT_IDS.component(codeId)) {
-        setRerender(rerenderRef.current + 1);
-      }
-      node.addEventListener(BRYTHON_NOTIFICATION_EVENT, onBryNotify)
-      document.addEventListener(CLOSE_TURTLE_MODAL_EVENT, onTurtleModalClose)
-    },
-    (node) => { // unmount
-      node.removeEventListener(BRYTHON_NOTIFICATION_EVENT, onBryNotify)
-      document.removeEventListener(CLOSE_TURTLE_MODAL_EVENT, onTurtleModalClose)
-    }
-  );
 
   const clearResult = (force = false) => {
     /* only one turtle modal shall be opened at a time */
@@ -196,30 +151,18 @@ export default function PyAceEditor({ children, codeId, contextId, title, resett
     if (!resettable) {
       return;
     }
-    const item = getItem(codeId, contextId, {})
-    if (item.original) {
-      const shouldReset = window.confirm('Änderungen verwerfen? (Ihre Version geht verloren!)')
-      if (shouldReset) {
-        setShowRaw(true)
-        setItem(codeId, { edited: undefined }, contextId)
-        setHasEdits(false)
-      } 
+    const shouldReset = window.confirm('Änderungen verwerfen? (Ihre Version geht verloren!)')
+    if (shouldReset) {
+      setShowRaw(true)
+      setItem(codeId, { edited: undefined }, contextId)
+      setHasEdits(false)
     }
   }
-  
+
   const onToggleRaw = () => setShowRaw(!showRaw)
 
   return (
-    <div
-      id={DOM_ELEMENT_IDS.component(codeId)}
-      className={clsx(
-        styles.playgroundContainer,
-        slim ? styles.containerSlim : styles.containerBig,
-        'live_py'
-      )}
-      key={rerender}
-      ref={setupEventListeners}
-    >
+    <React.Fragment>
       <Header
         slim={slim}
         title={title}
@@ -246,13 +189,89 @@ export default function PyAceEditor({ children, codeId, contextId, title, resett
         <Result
           logMessages={logMessages}
           codeId={codeId}
-          pyScript={pyScript}
         />
         {turtleModalOpen &&
           <TurtleResult codeId={codeId} clearResult={clearResult} contextId={contextId} />
         }
-        <PyScriptSrc codeId={codeId} pyScript={pyScript} />
       </div>
+    </React.Fragment>
+  )
+}
+
+export default function PyAceEditor({ codeId, slim, ...props }) {
+
+  const [executing, setExecuting] = React.useState(false);
+  const [logMessages, setLogMessages] = React.useState([]);
+  const [turtleModalOpen, setTurtleModalOpen] = React.useState(false);
+
+  const onBryNotify = React.useCallback((event) => {
+    if (event.detail) {
+      const data = event.detail;
+      switch (data.type) {
+        case 'done':
+          setExecuting(false);
+          break;
+        case 'stdout':
+        case 'stderr':
+          if (data.output.length > 0) {
+            setLogMessages(oldArray => {
+              return [
+                ...oldArray,
+                {
+                  type: data.type,
+                  msg: data.output,
+                  time: event.timeStamp
+                }
+              ].sort((a, b) => a.time > b.time ? 1 : (a.time < b.time ? -1 : 0));
+            })
+          }
+          break;
+      }
+    }
+  }, []);
+
+  const onTurtleModalClose = React.useCallback((event) => {
+    if (event.detail.force || event.detail.codeId !== codeId) {
+      setTurtleModalOpen(false);
+    } else {
+      const resNode = document.getElementById(DOM_ELEMENT_IDS.turtleResult(codeId))
+      while (resNode && resNode.lastElementChild) {
+        resNode.removeChild(resNode.lastElementChild);
+      }
+    }
+  }, [])
+
+  const setupEventListeners = useRefWithCallback(
+    (node) => { // mount
+      node.addEventListener(BRYTHON_NOTIFICATION_EVENT, onBryNotify)
+      document.addEventListener(CLOSE_TURTLE_MODAL_EVENT, onTurtleModalClose)
+    },
+    (node) => { // unmount
+      node.removeEventListener(BRYTHON_NOTIFICATION_EVENT, onBryNotify)
+      document.removeEventListener(CLOSE_TURTLE_MODAL_EVENT, onTurtleModalClose)
+    }
+  );
+  return (
+    <div
+      id={DOM_ELEMENT_IDS.component(codeId)}
+      className={clsx(
+        styles.playgroundContainer,
+        slim ? styles.containerSlim : styles.containerBig,
+        'live_py'
+      )}
+      ref={setupEventListeners}
+    >
+      <PyEditor
+        codeId={codeId}
+        slim={slim}
+        executing={executing}
+        setExecuting={setExecuting}
+        logMessages={logMessages}
+        setLogMessages={setLogMessages}
+        turtleModalOpen={turtleModalOpen}
+        setTurtleModalOpen={setTurtleModalOpen}
+        {...props}
+      />
     </div>
   )
 }

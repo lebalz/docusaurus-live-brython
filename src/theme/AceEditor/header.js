@@ -31,7 +31,6 @@ export default function Header({
     execScript,
     showSavedNotification
  }) {
-
     return (
         <div className={clsx(styles.brythonCodeBlockHeader, styles.controls)}>
             {!slim && (
