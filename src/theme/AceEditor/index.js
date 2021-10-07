@@ -204,6 +204,11 @@ export default function PyAceEditor({ codeId, slim, ...props }) {
   const [logMessages, setLogMessages] = React.useState([]);
   const [turtleModalOpen, setTurtleModalOpen] = React.useState(false);
 
+
+  const [rerender, setRerender] = React.useState(0);
+  const rerenderRef = React.useRef(0);
+  rerenderRef.current = rerender;
+
   const onBryNotify = React.useCallback((event) => {
     if (event.detail) {
       const data = event.detail;
@@ -243,6 +248,10 @@ export default function PyAceEditor({ codeId, slim, ...props }) {
 
   const setupEventListeners = useRefWithCallback(
     (node) => { // mount
+      console.log('setup')
+      if (node.id !== DOM_ELEMENT_IDS.component(codeId)) {
+        setRerender(rerenderRef.current + 1);
+      }
       node.addEventListener(BRYTHON_NOTIFICATION_EVENT, onBryNotify)
       document.addEventListener(CLOSE_TURTLE_MODAL_EVENT, onTurtleModalClose)
     },
@@ -259,6 +268,7 @@ export default function PyAceEditor({ codeId, slim, ...props }) {
         slim ? styles.containerSlim : styles.containerBig,
         'live_py'
       )}
+      key={rerender}
       ref={setupEventListeners}
     >
       <PyEditor
