@@ -1,0 +1,12 @@
+{
+    "extends": "@docusaurus/tsconfig",  
+    "compilerOptions": {
+      "target": "ES6",
+      "baseUrl": ".",
+      "useDefineForClassFields": true,
+      "experimentalDecorators": true,
+      "downlevelIteration": true,
+      "esModuleInterop":true,
+      "resolveJsonModule": true,
+    }
+  }

@@ -1,8 +1,12 @@
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+import type { Config } from '@docusaurus/types';
+import * as Preset from '@docusaurus/preset-classic';
+const { themes } = require('prism-react-renderer');
 
-/** @type {import('@docusaurus/types').DocusaurusConfig} */
-module.exports = {
+
+const lightCodeTheme = themes.vsLight;
+const darkCodeTheme = themes.vsDark;
+
+const config: Config = {
   title: 'Live Brython',
   tagline: 'Execute your Markdown Python Codeblocks in your Browser',
   url: 'https://lebalz.github.io/docusaurus-live-brython',
@@ -51,7 +55,7 @@ module.exports = {
       theme: lightCodeTheme,
       darkTheme: darkCodeTheme,
     },
-  },
+  } satisfies Preset.ThemeConfig,
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -59,8 +63,10 @@ module.exports = {
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
-      },
+      } satisfies Preset.Options,
     ],
   ],
   themes: ['docusaurus-live-brython'],
 };
+
+export default config;
