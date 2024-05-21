@@ -1,0 +1,46 @@
+
+.brythonGraphicsResult {
+    position: absolute;
+    left: 0;
+    cursor: move;
+    width: min-content;
+    z-index: calc(var(--ifm-z-index-fixed) + 1);
+    border: 2px solid;
+    border-color: var(--ifm-color-primary);
+    border-radius: 8px;
+    padding: 0px;
+    background-color: rgba(240, 239, 239, 0.8);
+}
+
+.brythonGraphicsResultHead {
+    display: flex;
+    align-items: center;
+    background-color: rgba(170, 170, 170, 0.8);
+    border-radius: 8px 8px 0 0;
+
+    >span {
+        font-family: var(--ifm-font-family-monospace);
+        font-size: var(--ifm-code-font-size);
+        color: var(--ifm-color-primary);
+        margin-left: 8px;
+    }
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+
+.slimStrippedButton {
+    background: transparent;
+    border: 0px;
+    padding: 6px;
+    min-width: 4ch;
+
+    &:hover {
+        border: 2px solid var(--ifm-color-primary);
+        padding: 4px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+      "incremental": true,
+      "target": "ES2018",
+      "module": "commonjs",
+      "allowJs": true,
+      "checkJs": true,
+      "resolveJsonModule": true,
+      "jsx": "react",
+      "moduleResolution": "node",
+      "pretty": true,
+      "sourceMap": true,
+      "declaration": true,
+      "declarationMap": true,
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "types": ["node", "@docusaurus/module-type-aliases"],
+      "outDir": "./dist",
+      "rootDir": "./src",
+      "tsBuildInfoFile": "./.tsbuild.info"
+    },
+    "exclude": [
+      "node_modules",
+      "website/**",
+      "**/*.json",
+      "**/dist/**/*",
+      "**/dist-jsx/**/*",
+      "website/babel.config.js"
+    ]
+  }

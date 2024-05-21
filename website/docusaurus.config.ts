@@ -6,11 +6,13 @@ const { themes } = require('prism-react-renderer');
 const lightCodeTheme = themes.vsLight;
 const darkCodeTheme = themes.vsDark;
 
+const BASE_URL = process.env.NODE_ENV === 'production' ? '/docusaurus-live-brython/' : '/';
+
 const config: Config = {
   title: 'Live Brython',
   tagline: 'Execute your Markdown Python Codeblocks in your Browser',
-  url: 'https://lebalz.github.io/docusaurus-live-brython',
-  baseUrl: '/docusaurus-live-brython/',
+  url: 'https://lebalz.github.io',
+  baseUrl: BASE_URL,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',

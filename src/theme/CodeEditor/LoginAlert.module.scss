@@ -1,0 +1,9 @@
+.noLoginAlert {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--ifm-color-danger-contrast-background);
+  border-top-left-radius: var(--ifm-global-radius);
+  border-top-right-radius: var(--ifm-global-radius);
+  border: 1px solid var(--ifm-color-danger);
+}

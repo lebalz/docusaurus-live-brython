@@ -8,8 +8,8 @@ import * as React from 'react';
  * @param {(node: any) => void} onUnmount
  * @returns (node: any) => void
  */
-const useRefWithCallback = (onMount, onUnmount) => {
-    const nodeRef = React.useRef(null);
+const useRefWithCallback = <T extends HTMLElement = HTMLElement>(onMount: (node: T) => void, onUnmount: (node: T) => void): (node: T) => void => {
+    const nodeRef = React.useRef<T>(null);
 
     const setRef = React.useCallback(node => {
         if (nodeRef.current) {

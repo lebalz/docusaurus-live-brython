@@ -1,21 +1,12 @@
-/**
-* 
-* @param {string} id 
-* @returns string
-*/
-function sanitizedTitle(id) {
+
+const sanitizedTitle = (id: string) => {
     if (!id) {
         return;
     }
     return id.replace(/--/g, '<<HYPHEN>>').replace(/__/g, '<<UNDERSCORE>>').replace(/[-_]/g, ' ').replace(/<<UNDERSCORE>>/g, '_').replace(/<<HYPHEN>>/g, '-')
 }
 
-/**
-* 
-* @param {string} id 
-* @returns string
-*/
-function sanitizeId(id) {
+const sanitizeId = (id: string) => {
     if (!id) {
         return;
     }
@@ -28,8 +19,8 @@ function sanitizeId(id) {
  * So we must prevent the script itself to contain this sequence of characters.
  * @param {String} script 
  */
- function sanitizePyScript(script) {
-    return script.replace(/"{3}/g, "'''").replace(/\\n/, '\\\\n')
-  }
+const sanitizePyScript = (script: string) => {
+    return script.replace(/"{3}/g, "'''").replace(/\\n/g, '\\\\n').replace(/\\r/g, '\\\\r')
+}
 
 export {sanitizeId, sanitizedTitle, sanitizePyScript}
