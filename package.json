@@ -5,20 +5,17 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "dist-jsx",
-    "src"
-  ],
+  "main": "lib/index.js",
+  "sideEffects": false,
+  "exports": {
+    "./lib/*": "./lib/*",
+    "./src/*": "./src/*"
+  },
   "scripts": {
-    "copy": "sh copy.sh",
-    "copy:watch": "nodemon --watch ./src/**/*.css -e css --exec \"yarn copy\"",
-    "build": "tsc -p tsconfig.jsx.json && tsc && yarn copy && echo \"built theme\"",
-    "dev": "concurrently 'tsc -w -p tsconfig.jsx.json' 'tsc -w' 'yarn copy:watch'",
-    "prepublish": "rm -rf rm .tsbuild.info .tsbuild.jsx.info",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc --build",
+    "watch": "run-p -c copy:watch build:watch",
+    "build:watch": "tsc --build --watch",
+    "copy:watch": "node ./bin/copyUntypedFiles.js --watch"
   },
   "license": "MIT",
   "repository": {
@@ -36,6 +33,7 @@
     "ace-builds": "^1.4.12",
     "clsx": "^2.1.1",
     "lodash": "^4.17.21",
+    "rc-slider": "^10.6.2",
     "react-ace": "^9.4.3",
     "react-draggable": "^4.4.3",
     "svg-parser": "^2.0.4",
@@ -45,14 +43,18 @@
     "@docusaurus/module-type-aliases": "^3.3.2",
     "@docusaurus/theme-classic": "^3.3.2",
     "@docusaurus/theme-common": "^3.3.2",
+    "@docusaurus/tsconfig": "^3.3.2",
     "@docusaurus/types": "^3.3.2",
+    "@types/svg-parser": "^2.0.6",
     "@types/uuid": "^9.0.8",
+    "chokidar": "^3.6.0",
     "concurrently": "^8.2.2",
-    "react": "^18.2.0",
+    "fs-extra": "^11.2.0",
+    "npm-run-all": "^4.1.5",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {
-    "@docusaurus/theme-common": "^3.0.0",
+    "@docusaurus/theme-common": "^3.3.2",
     "webpack": "^5.0.0"
   },
   "engines": {

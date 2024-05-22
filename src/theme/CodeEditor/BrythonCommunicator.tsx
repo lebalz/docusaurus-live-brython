@@ -1,51 +1,46 @@
-import { runInAction } from "mobx";
-import { observer } from "mobx-react-lite";
 import * as React from "react";
-import Script, { LogMessage } from "../../models/Script";
-import { useStore } from "../../stores/hooks";
-import { useRefWithCallback } from "../../utils/use_ref_with_clbk";
 import { BRYTHON_NOTIFICATION_EVENT, DOM_ELEMENT_IDS } from "./constants";
+import { LogMessage, useScript } from "./WithScript";
+import { useRefWithCallback } from "../utils/use_ref_with_clbk";
 interface Props {
-  webKey: string;
 }
 
-const BrythonCommunicator = observer((props: Props) => {
-  const store = useStore('documentStore');
-  const pyScript = store.find<Script>(props.webKey);
+const BrythonCommunicator = (props: Props) => {
+  const { setExecuting, addLogMessage, clearLogMessages, codeId } = useScript();
 
-  const onBryNotify = React.useCallback((event) => {
+  const onBryNotify = React.useCallback((event: {detail?: LogMessage}) => {
     if (event.detail) {
       const data = event.detail as LogMessage;
       switch (data.type) {
         case "start":
-          pyScript.clearLogMessages();
-          pyScript.setExecuting(true);
+          clearLogMessages();
+          setExecuting(true);
           break;
         case "done":
-          pyScript.setExecuting(false);
+          setExecuting(false);
           break;
         default:
-          pyScript.addLogMessage(data);
+          addLogMessage(data);
       }
     }
-  }, [pyScript]);
+  }, [setExecuting, addLogMessage, clearLogMessages]);
 
   const setupEventListeners = useRefWithCallback(
     (node) => {
       // mount
-      node.addEventListener(BRYTHON_NOTIFICATION_EVENT, onBryNotify);
+      node.addEventListener(BRYTHON_NOTIFICATION_EVENT, onBryNotify as EventListener);
     },
     (node) => {
       // unmount
-      node.removeEventListener(BRYTHON_NOTIFICATION_EVENT, onBryNotify);
+      node.removeEventListener(BRYTHON_NOTIFICATION_EVENT, onBryNotify as EventListener);
     }
   );
   return (
     <div
-      id={DOM_ELEMENT_IDS.communicator(pyScript.codeId)}
+      id={DOM_ELEMENT_IDS.communicator(codeId)}
       ref={setupEventListeners}
     ></div>
   );
-});
+};
 
 export default BrythonCommunicator;

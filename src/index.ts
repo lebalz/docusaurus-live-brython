@@ -36,10 +36,10 @@ const theme: Plugin = (
             };
         },
         getThemePath() {
-          return path.join(__dirname, '..', 'dist-jsx', 'theme');
+            return '../lib/theme';
         },
         getTypeScriptThemePath() {
-          return path.join(__dirname, '..', 'src', 'theme');
+            return '../src/theme';
         },
         injectHtmlTags({ content }: {content?: {remoteHeadTags: HtmlTags[]}}) {
             const remoteHeadTags: HtmlTags[] = content ? content.remoteHeadTags : [];

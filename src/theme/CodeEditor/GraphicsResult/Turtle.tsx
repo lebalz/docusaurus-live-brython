@@ -1,22 +1,17 @@
 import * as React from 'react';
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
 import { DOM_ELEMENT_IDS } from '../constants';
-import { saveSvg } from '../../../utils/save_svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faRunning } from '@fortawesome/free-solid-svg-icons';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '../../../stores/hooks';
-import Script from '../../../models/Script';
 import GraphicsResult from '.';
+import { saveSvg } from '../../utils/save_svg';
+import { useScript } from '../WithScript';
 interface Props {
-    webKey: string;
 }
-const TurtleResult = observer((props: Props) => {
-    const store = useStore('documentStore');
-    const pyScript = store.find<Script>(props.webKey);
+const TurtleResult = (props: Props) => {
+    const {codeId, code} = useScript();
     return (
         <GraphicsResult
-            webKey={props.webKey}
             controls={
                 <React.Fragment>
                 <button
@@ -25,12 +20,12 @@ const TurtleResult = observer((props: Props) => {
                     className={styles.slimStrippedButton}
                     style={{ zIndex: 1000 }}
                     onClick={() => {
-                        const turtleResult = (document.getElementById(DOM_ELEMENT_IDS.turtleSvgContainer(pyScript.codeId)) as any) as SVGSVGElement;
+                        const turtleResult = (document.getElementById(DOM_ELEMENT_IDS.turtleSvgContainer(codeId)) as any) as SVGSVGElement;
                         if (turtleResult) {
-                            saveSvg(turtleResult, `${pyScript.codeId}`, pyScript.executedScriptSource, true)
+                            saveSvg(turtleResult, `${codeId}`, code, true)
                         }
                     }}>
-                    <span aria-hidden="true"><FontAwesomeIcon icon={faRunning} /></span>
+                    <span aria-hidden="true">R</span>
                 </button>
                 <button
                     aria-label="Download SVG"
@@ -38,17 +33,17 @@ const TurtleResult = observer((props: Props) => {
                     className={styles.slimStrippedButton}
                     style={{ zIndex: 1000 }}
                     onClick={() => {
-                        const turtleResult = (document.getElementById(DOM_ELEMENT_IDS.turtleSvgContainer(pyScript.codeId)) as any) as SVGSVGElement;
+                        const turtleResult = (document.getElementById(DOM_ELEMENT_IDS.turtleSvgContainer(codeId)) as any) as SVGSVGElement;
                         if (turtleResult) {
-                            saveSvg(turtleResult, `${pyScript.codeId}`, pyScript.executedScriptSource)
+                            saveSvg(turtleResult, `${codeId}`, code)
                         }
                     }}>
-                    <span aria-hidden="true"><FontAwesomeIcon icon={faDownload} /></span>
+                    <span aria-hidden="true">D</span>
                 </button>
                 </React.Fragment>
             }
         />
     )
-})
+}
 
 export default TurtleResult;

@@ -1,10 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
 import { DOM_ELEMENT_IDS } from './constants';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '../../stores/hooks';
-import Script from '../../models/Script';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/mode-python';
@@ -13,12 +10,12 @@ import 'ace-builds/src-noconflict/mode-svg';
 import 'ace-builds/src-noconflict/theme-dracula';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import 'ace-builds/webpack-resolver';
+import { useScript } from './WithScript';
 // import 'ace-builds/src-noconflict/theme-textmate';
 // import('ace-builds/src-noconflict/snippets/python'),
 
 export interface Props {
-    webKey: string;
-    lang: string;
+    versioned?: boolean;
     showLineNumbers: boolean;
     maxLines?: number;
 }
@@ -27,31 +24,29 @@ const ALIAS_LANG_MAP_ACE = {
     mpy: 'python',
 }
 
-const Editor = observer((props: Props) => {
-    const store = useStore('documentStore');
-    const pyScript = store.find<Script>(props.webKey);
-
+const Editor = (props: Props) => {
+    const script = useScript();
     const eRef = React.useRef<AceEditor>(null);
 
     React.useEffect(() => {
         if (eRef && eRef.current) {
             const node = eRef.current;
-            if (props.lang === 'python') {
-                node.editor.commands.addCommand({
-                    // commands is array of key bindings.
-                    name: 'execute',
-                    bindKey: { win: 'Ctrl-Enter', mac: 'Command-Enter' },
-                    exec: () => pyScript.execScript((window as any).__BRYTHON__),
-                });
-            }
-            node.editor.commands.addCommand({
-                // commands is array of key bindings.
-                name: 'save',
-                bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
-                exec: () => {
-                    pyScript.saveService.saveNow();
-                },
-            });
+            // if (props.lang === 'python') {
+                // node.editor.commands.addCommand({
+                //     // commands is array of key bindings.
+                //     name: 'execute',
+                //     bindKey: { win: 'Ctrl-Enter', mac: 'Command-Enter' },
+                //     exec: () => execScript((window as any).__BRYTHON__),
+                // });
+            // }
+            // node.editor.commands.addCommand({
+            //     // commands is array of key bindings.
+            //     name: 'save',
+            //     bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
+            //     exec: () => {
+            //         pyScript.saveService.saveNow();
+            //     },
+            // });
             return () => {
                 if (node && node.editor) {
                     const cmd = node.editor.commands.commands['execute'];
@@ -65,7 +60,7 @@ const Editor = observer((props: Props) => {
                 }
             };
         }
-    }, [eRef, pyScript]);
+    }, [eRef, script, script.lang]);
 
     return (
         <div className={clsx(styles.brythonCodeBlock, styles.editor)}>
@@ -75,27 +70,27 @@ const Editor = observer((props: Props) => {
                     width: '100%',
                 }}
                 onPaste={(e) => {
-                    if (pyScript.versioned) {
+                    if (props.versioned) {
                         /**
                          * Save and mark pasted content immediately
                          */
-                        pyScript.setPastedEdit(true);
-                        pyScript.saveService.saveNow();
+                        // pyScript.setPastedEdit(true);
+                        // pyScript.saveService.saveNow();
                     }
                 }}
                 focus={false}
                 navigateToFileEnd={false}
                 maxLines={props.maxLines || 25}
                 ref={eRef}
-                mode={ALIAS_LANG_MAP_ACE[props.lang] ?? props.lang}
+                mode={ALIAS_LANG_MAP_ACE[script.lang as keyof typeof ALIAS_LANG_MAP_ACE] ?? script.lang}
                 theme="dracula"
                 onChange={(value: string) => {
-                    pyScript.setData({ code: value });
+                    script.setCode(value);
                 }}
-                readOnly={pyScript?.showRaw || !pyScript?.loaded}
-                value={pyScript?.showRaw ? pyScript.rawScript : pyScript?.data?.code}
-                defaultValue={pyScript?.code || '\n'}
-                name={DOM_ELEMENT_IDS.aceEditor(pyScript?.codeId)}
+                readOnly={false}
+                value={script.code}
+                defaultValue={script.code || '\n'}
+                name={DOM_ELEMENT_IDS.aceEditor(script.codeId)}
                 editorProps={{ $blockScrolling: true }}
                 setOptions={{
                     displayIndentGuides: true,
@@ -111,5 +106,5 @@ const Editor = observer((props: Props) => {
             />
         </div>
     );
-});
+};
 export default Editor;

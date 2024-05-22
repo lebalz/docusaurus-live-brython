@@ -8,7 +8,7 @@ const checkForButtonClick = (event: DraggableEvent) => {
     if (!event.type || event.type.toLowerCase() !== 'touchend') {
         return;
     }
-    var elem = event.target as HTMLElement;
+    var elem: HTMLElement | null = event.target as HTMLElement;
     if (!elem) {
         return;
     }
@@ -26,7 +26,7 @@ const checkForButtonClick = (event: DraggableEvent) => {
     }
     if (elem) {
         // add the click to the end of the event queue
-        setTimeout(() => elem.click(), 1);
+        setTimeout(() => elem?.click(), 1);
     }
 }
 

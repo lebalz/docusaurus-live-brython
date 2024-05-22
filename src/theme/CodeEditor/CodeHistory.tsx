@@ -1,19 +1,14 @@
-import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import clsx from 'clsx';
-import styles from './styles.module.scss';
-import { useStore } from '../../stores/hooks';
-import Script from '../../models/Script';
-import DiffViewer from 'react-diff-viewer';
+import styles from './styles.module.css';
 import { Prism } from 'prism-react-renderer';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import { reaction } from 'mobx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
+import { useScript } from './WithScript';
 
 interface Props {
-    webKey: string;
 }
 
 const highlightSyntax = (str: string) => {
@@ -29,27 +24,12 @@ const highlightSyntax = (str: string) => {
     );
 };
 
-const CodeHistory = observer((props: Props) => {
-    const store = useStore('documentStore');
-    const userStore = useStore('userStore');
-    const pyScript = store.find<Script>(props.webKey);
+const CodeHistory = (props: Props) => {
     const [version, setVersion] = React.useState(1);
     const [open, setOpen] = React.useState(false);
-    React.useEffect(() => {
-        return reaction(
-            () => store.find<Script>(props.webKey)?.id,
-            (id) => {
-                if (id && id > 0) {
-                    setVersion(1);
-                    if (open) {
-                        store.find<Script>(props.webKey)?.loadVersions();
-                    }
-                }
-            }
-        );
-    }, []);
+    const {versions} = useScript();
 
-    if (!pyScript.versioned) {
+    if (versions.length < 1) {
         return null;
     }
     return (
@@ -60,7 +40,7 @@ const CodeHistory = observer((props: Props) => {
                     e.preventDefault();
                     e.stopPropagation();
                     if (!open) {
-                        pyScript.loadVersions();
+                        // pyScript.loadVersions();
                     }
                     setOpen(!open);
                 }}
@@ -68,19 +48,20 @@ const CodeHistory = observer((props: Props) => {
             >
                 <summary>
                     <span className="badge badge--secondary">
-                        {pyScript.versionsLoaded ? `${pyScript.versions.length} Versions` : 'Load Versions'}
+                        {/* {pyScript.versionsLoaded ? `${versions.length} Versions` : 'Load Versions'} */}
+                        {`${versions.length} Versions`}
                     </span>
-                    <FontAwesomeIcon
+                    {/* <FontAwesomeIcon
                         className={clsx(styles.faButton)}
                         color={'var(--ifm-color-primary)'}
-                        spin={pyScript.versionsLoaded === 'loading'}
-                        icon={faSync}
+                        // spin={pyScript.versionsLoaded === 'loading'}
+                        // icon={faSync}
                         onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             pyScript.loadVersions();
                         }}
-                    />
+                    /> */}
                 </summary>
                 <div
                     className={clsx(styles.content)}
@@ -93,19 +74,22 @@ const CodeHistory = observer((props: Props) => {
                     <div className={clsx(styles.versionControl)}>
                         <Slider
                             value={version}
-                            onChange={(c: number) => {
+                            onChange={(c: number | number[]) => {
+                                if (Array.isArray(c)) {
+                                    return;
+                                }
                                 setVersion(c);
                             }}
                             min={1}
-                            max={pyScript.versions.length - 1}
-                            dots={pyScript.versions.length < 50}
+                            max={versions.length - 1}
+                            dots={versions.length < 50}
                         />
                         <span className="badge badge--primary">
                             V{version}
                         </span>
                     </div>
-                    <div className={clsx(styles.diffViewer)}>
-                        {pyScript.versions.length > 1 && (
+                    {/* <div className={clsx(styles.diffViewer)}>
+                        {versions.length > 1 && (
                             <DiffViewer
                                 leftTitle={pyScript.versions[version - 1].version}
                                 rightTitle={
@@ -124,11 +108,11 @@ const CodeHistory = observer((props: Props) => {
                                 renderContent={highlightSyntax}
                             />
                         )}
-                    </div>
+                    </div> */}
                 </div>
             </details>
         </div>
     );
-});
+};
 
 export default CodeHistory;

@@ -1,0 +1,215 @@
+/** * Copyright (c) Facebook, Inc. and its affiliates. * * This source code is licensed under the MIT license found in the * LICENSE file in the root directory of this source tree. */
+.wrapper {
+	/**/
+}
+ .wrapper .containerBig {
+	 display: grid;
+	 flex-grow: 1;
+	 flex-shrink: 1;
+	 flex-basis: 250px;
+	 grid-template-columns: 100%;
+	 grid-template-rows: min-content 1fr min-content;
+	 gap: 0px 0px;
+	 grid-auto-flow: row;
+	 grid-template-areas: 'controls' 'editor' 'result';
+}
+ .wrapper .controls {
+	 grid-area: controls;
+}
+ .wrapper .editor {
+	 grid-area: editor;
+}
+ .wrapper .result {
+	 grid-area: result;
+	 max-width: 100%;
+	 overflow-x: auto;
+}
+ .wrapper .containerSlim {
+	 display: grid;
+	 grid-template-columns: 1fr min-content;
+	 grid-template-rows: 1fr min-content;
+	 gap: 0px 0px;
+	 grid-auto-flow: row;
+	 grid-template-areas: 'editor controls' 'result result';
+}
+ .wrapper:last-child .playgroundContainer {
+	 margin-bottom: inherit;
+}
+ .wrapper .playgroundContainer {
+	 margin-bottom: var(--ifm-leading);
+	 border-radius: var(--ifm-global-radius);
+	 box-shadow: var(--ifm-global-shadow-lw);
+	 overflow: hidden;
+	 flex-grow: 1;
+	 flex-shrink: 1;
+}
+ .wrapper :global .flex :local .playgroundContainer {
+	 margin-bottom: 0;
+}
+ .wrapper .brythonCodeBlock {
+	 display: flex;
+	 flex-wrap: wrap;
+}
+ .wrapper .brythonCodeBlock .noGutter :global .ace_scroller {
+	 left: 4px !important;
+}
+ .wrapper .brythonCodeBlock :global .ace_scrollbar.ace_scrollbar-h {
+	 overflow-x: hidden !important;
+}
+ .wrapper .brythonGraphicsResult {
+	 position: absolute;
+	 left: 0;
+	 cursor: move;
+	 width: min-content;
+	 z-index: calc(var(--ifm-z-index-fixed) + 1);
+	 border: 2px solid;
+	 border-color: var(--ifm-color-primary);
+	 border-radius: 8px;
+	 padding: 0px;
+	 background-color: rgba(240, 239, 239, 0.8);
+}
+ .wrapper .brythonGraphicsResultHead {
+	 display: flex;
+	 align-items: center;
+	 background-color: rgba(170, 170, 170, 0.8);
+	 border-radius: 8px 8px 0 0;
+}
+ .wrapper .brythonGraphicsResultHead > span {
+	 font-family: var(--ifm-font-family-monospace);
+	 font-size: var(--ifm-code-font-size);
+	 color: var(--ifm-color-primary);
+	 margin-left: 8px;
+}
+ .wrapper .slimStrippedButton {
+	 background: transparent;
+	 border: 0px;
+	 padding: 6px;
+	 min-width: 4ch;
+}
+ .wrapper .slimStrippedButton:hover {
+	 border: 2px solid var(--ifm-color-primary);
+	 padding: 4px;
+	 border-radius: 6px;
+	 cursor: pointer;
+}
+ .wrapper .brythonEditor {
+	 flex-grow: 1;
+	 flex-basis: 80ch;
+	 font: var(--ifm-code-font-size) / var(--ifm-pre-line-height) var(--ifm-font-family-monospace) !important;
+	/*rtl:ignore*/
+	 direction: ltr;
+}
+ .wrapper .brythonOut {
+	 --ifm-leading: 0;
+	 flex-grow: 1;
+	 flex-basis: 80ch;
+}
+ .wrapper .brythonOut > pre {
+	 margin-bottom: 0px;
+	 border-top-left-radius: 0;
+	 border-top-right-radius: 0;
+}
+ .wrapper .brythonOut :global .theme-code-block-highlighted-line {
+	 color: var(--ifm-color-danger-darker) !important;
+	 background: transparent;
+}
+ .wrapper .containerSlim > .brythonCodeBlockHeader {
+	 padding: 0px;
+}
+ .wrapper .spacer {
+	 flex-grow: 1;
+}
+ .wrapper .playgroundHeader:first-of-type {
+	 background: var(--ifm-color-emphasis-600);
+	 color: var(--ifm-color-content-inverse);
+}
+ .wrapper .badge {
+	 cursor: pointer;
+}
+ .wrapper .playButton {
+	 background-color: var(--ifm-color-success);
+	 color: white;
+	 z-index: calc(var(--ifm-z-index-fixed) - 2);
+}
+ .wrapper .controls {
+	 z-index: calc(var(--ifm-z-index-fixed) - 2);
+	 grid-area: controls;
+}
+ .wrapper .headerButton {
+	 z-index: calc(var(--ifm-z-index-fixed) - 2);
+	 border: none;
+	 border-radius: 6px;
+	 padding: 6px 12px;
+	 cursor: pointer;
+	 margin: 0px 2px;
+}
+ .wrapper .headerButton:hover {
+	 box-shadow: 2px 2px 45px var(--ifm-color-primary);
+}
+ .wrapper .containerSlim .headerButton {
+	 z-index: calc(var(--ifm-z-index-fixed) - 2);
+	 height: 100%;
+	 border-radius: 0px;
+	 padding: 2px 6px;
+	 margin: 0px;
+}
+ .wrapper .brythonCodeBlockHeader {
+	 display: flex;
+	 align-items: center;
+	 letter-spacing: 0.08em;
+	 padding: 0.5em;
+	 text-transform: uppercase;
+	 font-weight: bold;
+	 background: var(--ifm-color-emphasis-200);
+	 color: var(--ifm-color-content);
+	 font-size: calc(var(--ifm-code-font-size) * 1.2);
+}
+ .wrapper .brythonCodeBlockHeader > .title {
+	 flex-shrink: 1;
+	 flex-grow: 1;
+	 overflow-x: hidden;
+	 text-overflow: ellipsis;
+	 white-space: nowrap;
+}
+ .wrapper .showRawButton {
+	 background-color: var(--ifm-color-primary);
+	 color: white;
+}
+ .wrapper .showRawButtonDisabled {
+	 background-color: transparent;
+	 border: 2px solid var(--ifm-color-primary);
+	 color: var(--ifm-color-primary);
+	 padding: 4px 10px;
+}
+ .codeHistory .historyDetails {
+	 cursor: pointer;
+}
+ .codeHistory .versionControl {
+	 padding: 1em 2em;
+	 box-shadow: var(--ifm-global-shadow-lw);
+	 border-radius: var(--ifm-global-radius);
+}
+ .codeHistory .faButton {
+	 margin-left: 1em;
+}
+ .codeHistory .faButton:hover {
+	 transform: scale(1.2);
+}
+ .codeHistory .diffViewer {
+	 --ifm-pre-background: rgba(255, 255, 255, 0);
+	 --ifm-alert-background-color: rgba(255, 255, 255, 0);
+	 --ifm-alert-background-color-highlight: rgba(255, 255, 255, 0);
+	 --ifm-table-stripe-background: rgba(255, 255, 255, 0);
+	 font-family: monospace;
+	 overflow: auto;
+}
+ .codeHistory .diffViewer table tbody tr td {
+	 padding-top: 0;
+	 padding-bottom: 0;
+}
+ .codeHistory .diffViewer table tbody tr td pre {
+	 white-space: nowrap;
+	 padding-top: 0;
+	 padding-bottom: 0;
+	 line-height: 18px;
+}

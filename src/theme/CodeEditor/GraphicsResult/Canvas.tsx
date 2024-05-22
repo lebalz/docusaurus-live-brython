@@ -1,14 +1,11 @@
 import * as React from 'react';
 import { DOM_ELEMENT_IDS } from '../constants';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '../../../stores/hooks';
-import Script from '../../../models/Script';
 import GraphicsResult from '.';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
+import { useScript } from '../WithScript';
 interface Props {
-    webKey: string;
 }
 
 const downloadCanvas = (canvasId: string) => {
@@ -31,12 +28,10 @@ const downloadCanvas = (canvasId: string) => {
     document.body.removeChild(downloadLink);
   };
 
-const CanvasResult = observer((props: Props) => {
-    const store = useStore('documentStore');
-    const pyScript = store.find<Script>(props.webKey);
+const CanvasResult = (props: Props) => {
+    const {codeId, id} = useScript();
     return (
         <GraphicsResult
-            webKey={props.webKey}
             controls={
                 <button
                     aria-label="Download SVG"
@@ -44,14 +39,14 @@ const CanvasResult = observer((props: Props) => {
                     className={styles.slimStrippedButton}
                     style={{ zIndex: 1000 }}
                     onClick={() => {
-                        downloadCanvas(DOM_ELEMENT_IDS.canvasContainer(pyScript.codeId))
+                        downloadCanvas(DOM_ELEMENT_IDS.canvasContainer(codeId))
                     }}>
-                    <span aria-hidden="true"><FontAwesomeIcon icon={faDownload} /></span>
+                    <span aria-hidden="true">Download</span>
                 </button>
             }
             main={
                 <canvas 
-                    id={DOM_ELEMENT_IDS.canvasContainer(pyScript.codeId)} 
+                    id={DOM_ELEMENT_IDS.canvasContainer(codeId)} 
                     width="500"
                     height="500"
                     style={{
@@ -62,6 +57,6 @@ const CanvasResult = observer((props: Props) => {
             }
         />
     )
-})
+};
 
 export default CanvasResult;
