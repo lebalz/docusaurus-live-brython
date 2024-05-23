@@ -13,12 +13,14 @@ import {
     faSync,
     faDownload,
 } from '@fortawesome/free-solid-svg-icons';
-import { useScript } from './WithScript';
+import { useScript } from './WithScript/ScriptContext';
+import { useStore } from './WithScript/StoreContext';
 
 interface PlayProps {
 }
 const PlayButton = (props: PlayProps) => {
-    const {isExecuting, execScript, id, codeId} = useScript();
+    const { codeId } = useStore();
+    const {isExecuting, execScript, id} = useScript();
     return (
         <button
             onClick={() => execScript((window as any).__BRYTHON__)}
@@ -126,7 +128,7 @@ const Header = ({ slim, title, resettable, lang, noCompare, download }: Props) =
                                             {type: 'text/plain;charset=utf-8'});
                                 downloadLink.href = URL.createObjectURL(file);
                                 const fExt = lang === 'python' ? '.py' : `.${lang}`;
-                                const fTitle = title === lang ? script.codeId : title
+                                const fTitle = title === lang ? script.id : title
                                 const fName = fTitle.endsWith(fExt) ? fTitle : `${fTitle}${fExt}`;
                                 downloadLink.download = fName;
                                 document.body.appendChild(downloadLink);

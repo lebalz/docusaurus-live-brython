@@ -10,7 +10,8 @@ import 'ace-builds/src-noconflict/mode-svg';
 import 'ace-builds/src-noconflict/theme-dracula';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import 'ace-builds/webpack-resolver';
-import { useScript } from './WithScript';
+import { useScript } from './WithScript/ScriptContext';
+import { useStore } from './WithScript/StoreContext';
 // import 'ace-builds/src-noconflict/theme-textmate';
 // import('ace-builds/src-noconflict/snippets/python'),
 
@@ -25,9 +26,10 @@ const ALIAS_LANG_MAP_ACE = {
 }
 
 const Editor = (props: Props) => {
+    const { codeId } = useStore();
     const script = useScript();
     const eRef = React.useRef<AceEditor>(null);
-
+    console.log('rerender editor')
     React.useEffect(() => {
         if (eRef && eRef.current) {
             const node = eRef.current;
@@ -90,7 +92,7 @@ const Editor = (props: Props) => {
                 readOnly={false}
                 value={script.code}
                 defaultValue={script.code || '\n'}
-                name={DOM_ELEMENT_IDS.aceEditor(script.codeId)}
+                name={DOM_ELEMENT_IDS.aceEditor(codeId)}
                 editorProps={{ $blockScrolling: true }}
                 setOptions={{
                     displayIndentGuides: true,

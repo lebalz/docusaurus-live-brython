@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { default as AceType, Props } from './EditorAce_';
 import useIsBrowser from '@docusaurus/useIsBrowser';
-import { useScript } from './WithScript';
+import { useScript } from './WithScript/ScriptContext';
 
 const PlaceholderEditor = (props: Props) => {
     const { code } = useScript();

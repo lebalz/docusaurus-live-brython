@@ -5,7 +5,7 @@ import CodeBlock, {type Props as CodeBlockType} from '@theme-init/CodeBlock';
 // @ts-ignore
 import type { WrapperProps } from '@docusaurus/types';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import { sanitizedTitle, sanitizeId } from '../utils/sanitizers';
+import { sanitizedTitle, sanitizeId } from '../CodeEditor/utils/sanitizers';
 import PyAceEditor from '../CodeEditor';
 
 // @ts-ignore

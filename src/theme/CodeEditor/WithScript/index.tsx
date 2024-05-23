@@ -2,13 +2,15 @@ import React from 'react';
 import { checkCanvasOutput, checkGraphicsOutput, checkTurtleOutput, getPreCode } from './helpers';
 import { ReactContextError, createStorageSlot } from '@docusaurus/theme-common';
 import { v4 as uuidv4 } from 'uuid';
+import StoreContext from './StoreContext';
+import ScriptContext from './ScriptContext';
 
-interface Version {
+export interface Version {
     code: string;
     createdAt: Date;
 }
 
-interface StoredScript {
+export interface StoredScript {
     code: string;
     createdAt: Date;
     updatedAt: Date;
@@ -22,7 +24,6 @@ const getCodeId = (lang: string, id: string) => {
 
 export interface Script extends StoredScript {
     id: string;
-    codeId: string;
     pristineCode: string;
     setCode: (code: string) => void;
     isExecuting?: boolean;
@@ -39,29 +40,6 @@ export interface Script extends StoredScript {
     hasEdits: boolean;
 }
 
-export const CodeContext = React.createContext<Script>({
-    id: uuidv4(),
-    codeId: getCodeId('txt', uuidv4()),
-    code: '',
-    pristineCode: '',
-    setCode: (code: string) => { },
-    isExecuting: false,
-    setExecuting: (executing: boolean) => { },
-    execScript: (codeId: string) => { },
-    preCode: '',
-    versions: [],
-    logs: [],
-    addLogMessage: (log: LogMessage) => { },
-    clearLogMessages: () => { },
-    lang: '',
-    hasGraphicsOutput: false,
-    hasTurtleOutput: false,
-    hasCanvasOutput: false,
-    hasEdits: false,
-    updatedAt: new Date(),
-    createdAt: new Date()
-});
-
 interface Props {
     id: string | undefined;
     lang: 'py' | string;
@@ -77,207 +55,57 @@ export interface LogMessage {
     timeStamp: number;
 }
 
-type StorageSlot = {
+export type StorageSlot = {
     get: () => string | null;
     set: (value: string) => void;
     del: () => void;
     listen: (onChange: (event: StorageEvent) => void) => () => void;
 };
 
-const getStorageScript = (codeId: string, storage: StorageSlot): StoredScript | undefined => {
-    const storedCode = storage.get();
-    if (storedCode) {
-        try {
-            const script = JSON.parse(storedCode);
-            if (script) {
-                return script;
-            }
-        } catch (e) {
-            console.warn(`Failed to parse code for ${codeId}`);
-            storage.del();
-        }
-    }
-    return;
+export enum Status {
+    IDLE = 'IDLE',
+    LOADING = 'LOADING',
+    ERROR = 'ERROR',
+    SUCCESS = 'SUCCESS'
 }
 
-const syncStorageScript = (codeId: string, script: StoredScript, storage: StorageSlot): boolean => {
-    try {
-        storage.set(JSON.stringify(script));
-        return true;
-    } catch (e) {
-        console.warn(`Failed to save code for ${codeId}`);
-        return false;
-    }
+export interface Store {
+    isLoaded: boolean;
+    load: () => Promise<Status>;
+    set: (script: StoredScript) => Promise<Status>;
+    del: () => Promise<Status>;
+    data: StoredScript | null;
+    status: Status;
+    /**
+     * this is normally a uuid
+     */
+    id: string;
+    /**
+     * this is the codeId used to
+     * - identify dom elements for this block
+     * - setup the brython communicator with this id
+     * - when using the default storage, this is the key used to 
+     *   store the code to local storage
+     */
+    codeId: string;
 }
+
 
 const WithScript = (props: Props) => {
-    const [code, _setCode] = React.useState('');
-    const [codeId, setCodeId] = React.useState<string | undefined>(undefined);
-    const [isExecuting, setExecuting] = React.useState(false);
-    const [preCode, setPreCode] = React.useState('');
-    const [versions, setVersions] = React.useState<Version[]>([]);
-    const [isLoaded, setLoaded] = React.useState(false);
-    const [logs, setLogs] = React.useState<LogMessage[]>([]);
-    const [hasGraphicsOutput, setHasGraphicsOutput] = React.useState(false);
-    const [hasTurtleOutput, setHasTurtleOutput] = React.useState(false);
-    const [hasCanvasOutput, setHasCanvasOutput] = React.useState(false);
-    const [hasEdits, setHasEdits] = React.useState(false);
-    const [updatedAt, setUpdatedAt] = React.useState(new Date());
-    const [createdAt, setCreatedAt] = React.useState(new Date());
-
-    const [storage, setStorage] = React.useState<StorageSlot | null>(null);
-
-    React.useEffect(() => {
-        console.log(props);
-    },[]);
-
-    React.useEffect(() => {
-        if (!props.id) {
-            return;
-        }
-        const newCodeId = `code.${props.lang}.${props.id.replace(/-/g, '_')}`
-        console.log('setting codeId', props.id, props.lang, newCodeId);
-        setCodeId(newCodeId);
-        setStorage(createStorageSlot(newCodeId))
-    }, [props.id, codeId, props.lang, setStorage]);
-
-    const setCode = React.useMemo(() => {
-        return (raw: string) => {
-            console.log('setting code', raw);
-            const { pre, code } = getPreCode(raw);
-            _setCode(code);
-            setPreCode(pre);
-            if (raw !== props.raw) {
-                setHasEdits(true);
-            }
-            const updAt = new Date();
-            setUpdatedAt(updAt);
-            setHasCanvasOutput(checkCanvasOutput(raw));
-            setHasTurtleOutput(checkTurtleOutput(raw));
-            setHasGraphicsOutput(checkGraphicsOutput(raw));
-            const newVersions = [...versions];
-            if (props.versioned) {
-                newVersions.unshift({code, createdAt: updAt});
-                setVersions([{code: code, createdAt: updAt}, ...versions]);
-            }
-            if (storage && codeId) {
-                syncStorageScript(
-                    codeId,
-                    {
-                        code,
-                        createdAt,
-                        updatedAt: updAt,
-                        versions: newVersions
-                    },
-                    storage
-                )
-            }
-        }
-    }, [
-        props.raw, 
-        props.id, 
-        codeId,
-        props.lang,
-        createdAt,
-        storage, 
-        versions,
-        _setCode, 
-        setUpdatedAt, 
-        setHasEdits, 
-        setHasCanvasOutput, 
-        setHasEdits, 
-        setHasTurtleOutput, 
-        setHasGraphicsOutput, 
-        setPreCode
-    ]);
-
-    React.useEffect(() => {
-        if (isLoaded || !storage) {
-            return;
-        }
-        setLoaded(true);
-        if (!props.id || props.readonly || !codeId) {
-            setCode(props.raw);
-            return;
-        }
-        if (!storage) {
-            return;
-        }
-        const stored = getStorageScript(codeId, storage);
-        console.log('stored', stored)
-        if (stored) {
-            setCode(stored.code);
-            setCreatedAt(stored.createdAt);
-            setUpdatedAt(stored.updatedAt);
-            setVersions(stored.versions);
-        }
-        // storage.listen((newCode) => {
-        //     if (newCode.newValue) {
-        //         setCode(newCode.newValue);
-        //     } else {
-        //         setCode(props.raw);
-        //     }
-        // });
-        
-    }, [
-        props.lang,
-        props.readonly,
-        codeId,
-        props.id,
-        props.raw, 
-        isLoaded, 
-        setLoaded, 
-        setCode, 
-        storage, 
-        setCreatedAt, 
-        setUpdatedAt, 
-        setVersions
-    ])
-
     return (
-        <CodeContext.Provider
-            value={{
-                id: props.id || uuidv4(),
-                codeId: codeId || getCodeId(props.lang, uuidv4()),
-                lang: props.lang,
-                code,
-                pristineCode: props.raw,
-                setCode,
-                isExecuting,
-                setExecuting,
-                execScript: (codeId: string) => {},
-                preCode,
-                versions,
-                logs,
-                addLogMessage: (log: LogMessage) => {
-                    setLogs([...logs, log]);
-                },
-                clearLogMessages: () => {
-                    setLogs([]);
-                },
-                hasGraphicsOutput,
-                hasTurtleOutput,
-                hasCanvasOutput,
-                hasEdits,
-                updatedAt,
-                createdAt
-            }}
-        >
-            {props.children}
-        </CodeContext.Provider>
+        <StoreContext id={props.id}>
+            <ScriptContext
+                id={props.id}
+                lang={props.lang}
+                raw={props.raw}
+                readonly={props.readonly}
+                versioned={props.versioned} 
+            >
+                {props.children}
+            </ScriptContext>
+        </StoreContext>
     );
 }
 
-
-export function useScript(): Script {
-    const context = React.useContext(CodeContext);
-    if (context == null) {
-      throw new ReactContextError(
-        'CodeContextProvider',
-        'The Component must be a child of the CodeContextProvider component',
-      );
-    }
-    return context;
-}
 
 export default WithScript;

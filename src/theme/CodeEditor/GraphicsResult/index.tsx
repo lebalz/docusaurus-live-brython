@@ -2,14 +2,15 @@ import * as React from 'react';
 import styles from './styles.module.css';
 import { DOM_ELEMENT_IDS } from '../constants';
 import Draggable from 'react-draggable';
-import { checkForButtonClick } from '../../utils/check_for_button_click';
-import { useScript } from '../WithScript';
+import { checkForButtonClick } from '../utils/check_for_button_click';
+import { useScript } from '../WithScript/ScriptContext';
+import { useStore } from '../WithScript/StoreContext';
 interface Props {
     controls?: JSX.Element;
     main?: JSX.Element;
 }
 const GraphicsResult = (props: Props) => {
-    const {codeId} = useScript();
+    const { codeId } = useStore();
     return (
         <Draggable
         >

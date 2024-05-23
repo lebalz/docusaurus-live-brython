@@ -4,12 +4,14 @@ import { DOM_ELEMENT_IDS } from '../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faRunning } from '@fortawesome/free-solid-svg-icons';
 import GraphicsResult from '.';
-import { saveSvg } from '../../utils/save_svg';
-import { useScript } from '../WithScript';
+import { saveSvg } from '../utils/save_svg';
+import { useStore } from '../WithScript/StoreContext';
+import { useScript } from '../WithScript/ScriptContext';
 interface Props {
 }
 const TurtleResult = (props: Props) => {
-    const {codeId, code} = useScript();
+    const { codeId } = useStore();
+    const { code } = useScript();
     return (
         <GraphicsResult
             controls={
