@@ -4,6 +4,7 @@ import { ReactContextError } from '@docusaurus/theme-common';
 import { v4 as uuidv4 } from 'uuid';
 import { useStore } from './StoreContext';
 import { LogMessage, Script, Version } from '.';
+import CodeBlock from '@theme/CodeBlock';
 
 
 interface Props {
@@ -17,6 +18,7 @@ interface Props {
 export const CodeContext = React.createContext<Script | undefined>(undefined);
 
 const ScriptContext = (props: Props) => {
+    const [codeId, setCodeId] = React.useState<string | undefined>(undefined);
     const [code, _setCode] = React.useState('');
     const [isExecuting, setExecuting] = React.useState(false);
     const [preCode, setPreCode] = React.useState('');
@@ -30,6 +32,15 @@ const ScriptContext = (props: Props) => {
     const [updatedAt, setUpdatedAt] = React.useState(new Date());
     const [createdAt, setCreatedAt] = React.useState(new Date());
     const store = useStore();
+
+    React.useEffect(() => {
+        if (!props.id && !store?.isLoaded) {
+            return;
+        }
+        const id = props.id || uuidv4();
+        const newCodeId = `code.${id.replace(/-/g, '_')}`;
+        setCodeId(newCodeId);  
+    }, [props.id, store?.isLoaded]);
 
 
     const setCode = (raw: string) => {
@@ -83,10 +94,22 @@ const ScriptContext = (props: Props) => {
         store?.isLoaded,
     ]);
 
+    if (!codeId) {
+        return (
+            <CodeBlock
+                language={props.lang}
+                title='Loading...'
+            >
+                {props.raw}
+            </CodeBlock>
+        );
+    }
+
     return (
         <CodeContext.Provider
             value={{
                 id: props.id || uuidv4(),
+                codeId: codeId,
                 lang: props.lang,
                 code,
                 pristineCode: props.raw,

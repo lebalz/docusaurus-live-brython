@@ -10,7 +10,7 @@ interface Props {
     main?: JSX.Element;
 }
 const GraphicsResult = (props: Props) => {
-    const { codeId } = useStore();
+    const { codeId } = useScript();
     return (
         <Draggable
         >

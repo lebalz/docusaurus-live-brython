@@ -26,7 +26,6 @@ const ALIAS_LANG_MAP_ACE = {
 }
 
 const Editor = (props: Props) => {
-    const { codeId } = useStore();
     const script = useScript();
     const eRef = React.useRef<AceEditor>(null);
     console.log('rerender editor')
@@ -92,7 +91,7 @@ const Editor = (props: Props) => {
                 readOnly={false}
                 value={script.code}
                 defaultValue={script.code || '\n'}
-                name={DOM_ELEMENT_IDS.aceEditor(codeId)}
+                name={DOM_ELEMENT_IDS.aceEditor(script.codeId)}
                 editorProps={{ $blockScrolling: true }}
                 setOptions={{
                     displayIndentGuides: true,

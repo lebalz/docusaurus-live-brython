@@ -3,12 +3,11 @@ import { BRYTHON_NOTIFICATION_EVENT, DOM_ELEMENT_IDS } from "./constants";
 import { LogMessage } from "./WithScript";
 import { useScript } from './WithScript/ScriptContext';
 import { useRefWithCallback } from "./utils/use_ref_with_clbk";
-import { useStore } from "./WithScript/StoreContext";
 interface Props {
 }
 
 const BrythonCommunicator = (props: Props) => {
-  const { codeId } = useStore();
+  const { codeId } = useScript();
   const { setExecuting, addLogMessage, clearLogMessages } = useScript();
 
   const onBryNotify = React.useCallback((event: {detail?: LogMessage}) => {

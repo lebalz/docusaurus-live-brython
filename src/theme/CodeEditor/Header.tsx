@@ -19,8 +19,7 @@ import { useStore } from './WithScript/StoreContext';
 interface PlayProps {
 }
 const PlayButton = (props: PlayProps) => {
-    const { codeId } = useStore();
-    const {isExecuting, execScript, id} = useScript();
+    const {isExecuting, execScript, id, codeId} = useScript();
     return (
         <button
             onClick={() => execScript((window as any).__BRYTHON__)}
@@ -39,10 +38,9 @@ interface Props {
     resettable: boolean;
     download: boolean;
     noCompare: boolean;
-    lang: string;
 }
 
-const Header = ({ slim, title, resettable, lang, noCompare, download }: Props) => {
+const Header = ({ slim, title, resettable, noCompare, download }: Props) => {
     const [showSavedNotification, setShowSavedNotification] = React.useState(false);
     const script = useScript();
 
@@ -127,8 +125,8 @@ const Header = ({ slim, title, resettable, lang, noCompare, download }: Props) =
                                 const file = new Blob([script.code],    
                                             {type: 'text/plain;charset=utf-8'});
                                 downloadLink.href = URL.createObjectURL(file);
-                                const fExt = lang === 'python' ? '.py' : `.${lang}`;
-                                const fTitle = title === lang ? script.id : title
+                                const fExt = script.lang === 'python' ? '.py' : `.${script.lang}`;
+                                const fTitle = title === script.lang ? script.id : title
                                 const fName = fTitle.endsWith(fExt) ? fTitle : `${fTitle}${fExt}`;
                                 downloadLink.download = fName;
                                 document.body.appendChild(downloadLink);
@@ -160,7 +158,7 @@ const Header = ({ slim, title, resettable, lang, noCompare, download }: Props) =
                     )} */}
                 </React.Fragment>
             )}
-            {lang === 'python' && <PlayButton />}
+            {script.lang === 'python' && <PlayButton />}
         </div>
     );
 };

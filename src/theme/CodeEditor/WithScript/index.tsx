@@ -17,13 +17,19 @@ export interface StoredScript {
     versions: Version[];
 }
 
-const getCodeId = (lang: string, id: string) => {
-    const codeId = `code.${lang}.${id.replace(/-/g, '_')}`;
-    return codeId;
-}
-
 export interface Script extends StoredScript {
+    /**
+     * this is normally a uuid
+     */
     id: string;
+    /**
+     * this is the codeId used to
+     * - identify dom elements for this block
+     * - setup the brython communicator with this id
+     * - when using the default storage, this is the key used to 
+     *   store the code to local storage
+     */
+    codeId: string;
     pristineCode: string;
     setCode: (code: string) => void;
     isExecuting?: boolean;
@@ -76,18 +82,6 @@ export interface Store {
     del: () => Promise<Status>;
     data: StoredScript | null;
     status: Status;
-    /**
-     * this is normally a uuid
-     */
-    id: string;
-    /**
-     * this is the codeId used to
-     * - identify dom elements for this block
-     * - setup the brython communicator with this id
-     * - when using the default storage, this is the key used to 
-     *   store the code to local storage
-     */
-    codeId: string;
 }
 
 

@@ -10,8 +10,7 @@ import { useScript } from '../WithScript/ScriptContext';
 interface Props {
 }
 const TurtleResult = (props: Props) => {
-    const { codeId } = useStore();
-    const { code } = useScript();
+    const { code, codeId } = useScript();
     return (
         <GraphicsResult
             controls={

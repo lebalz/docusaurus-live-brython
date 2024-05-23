@@ -4,7 +4,7 @@ import GraphicsResult from '.';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles.module.css';
-import { useStore } from '../WithScript/StoreContext';
+import { useScript } from '../WithScript/ScriptContext';
 interface Props {
 }
 
@@ -28,8 +28,9 @@ const downloadCanvas = (canvasId: string) => {
     document.body.removeChild(downloadLink);
   };
 
-const CanvasResult = (props: Props) => {
-    const { codeId } = useStore();
+const CanvasResult = (props: Props) => {  
+    const { codeId } = useScript();
+
     return (
         <GraphicsResult
             controls={

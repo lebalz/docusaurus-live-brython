@@ -40,7 +40,6 @@ const StoreContext = (props: Props) => {
     const [status, setStatus] = React.useState<Status>(Status.IDLE);
     const [data, setData] = React.useState<StoredScript>(null);
     const [storage, setStorage] = React.useState<StorageSlot | null>(null);
-    const [codeId, setCodeId] = React.useState<string | undefined>(undefined);
 
 
     const loadData = (store) => {
@@ -60,13 +59,12 @@ const StoreContext = (props: Props) => {
             return;
         }
         const newCodeId = `code.${props.id.replace(/-/g, '_')}`;
-        setCodeId(newCodeId);
         const store = createStorageSlot(newCodeId);
         setStorage(store);
         loadData(store);        
     }, [props.id]);
 
-    if (!props.id || !codeId || !storage) {
+    if (!props.id || !storage) {
         return (
             <Context.Provider value={undefined}>
                 {props.children}
@@ -76,10 +74,8 @@ const StoreContext = (props: Props) => {
     return (
         <Context.Provider
             value={{
-                id: props.id,
                 status: status,
                 isLoaded: isLoaded,
-                codeId: codeId,
                 data: data,
                 load: async () => {
                     return loadData(storage);

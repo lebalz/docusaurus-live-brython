@@ -26,7 +26,6 @@ interface Props {
 }
 
 const PyEditor = (props: Props) => {
-  const { codeId } = useStore();
   const script = useScript();
   return (
     <React.Fragment>
@@ -36,7 +35,6 @@ const PyEditor = (props: Props) => {
         resettable={props.resettable}
         download={props.download}
         noCompare={props.noCompare}
-        lang={props.lang}
       />
       <Editor 
         showLineNumbers={props.showLineNumbers} 
@@ -58,7 +56,7 @@ const PyEditor = (props: Props) => {
             </React.Fragment>
           )} */}
           <Result />
-          <div id={DOM_ELEMENT_IDS.outputDiv(codeId)}></div>
+          <div id={DOM_ELEMENT_IDS.outputDiv(script.codeId)}></div>
         </div>
       }
     </React.Fragment>
