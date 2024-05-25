@@ -28,9 +28,9 @@ const CodeHistory = (props: Props) => {
     const [version, setVersion] = React.useState(1);
     const [open, setOpen] = React.useState(false);
     const { store } = useScript();
-    const { versions } = useStore(store, (state) => ({versions: state.versions}));
+    const versions = useStore(store, (state) => state.versions);
 
-    if (versions.length < 1) {
+    if (versions?.length < 1) {
         return null;
     }
     return (

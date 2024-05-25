@@ -19,7 +19,11 @@ interface PlayProps {
 }
 const PlayButton = (props: PlayProps) => {
     const { store } = useScript();
-    const { isExecuting, execScript, id, codeId } = useStore(store, (state) => ({isExecuting: state.isExecuting, id: state.id, codeId: state.codeId, execScript: state.execScript}));
+    // const { isExecuting, execScript, id, codeId } = useStore(store, (state) => ({isExecuting: state.isExecuting, id: state.id, codeId: state.codeId, execScript: state.execScript}));
+    const isExecuting = useStore(store, (state) => state.isExecuting);
+    const id = useStore(store, (state) => state.id);
+    const codeId = useStore(store, (state) => state.codeId);
+    const execScript = useStore(store, (state) => state.execScript);
     return (
         <button
             onClick={() => {
@@ -42,19 +46,52 @@ interface Props {
     noCompare: boolean;
 }
 
+const DownloadButton = (props: {title: string}) => {
+    const { store } = useScript();
+    const code = useStore(store, (state) => state.code);
+    const lang = useStore(store, (state) => state.lang);
+    const id = useStore(store, (state) => state.id);
+    return (
+        <button
+            className={clsx(
+                styles.headerButton
+            )}
+            onClick={() => {
+                const downloadLink = document.createElement("a");
+                const file = new Blob([code],    
+                            {type: 'text/plain;charset=utf-8'});
+                downloadLink.href = URL.createObjectURL(file);
+                const fExt = lang === 'python' ? '.py' : `.${lang}`;
+                const fTitle = props.title === lang ? id : props.title
+                const fName = fTitle.endsWith(fExt) ? fTitle : `${fTitle}${fExt}`;
+                downloadLink.download = fName;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+            }}
+            title="Download"
+        >
+            {/* <FontAwesomeIcon icon={faDownload} /> */}
+            Download
+        </button>
+    )
+}
+
 const Header = ({ slim, title, resettable, noCompare, download }: Props) => {
     const [showSavedNotification, setShowSavedNotification] = React.useState(false);
     const { store } = useScript();
-    const { setCode, pristineCode, hasEdits, code, lang, id, isLoaded } = useStore(store, (state) => ({setCode: state.setCode, pristineCode: state.pristineCode, hasEdits: state.hasEdits, code: state.code, lang: state.lang, id: state.id, isLoaded: state.isLoaded }));
-
+    // const { setCode, pristineCode, hasEdits, code, lang, id, isLoaded } = useStore(store, (state) => ({setCode: state.setCode, pristineCode: state.pristineCode, hasEdits: state.hasEdits, code: state.code, lang: state.lang, id: state.id, isLoaded: state.isLoaded }));
+    // 
+    const hasEdits = useStore(store, (state) => state.hasEdits);
+    const setCode = useStore(store, (state) => state.setCode);
+    const lang = useStore(store, (state) => state.lang);
+    const isLoaded = useStore(store, (state) => state.isLoaded);
+    const pristineCode = useStore(store, (state) => state.pristineCode);
+    
     const onReset = () => {
         if (!resettable) {
             return;
         }
-        // if (readonly) {
-        //     pyScript.setData({ code: pyScript.pristine.code });
-        //     return;
-        // }
         const shouldReset = window.confirm('Änderungen verwerfen? (Ihre Version geht verloren!)');
         if (shouldReset) {
             setCode(pristineCode);
@@ -119,28 +156,7 @@ const Header = ({ slim, title, resettable, noCompare, download }: Props) => {
                         </button>
                     )}
                     {download && (
-                        <button
-                            className={clsx(
-                                styles.headerButton
-                            )}
-                            onClick={() => {
-                                const downloadLink = document.createElement("a");
-                                const file = new Blob([code],    
-                                            {type: 'text/plain;charset=utf-8'});
-                                downloadLink.href = URL.createObjectURL(file);
-                                const fExt = lang === 'python' ? '.py' : `.${lang}`;
-                                const fTitle = title === lang ? id : title
-                                const fName = fTitle.endsWith(fExt) ? fTitle : `${fTitle}${fExt}`;
-                                downloadLink.download = fName;
-                                document.body.appendChild(downloadLink);
-                                downloadLink.click();
-                                document.body.removeChild(downloadLink);
-                            }}
-                            title="Download"
-                        >
-                            {/* <FontAwesomeIcon icon={faDownload} /> */}
-                            Download
-                        </button>
+                        <DownloadButton title={title} />
                     )}
                     {/* {hasEdits && !noCompare && (
                         <button

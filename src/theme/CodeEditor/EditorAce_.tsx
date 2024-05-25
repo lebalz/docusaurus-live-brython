@@ -27,19 +27,24 @@ const ALIAS_LANG_MAP_ACE = {
 const Editor = (props: Props) => {
     const eRef = React.useRef<AceEditor>(null);
     const { store } = useScript();
-    const { code, lang, codeId, setCode } = useStore(store, (state) => ({code: state.code, codeId: state.codeId, lang: state.lang, setCode: state.setCode}));
-    console.log('rerender editor')
+    // const { code, lang, codeId, setCode } = useStore(store, (state) => ({code: state.code, codeId: state.codeId, lang: state.lang, setCode: state.setCode}));
+    const code = useStore(store, (state) => state.code);
+    const lang = useStore(store, (state) => state.lang);
+    const codeId = useStore(store, (state) => state.codeId);
+    const setCode = useStore(store, (state) => state.setCode);
+    const execScript = useStore(store, (state) => state.execScript);
+
     React.useEffect(() => {
         if (eRef && eRef.current) {
             const node = eRef.current;
-            // if (props.lang === 'python') {
-                // node.editor.commands.addCommand({
-                //     // commands is array of key bindings.
-                //     name: 'execute',
-                //     bindKey: { win: 'Ctrl-Enter', mac: 'Command-Enter' },
-                //     exec: () => execScript((window as any).__BRYTHON__),
-                // });
-            // }
+            if (lang === 'python') {
+                node.editor.commands.addCommand({
+                    // commands is array of key bindings.
+                    name: 'execute',
+                    bindKey: { win: 'Ctrl-Enter', mac: 'Command-Enter' },
+                    exec: () => execScript(),
+                });
+            }
             // node.editor.commands.addCommand({
             //     // commands is array of key bindings.
             //     name: 'save',

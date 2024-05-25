@@ -9,9 +9,9 @@ interface Props {
     main?: JSX.Element;
 }
 const GraphicsResult = (props: Props) => {
-    // const { store } = useScript();
+    const { store } = useScript();
     // const { codeId } = useStore(store, (state) => ({codeId: state.codeId}));
-    const codeId = ''
+    const codeId = useStore(store, (state) => state.codeId);
     return (
         <Draggable
         >

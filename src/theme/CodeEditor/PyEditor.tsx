@@ -26,7 +26,10 @@ interface Props {
 
 const PyEditor = (props: Props) => {
   const { store } = useScript();
-  const { lang, codeId } = useStore(store, (state) => ({lang: state.lang, codeId: state.codeId}));
+  // const { lang, codeId } = useStore(store, (state) => ({lang: state.lang, codeId: state.codeId}));
+  const lang = useStore(store, (state) => state.lang);
+  const codeId = useStore(store, (state) => state.codeId);
+  
   return (
     <React.Fragment>
       <Header

@@ -5,7 +5,8 @@ import { useScript, useStore } from './WithScript/ScriptStore';
 
 const PlaceholderEditor = (props: Props) => {
     const { store } = useScript();
-    const { code } = useStore(store, (state) => ({code: state.code}));
+    // const { code } = useStore(store, (state) => ({code: state.code}));
+    const code = useStore(store, (state) => state.code);
     return (
         <pre>
             <code>{code}</code>

@@ -10,7 +10,9 @@ interface Props {
 }
 const TurtleResult = (props: Props) => {
     const { store } = useScript();
-    const { code, codeId } = useStore(store, (state) => ({codeId: state.codeId, code: state.code}));
+    // const { code, codeId } = useStore(store, (state) => ({codeId: state.codeId, code: state.code}));
+    const codeId = useStore(store, (state) => state.codeId);
+    const code = useStore(store, (state) => state.code);
     return (
         <GraphicsResult
             controls={

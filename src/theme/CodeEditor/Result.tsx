@@ -9,8 +9,7 @@ interface Props {
 
 const Result = (props: Props) => {
     const { store } = useScript();
-    const { logs } = useStore(store, (state) => ({logs: state.logs}));
-    console.log(logs)
+    const logs = useStore(store, (state) => state.logs);
     if (logs.length === 0) {
         return null;
     }

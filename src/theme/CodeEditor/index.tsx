@@ -6,7 +6,6 @@ import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import CodeHistory from './CodeHistory';
 import { useScript, useStore } from './WithScript/ScriptStore';
-import { createStore } from './WithScript/ScriptStore';
 
 interface Props {
     slim: boolean;
@@ -27,12 +26,11 @@ interface Props {
 const PyAceEditor = (props: Props) => {
     const inBrowser = useIsBrowser();
     const { store } = useScript();
-    const { lang } = useStore(store, (state) => ({lang: state.lang}));
+    const lang = useStore(store, (state) => state.lang);
 
     if (!inBrowser) {
         return <div>SSR</div>;
     }
-    console.log('lang', lang)
     return (
         <div className={clsx(styles.wrapper, 'notranslate')}>
             <div

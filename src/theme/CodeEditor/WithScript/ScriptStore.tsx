@@ -160,6 +160,7 @@ export const createStore = (props: InitState, libDir: string): Store => {
                 versions
             })
         );
+        set({code, createdAt: state.createdAt, updatedAt, versions});
     };
     const execScript = () => {
         const toExec = `${state.code}`;
@@ -167,7 +168,6 @@ export const createStore = (props: InitState, libDir: string): Store => {
         const src = `from brython_runner import run
 run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
 `;
-        console.log('exec', src);
         if (!(window as any).__BRYTHON__) {
             alert('Brython not loaded');
             return;
@@ -211,7 +211,6 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
             setState((s) => ({...s, logs: [...s.logs, log]}));
         },
         clearLogMessages: () => {
-            console.log('clear log')
             setState((s) => ({...s, logs: []}));
         },
         hasGraphicsOutput: checkGraphicsOutput(props.raw),
@@ -251,20 +250,21 @@ export const useStore = <T, R>(store: Store<T>, selector: Selector<T, R>): R => 
 export const Context = React.createContext<{store: Store} | undefined>(undefined);
 
 
-const store = createStore({id: '-1', lang: 'py', raw: '', readonly: false, title: '', versioned: false}, '/bry-libs/');
 const ScriptContext = (props: InitState & { children: React.ReactNode; }) => {
-    // const {libDir} = usePluginData('docusaurus-live-brython') as {libDir: string};
+    const {libDir} = usePluginData('docusaurus-live-brython') as {libDir: string};
+    const [store, setStore] = React.useState<Store | null>(null);
     React.useEffect(() => {
-        console.log('set state', props)
-        // store.setState((s) => ({...s, ...props}));
-    }, [props.id]);
+        const store = createStore(props, libDir);
+        setStore(store);
+        store.getState().load();
+    }, [props.id, libDir]);
 
     if (!store) {
         return <div>Load</div>;
     }
 
     return (
-        <Context.Provider value={{store: {getState: () => ({}), subscribe: () => undefined, setState: (fn: any) => ({})} as any as Store}}>
+        <Context.Provider value={{store: store}}>
             {props.children}
         </Context.Provider>
     );
