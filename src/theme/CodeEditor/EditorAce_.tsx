@@ -10,8 +10,7 @@ import 'ace-builds/src-noconflict/mode-svg';
 import 'ace-builds/src-noconflict/theme-dracula';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import 'ace-builds/webpack-resolver';
-import { useScript } from './WithScript/ScriptContext';
-import { useStore } from './WithScript/StoreContext';
+import { useScript, useStore } from './WithScript/ScriptStore';
 // import 'ace-builds/src-noconflict/theme-textmate';
 // import('ace-builds/src-noconflict/snippets/python'),
 
@@ -26,8 +25,9 @@ const ALIAS_LANG_MAP_ACE = {
 }
 
 const Editor = (props: Props) => {
-    const script = useScript();
     const eRef = React.useRef<AceEditor>(null);
+    const { store } = useScript();
+    const { code, lang, codeId, setCode } = useStore(store, (state) => ({code: state.code, codeId: state.codeId, lang: state.lang, setCode: state.setCode}));
     console.log('rerender editor')
     React.useEffect(() => {
         if (eRef && eRef.current) {
@@ -61,7 +61,7 @@ const Editor = (props: Props) => {
                 }
             };
         }
-    }, [eRef, script, script.lang]);
+    }, [eRef, lang]);
 
     return (
         <div className={clsx(styles.brythonCodeBlock, styles.editor)}>
@@ -83,15 +83,15 @@ const Editor = (props: Props) => {
                 navigateToFileEnd={false}
                 maxLines={props.maxLines || 25}
                 ref={eRef}
-                mode={ALIAS_LANG_MAP_ACE[script.lang as keyof typeof ALIAS_LANG_MAP_ACE] ?? script.lang}
+                mode={ALIAS_LANG_MAP_ACE[lang as keyof typeof ALIAS_LANG_MAP_ACE] ?? lang}
                 theme="dracula"
                 onChange={(value: string) => {
-                    script.setCode(value);
+                    setCode(value);
                 }}
                 readOnly={false}
-                value={script.code}
-                defaultValue={script.code || '\n'}
-                name={DOM_ELEMENT_IDS.aceEditor(script.codeId)}
+                value={code}
+                defaultValue={code || '\n'}
+                name={DOM_ELEMENT_IDS.aceEditor(codeId)}
                 editorProps={{ $blockScrolling: true }}
                 setOptions={{
                     displayIndentGuides: true,

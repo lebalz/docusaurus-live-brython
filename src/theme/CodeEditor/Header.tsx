@@ -13,13 +13,13 @@ import {
     faSync,
     faDownload,
 } from '@fortawesome/free-solid-svg-icons';
-import { useScript } from './WithScript/ScriptContext';
-import { useStore } from './WithScript/StoreContext';
+import { useScript, useStore } from './WithScript/ScriptStore';
 
 interface PlayProps {
 }
 const PlayButton = (props: PlayProps) => {
-    const {isExecuting, execScript, id, codeId} = useScript();
+    const { store } = useScript();
+    const { isExecuting, execScript, id, codeId } = useStore(store, (state) => ({isExecuting: state.isExecuting, id: state.id, codeId: state.codeId, execScript: state.execScript}));
     return (
         <button
             onClick={() => {
@@ -44,7 +44,8 @@ interface Props {
 
 const Header = ({ slim, title, resettable, noCompare, download }: Props) => {
     const [showSavedNotification, setShowSavedNotification] = React.useState(false);
-    const script = useScript();
+    const { store } = useScript();
+    const { setCode, pristineCode, hasEdits, code, lang, id, isLoaded } = useStore(store, (state) => ({setCode: state.setCode, pristineCode: state.pristineCode, hasEdits: state.hasEdits, code: state.code, lang: state.lang, id: state.id, isLoaded: state.isLoaded }));
 
     const onReset = () => {
         if (!resettable) {
@@ -56,7 +57,7 @@ const Header = ({ slim, title, resettable, noCompare, download }: Props) => {
         // }
         const shouldReset = window.confirm('Änderungen verwerfen? (Ihre Version geht verloren!)');
         if (shouldReset) {
-            script.setCode(script.pristineCode);
+            setCode(pristineCode);
         }
     };
 
@@ -87,7 +88,7 @@ const Header = ({ slim, title, resettable, noCompare, download }: Props) => {
             {!slim && (
                 <React.Fragment>
                     <div className={styles.title}>{title}</div>
-                    {!script && (
+                    {!isLoaded && (
                         <span
                             className="badge badge--warning"
                             title="Warte auf die Antwort des Servers. Seite neu laden."
@@ -107,7 +108,7 @@ const Header = ({ slim, title, resettable, noCompare, download }: Props) => {
                             />
                         )}
                     </span> */}
-                    {script.hasEdits && resettable && (
+                    {hasEdits && resettable && (
                         <button
                             onClick={onReset}
                             className={styles.headerButton}
@@ -124,11 +125,11 @@ const Header = ({ slim, title, resettable, noCompare, download }: Props) => {
                             )}
                             onClick={() => {
                                 const downloadLink = document.createElement("a");
-                                const file = new Blob([script.code],    
+                                const file = new Blob([code],    
                                             {type: 'text/plain;charset=utf-8'});
                                 downloadLink.href = URL.createObjectURL(file);
-                                const fExt = script.lang === 'python' ? '.py' : `.${script.lang}`;
-                                const fTitle = title === script.lang ? script.id : title
+                                const fExt = lang === 'python' ? '.py' : `.${lang}`;
+                                const fTitle = title === lang ? id : title
                                 const fName = fTitle.endsWith(fExt) ? fTitle : `${fTitle}${fExt}`;
                                 downloadLink.download = fName;
                                 document.body.appendChild(downloadLink);
@@ -141,7 +142,7 @@ const Header = ({ slim, title, resettable, noCompare, download }: Props) => {
                             Download
                         </button>
                     )}
-                    {/* {script.hasEdits && !noCompare && (
+                    {/* {hasEdits && !noCompare && (
                         <button
                             className={clsx(
                                 styles.showRawButton,
@@ -160,7 +161,7 @@ const Header = ({ slim, title, resettable, noCompare, download }: Props) => {
                     )} */}
                 </React.Fragment>
             )}
-            {script.lang === 'python' && <PlayButton />}
+            {lang === 'python' && <PlayButton />}
         </div>
     );
 };

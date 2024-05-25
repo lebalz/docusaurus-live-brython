@@ -9,9 +9,8 @@ import TurtleResult from "./GraphicsResult/Turtle";
 import Header from "./Header";
 import GraphicsResult from "./GraphicsResult";
 import CanvasResult from "./GraphicsResult/Canvas";
-import { useScript } from './WithScript/ScriptContext';
+import { useScript, useStore } from './WithScript/ScriptStore';
 import Result from "./Result";
-import { useStore } from "./WithScript/StoreContext";
 
 interface Props {
   slim: boolean;
@@ -26,7 +25,8 @@ interface Props {
 }
 
 const PyEditor = (props: Props) => {
-  const script = useScript();
+  const { store } = useScript();
+  const { lang, codeId } = useStore(store, (state) => ({lang: state.lang, codeId: state.codeId}));
   return (
     <React.Fragment>
       <Header
@@ -40,7 +40,7 @@ const PyEditor = (props: Props) => {
         showLineNumbers={props.showLineNumbers} 
         maxLines={props.maxLines}
       />
-      {script.lang === 'python' &&
+      {lang === 'python' &&
         <div className={clsx(styles.result)}>
           {/* {store.opendGraphicsModalWebKey === pyScript.webKey && (
             <React.Fragment>
@@ -56,7 +56,7 @@ const PyEditor = (props: Props) => {
             </React.Fragment>
           )} */}
           <Result />
-          <div id={DOM_ELEMENT_IDS.outputDiv(script.codeId)}></div>
+          <div id={DOM_ELEMENT_IDS.outputDiv(codeId)}></div>
         </div>
       }
     </React.Fragment>

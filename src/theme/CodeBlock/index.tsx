@@ -12,7 +12,7 @@ import CodeEditor from '../CodeEditor';
 // import Playground from '@theme/Playground';
 // @ts-ignore
 import ReactLiveScope from '@theme/ReactLiveScope';
-import WithScript from '../CodeEditor/WithScript';
+import ScriptContext from '../CodeEditor/WithScript/ScriptStore';
 
 
 type Props = WrapperProps<typeof CodeBlockType>;
@@ -69,13 +69,13 @@ export default function CodeBlockWrapper(props: Props): JSX.Element {
         const rawcode: string = (props.children as string || '').replace(/\s*\n$/, '');
         let code = rawcode;
         return (
-            <WithScript
-                raw={rawcode}
+            <ScriptContext
+                id={metaProps.id}
                 lang={lang}
+                title={title}
+                raw={rawcode}
                 readonly={!!metaProps.readonly}
                 versioned={!!metaProps.versioned}
-                title={title || 'code'}
-                id={metaProps.id}
             >
                 <CodeEditor
                     {...props}
@@ -91,7 +91,7 @@ export default function CodeBlockWrapper(props: Props): JSX.Element {
                     noCompare={!!metaProps.noCompare}
                     title={sanitizedTitle(title) || lang}
                 />
-            </WithScript>
+            </ScriptContext>
         );
     }
     return (

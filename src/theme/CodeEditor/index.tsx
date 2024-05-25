@@ -5,7 +5,8 @@ import BrythonCommunicator from './BrythonCommunicator';
 import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import CodeHistory from './CodeHistory';
-import { useScript } from './WithScript/ScriptContext';
+import { useScript, useStore } from './WithScript/ScriptStore';
+import { createStore } from './WithScript/ScriptStore';
 
 interface Props {
     slim: boolean;
@@ -25,7 +26,8 @@ interface Props {
 
 const PyAceEditor = (props: Props) => {
     const inBrowser = useIsBrowser();
-    const {lang} = useScript();
+    const { store } = useScript();
+    const { lang } = useStore(store, (state) => ({lang: state.lang}));
 
     if (!inBrowser) {
         return <div>SSR</div>;

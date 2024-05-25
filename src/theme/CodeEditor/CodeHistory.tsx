@@ -6,7 +6,7 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
-import { useScript } from './WithScript/ScriptContext';
+import { useScript, useStore } from './WithScript/ScriptStore';
 
 interface Props {
 }
@@ -27,7 +27,8 @@ const highlightSyntax = (str: string) => {
 const CodeHistory = (props: Props) => {
     const [version, setVersion] = React.useState(1);
     const [open, setOpen] = React.useState(false);
-    const {versions} = useScript();
+    const { store } = useScript();
+    const { versions } = useStore(store, (state) => ({versions: state.versions}));
 
     if (versions.length < 1) {
         return null;

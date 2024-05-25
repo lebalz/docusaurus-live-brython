@@ -1,13 +1,13 @@
 import * as React from "react";
 import { BRYTHON_NOTIFICATION_EVENT, DOM_ELEMENT_IDS } from "./constants";
-import { LogMessage } from "./WithScript";
-import { useScript } from './WithScript/ScriptContext';
+import { LogMessage, useScript, useStore } from './WithScript/ScriptStore';
 import { useRefWithCallback } from "./utils/use_ref_with_clbk";
 interface Props {
 }
 const BrythonCommunicator = (props: Props) => {
-    const { codeId } = useScript();
-    const { setExecuting, addLogMessage, clearLogMessages } = useScript();
+    const { store } = useScript();
+    const {addLogMessage, clearLogMessages, codeId, setExecuting} = useStore(store, (state) => ({codeId: state.codeId, setExecuting: state.setExecuting, addLogMessage: state.addLogMessage, clearLogMessages: state.clearLogMessages}));
+
     const ref = React.useRef<HTMLDivElement>(null);
     React.useEffect(() => {
         const { current } = ref;
