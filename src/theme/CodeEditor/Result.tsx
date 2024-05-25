@@ -9,8 +9,8 @@ interface Props {
 
 const Result = (props: Props) => {
     const script = useScript()
-
-    if (script.logs.length === 0 || /^\s*$/.test(script.logs.map((msg) => msg.output).join(''))) {
+    console.log(script.logs)
+    if (script.logs.length === 0) {
         return null;
     }
     const errors: string[] = []

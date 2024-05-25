@@ -4,6 +4,7 @@ import { ReactContextError, createStorageSlot } from '@docusaurus/theme-common';
 
 interface Props {
     id?: string;
+    title?: string;
     children: React.ReactNode;
 }
 
@@ -58,7 +59,7 @@ const StoreContext = (props: Props) => {
         if (!props.id) {
             return;
         }
-        const newCodeId = `code.${props.id.replace(/-/g, '_')}`;
+        const newCodeId = `code.${props.title || 'code_block'}.${props.id.replace(/-/g, '_')}`;
         const store = createStorageSlot(newCodeId);
         setStorage(store);
         loadData(store);        

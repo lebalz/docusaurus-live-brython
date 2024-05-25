@@ -40,7 +40,7 @@ const PyEditor = (props: Props) => {
         showLineNumbers={props.showLineNumbers} 
         maxLines={props.maxLines}
       />
-      {props.lang === 'python' &&
+      {script.lang === 'python' &&
         <div className={clsx(styles.result)}>
           {/* {store.opendGraphicsModalWebKey === pyScript.webKey && (
             <React.Fragment>

@@ -1,15 +1,17 @@
 import React from 'react';
-import { checkCanvasOutput, checkGraphicsOutput, checkTurtleOutput, getPreCode } from './helpers';
+import { checkCanvasOutput, checkGraphicsOutput, checkTurtleOutput, getPreCode, sanitizePyScript } from './helpers';
 import { ReactContextError } from '@docusaurus/theme-common';
 import { v4 as uuidv4 } from 'uuid';
 import { useStore } from './StoreContext';
 import { LogMessage, Script, Version } from '.';
 import CodeBlock from '@theme/CodeBlock';
+import { usePluginData } from '@docusaurus/useGlobalData';
 
 
 interface Props {
     id: string | undefined;
     lang: 'py' | string;
+    title: string;
     raw: string;
     children: React.ReactNode;
     readonly: boolean;
@@ -18,6 +20,7 @@ interface Props {
 export const CodeContext = React.createContext<Script | undefined>(undefined);
 
 const ScriptContext = (props: Props) => {
+    const {libDir} = usePluginData('docusaurus-live-brython') as {libDir: string};
     const [codeId, setCodeId] = React.useState<string | undefined>(undefined);
     const [code, _setCode] = React.useState('');
     const [isExecuting, setExecuting] = React.useState(false);
@@ -38,10 +41,9 @@ const ScriptContext = (props: Props) => {
             return;
         }
         const id = props.id || uuidv4();
-        const newCodeId = `code.${id.replace(/-/g, '_')}`;
+        const newCodeId = `code.${props.title}.${id}`;
         setCodeId(newCodeId);  
     }, [props.id, store?.isLoaded]);
-
 
     const setCode = (raw: string) => {
         const { pre, code } = getPreCode(raw);
@@ -116,14 +118,42 @@ const ScriptContext = (props: Props) => {
                 setCode,
                 isExecuting,
                 setExecuting,
-                execScript: (codeId: string) => {},
+                execScript: () => {
+                    const toExec = `${code}`;
+                    const lineShift = preCode.split(/\n/).length;
+                    const src = `from brython_runner import run
+run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
+`;
+                    console.log('exec', src);
+                    if (!(window as any).__BRYTHON__) {
+                        alert('Brython not loaded');
+                        return;
+                    }
+                    (window as any).__BRYTHON__.runPythonSource(
+                        src,
+                        {
+                            id: 'main', 
+                            pythonpath: [libDir]
+                        }
+                    );
+/*                    (window as any).__BRYTHON__.runPythonSource(
+                        code,
+                        {
+                            id: codeId,
+                            name: codeId,
+                            pythonpath: ["/libs/"]
+                        }
+                    )*/
+                },
                 preCode,
                 versions,
                 logs,
                 addLogMessage: (log: LogMessage) => {
+                    console.log('-->', log, ...logs)
                     setLogs([...logs, log]);
                 },
                 clearLogMessages: () => {
+                    console.log('clear log')
                     setLogs([]);
                 },
                 hasGraphicsOutput,

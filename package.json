@@ -12,7 +12,7 @@
     "./src/*": "./src/*"
   },
   "scripts": {
-    "build": "tsc --build",
+    "build": "tsc --build && node ./bin/copyUntypedFiles.js",
     "watch": "run-p -c copy:watch build:watch",
     "build:watch": "tsc --build --watch",
     "copy:watch": "node ./bin/copyUntypedFiles.js --watch"
@@ -45,6 +45,7 @@
     "@docusaurus/theme-common": "^3.3.2",
     "@docusaurus/tsconfig": "^3.3.2",
     "@docusaurus/types": "^3.3.2",
+    "@types/fs-extra": "^11.0.4",
     "@types/svg-parser": "^2.0.6",
     "@types/uuid": "^9.0.8",
     "chokidar": "^3.6.0",

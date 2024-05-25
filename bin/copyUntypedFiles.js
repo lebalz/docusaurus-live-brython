@@ -35,3 +35,4 @@ if (process.argv.includes('--watch')) {
 } else {
   await copy();
 }
+copy();

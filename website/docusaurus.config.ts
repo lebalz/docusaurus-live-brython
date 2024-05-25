@@ -68,7 +68,9 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
-  themes: ['docusaurus-live-brython'],
+  themes: [
+      'docusaurus-live-brython'
+  ],
 };
 
 export default config;

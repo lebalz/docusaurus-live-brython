@@ -5,24 +5,59 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { HtmlTags, LoadContext, Plugin, Preset } from '@docusaurus/types';
+
+/**
+ * Notes
+ * - how to add static files: https://github.com/facebook/docusaurus/discussions/6907
+ *  ---> sitemap plugin: https://github.com/facebook/docusaurus/blob/main/packages/docusaurus-plugin-sitemap/src/index.ts
+ * - call brython with arguments: https://github.com/brython-dev/brython/issues/2421
+ * 
+ */
+
+import type { DocusaurusConfig, HtmlTags, LoadContext, Plugin, Preset } from '@docusaurus/types';
 // eslint-disable-next-line import/no-extraneous-dependencies, import/order
 import webpack from 'webpack';
-const path = require('path');
+import logger from '@docusaurus/logger';
+import fs from 'fs-extra';
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 interface ThemeOptions {
     brython_src?: string;
     brython_stdlib_src?: string;
-    brython_pips?: string[];
-
+    libDir?: string;
 }
 
-const theme: Plugin = (
+export const NAME = 'docusaurus-live-brython' as const;
+export const DEFAULT_LIB_DIR = 'bry-libs' as const;
+
+const theme: Plugin<{ remoteHeadTags: HtmlTags[] }> = (
     context: LoadContext,
     options: ThemeOptions,
 ) => {
+    const libDir = options.libDir || DEFAULT_LIB_DIR;
     return {
-        name: 'docusaurus-live-brython',
+        name: NAME,
+        async loadContent() {
+            const staticDir = path.join(context.siteDir, context.siteConfig.staticDirectories[0], libDir);
+            await fs.ensureDir(staticDir);
+            if (process.env.NODE_ENV !== 'production') {
+                const assets = fs.readdirSync(path.join(__dirname, 'assets'));
+                for (const asset of assets) {
+                    const assetFile = path.join(__dirname, 'assets', asset);
+                    const assetOutFile = path.join(staticDir, asset);
+                    logger.info(`copy "${asset}" to "${assetOutFile}"`);
+                    await fs.copyFile(assetFile, assetOutFile);
+                }
+                return assets;
+            }
+        },
+        async contentLoaded({ content, actions }) {
+            const { setGlobalData, addRoute } = actions;
+            // Create friends global data
+            setGlobalData({ libDir: `/${libDir.replace(/(\/|\\)/g, '')}/` });
+        },
         configureWebpack() {
             return {
                 module: {
@@ -41,45 +76,31 @@ const theme: Plugin = (
         getTypeScriptThemePath() {
             return '../src/theme';
         },
-        injectHtmlTags({ content }: {content?: {remoteHeadTags: HtmlTags[]}}) {
-            const remoteHeadTags: HtmlTags[] = content ? content.remoteHeadTags : [];
-            const brython_pips: HtmlTags[] = [];
-            (options.brython_pips || []).forEach(pip => {
-                brython_pips.push(
-                    {
-                        tagName: 'script',
-                        attributes: {
-                            src: pip,
-                            crossorigin: "anonymous",
-                            referrerpolicy: "no-referrer"
-                        },
-                    }
-                );
-            });
+        injectHtmlTags({ content }: { content: { remoteHeadTags: HtmlTags[] } }) {
             return {
                 headTags: [
                     {
                         tagName: 'script',
                         attributes: {
-                            src: options.brython_src || "https://cdn.jsdelivr.net/npm/brython@3.9.5/brython.min.js",
+                            src: options.brython_src || "https://raw.githack.com/brython-dev/brython/master/www/src/brython.js",
                             crossorigin: "anonymous",
-                            referrerpolicy: "no-referrer"
+                            referrerpolicy: "no-referrer",
+                            defer: 'defer'
                         },
                     },
                     {
                         tagName: 'script',
                         attributes: {
-                            src: options.brython_stdlib_src || "https://cdn.jsdelivr.net/npm/brython@3.9.5/brython_stdlib.js",
+                            src: options.brython_stdlib_src || "https://raw.githack.com/brython-dev/brython/master/www/src/brython_stdlib.js",
                             crossorigin: "anonymous",
-                            referrerpolicy: "no-referrer"
+                            referrerpolicy: "no-referrer",
+                            defer: 'defer'
                         },
-                    },
-                    ...brython_pips,
-                    ...remoteHeadTags,
+                    }
                 ],
             };
-        },
-    };
+        }
+    } as Plugin;
 }
 
 export default theme;

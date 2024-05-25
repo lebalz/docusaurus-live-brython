@@ -5,6 +5,7 @@ import BrythonCommunicator from './BrythonCommunicator';
 import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import CodeHistory from './CodeHistory';
+import { useScript } from './WithScript/ScriptContext';
 
 interface Props {
     slim: boolean;
@@ -24,10 +25,12 @@ interface Props {
 
 const PyAceEditor = (props: Props) => {
     const inBrowser = useIsBrowser();
+    const {lang} = useScript();
 
     if (!inBrowser) {
         return <div>SSR</div>;
     }
+    console.log('lang', lang)
     return (
         <div className={clsx(styles.wrapper, 'notranslate')}>
             <div
@@ -37,7 +40,7 @@ const PyAceEditor = (props: Props) => {
                     'live_py'
                 )}
             >
-                {props.lang === 'python' && <BrythonCommunicator />}
+                {lang === 'python' && <BrythonCommunicator />}
                 <PyEditor {...props} />
                 {!props.noHistory && (
                     <CodeHistory />

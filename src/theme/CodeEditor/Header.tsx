@@ -22,7 +22,9 @@ const PlayButton = (props: PlayProps) => {
     const {isExecuting, execScript, id, codeId} = useScript();
     return (
         <button
-            onClick={() => execScript((window as any).__BRYTHON__)}
+            onClick={() => {
+                execScript()
+            }}
             className={clsx(styles.playButton, styles.headerButton)}
             title={`Code Ausführen ${id} ${codeId}`}
         >

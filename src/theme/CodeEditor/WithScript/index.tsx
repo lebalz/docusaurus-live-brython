@@ -34,7 +34,7 @@ export interface Script extends StoredScript {
     setCode: (code: string) => void;
     isExecuting?: boolean;
     setExecuting: (executing: boolean) => void;
-    execScript: (codeId: string) => void,
+    execScript: () => void,
     preCode: string;
     lang: 'py' | string;
     logs: LogMessage[];
@@ -49,6 +49,7 @@ export interface Script extends StoredScript {
 interface Props {
     id: string | undefined;
     lang: 'py' | string;
+    title: string;
     raw: string;
     children: React.ReactNode;
     readonly: boolean;
@@ -90,6 +91,7 @@ const WithScript = (props: Props) => {
         <StoreContext id={props.id}>
             <ScriptContext
                 id={props.id}
+                title={props.title}
                 lang={props.lang}
                 raw={props.raw}
                 readonly={props.readonly}

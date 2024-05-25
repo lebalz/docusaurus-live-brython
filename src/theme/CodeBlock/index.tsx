@@ -6,7 +6,7 @@ import CodeBlock, {type Props as CodeBlockType} from '@theme-init/CodeBlock';
 import type { WrapperProps } from '@docusaurus/types';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import { sanitizedTitle, sanitizeId } from '../CodeEditor/utils/sanitizers';
-import PyAceEditor from '../CodeEditor';
+import CodeEditor from '../CodeEditor';
 
 // @ts-ignore
 // import Playground from '@theme/Playground';
@@ -74,9 +74,10 @@ export default function CodeBlockWrapper(props: Props): JSX.Element {
                 lang={lang}
                 readonly={!!metaProps.readonly}
                 versioned={!!metaProps.versioned}
+                title={title || 'code'}
                 id={metaProps.id}
             >
-                <PyAceEditor
+                <CodeEditor
                     {...props}
                     {...metaProps}
                     maxLines={metaProps.maxLines && Number.parseInt(metaProps.maxLines, 10)}
