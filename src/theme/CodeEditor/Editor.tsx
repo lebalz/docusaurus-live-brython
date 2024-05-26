@@ -29,6 +29,10 @@ const PyEditor = (props: Props) => {
   // const { lang, codeId } = useStore(store, (state) => ({lang: state.lang, codeId: state.codeId}));
   const lang = useStore(store, (state) => state.lang);
   const codeId = useStore(store, (state) => state.codeId);
+  const hasCanvasOutput = useStore(store, (state) => state.hasCanvasOutput);
+  const hasTurtleOutput = useStore(store, (state) => state.hasTurtleOutput);
+  const hasGraphicsOutput = useStore(store, (state) => state.hasGraphicsOutput);
+  const isGraphicsmodalOpen = useStore(store, (state) => state.isGraphicsmodalOpen);
   
   return (
     <React.Fragment>
@@ -45,19 +49,19 @@ const PyEditor = (props: Props) => {
       />
       {lang === 'python' &&
         <div className={clsx(styles.result)}>
-          {/* {store.opendGraphicsModalWebKey === pyScript.webKey && (
+          {isGraphicsmodalOpen && (
             <React.Fragment>
-              {pyScript.hasTurtleOutput && (
-                <TurtleResult webKey={props.webKey}/>
+              {hasTurtleOutput && (
+                <TurtleResult />
               )}
-              {pyScript.hasCanvasOutput && (
-                <CanvasResult webKey={props.webKey}/>
+              {hasCanvasOutput && (
+                <CanvasResult />
               )}
-              {!pyScript.hasCanvasOutput && !pyScript.hasTurtleOutput && (
-                <GraphicsResult webKey={props.webKey}/>
+              {!hasCanvasOutput && !hasTurtleOutput && (
+                <GraphicsResult />
               )}
             </React.Fragment>
-          )} */}
+          )}
           <Result />
           <div id={DOM_ELEMENT_IDS.outputDiv(codeId)}></div>
         </div>

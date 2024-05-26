@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { checkCanvasOutput, checkGraphicsOutput, checkTurtleOutput, getPreCode, sanitizePyScript } from "./helpers";
 import { ReactContextError, createStorageSlot } from "@docusaurus/theme-common";
 import { usePluginData } from "@docusaurus/useGlobalData";
+import { DOM_ELEMENT_IDS } from "../constants";
 
 export interface Version {
     code: string;
@@ -40,7 +41,10 @@ export interface Script extends StoredScript {
     logs: LogMessage[];
     addLogMessage: (log: LogMessage) => void;
     clearLogMessages: () => void;
+    isGraphicsmodalOpen: boolean;
+    stopScript: () => void;
     hasGraphicsOutput: boolean;
+    closeGraphicsModal: () => void;
     hasTurtleOutput: boolean;
     hasCanvasOutput: boolean;
     hasEdits: boolean;
@@ -118,49 +122,59 @@ const syncStorageScript = (script: StoredScript, storage: StorageSlot): boolean 
 
 export const createStore = (props: InitState, libDir: string): Store => {
     const id = props.id || uuidv4();
-    const codeId = `code.${props.title}.${id}`;
+    const codeId = `code.${props.title}.${id}`.replace(/(-|\.)/g, '_');
     const createdAt = new Date();
-    const storageKey = `code.${props.title || 'code_block'}.${props.id.replace(/-/g, '_')}`;
+    const storageKey = `code.${props.title || 'code_block'}`;
     const storage = createStorageSlot(storageKey);
     
     const loadData = (store) => {
         const script = getStorageScript(store);
+        const loadedCode = script?.code ? prepareCode(script.code, { codeOnly: true }) : {};
         if (!state.isLoaded) {
-            setState((s) => ({...s, isLoaded: true, ...(script || {})}));
+            setState((s) => ({...s, isLoaded: true, ...(script || {}), ...loadedCode}));
             return Status.SUCCESS;
         }
         if (script) {
-            setState((s) => ({...s, ...script}));
+            setState((s) => ({...s, ...script, ...loadedCode}));
             return Status.SUCCESS;
         }
         return Status.ERROR;
     }
 
-    const setCode = (raw: string) => {
-        const { pre, code } = getPreCode(raw);
+    const prepareCode = (raw: string, config: { codeOnly?: boolean, initializeVersions?: boolean } = {}) => {
+        const { pre, code } = config.codeOnly 
+                                ? { pre: getPreCode(state.pristineCode).pre, code: raw }
+                                : getPreCode(raw);
         const hasEdits = raw !== props.raw;
         const updatedAt = new Date();
         const hasCanvasOutput = checkCanvasOutput(raw);
         const hasTurtleOutput = checkTurtleOutput(raw);
         const hasGraphicsOutput = checkGraphicsOutput(raw);
-        const versions = [...state.versions];
+        const versions = config.initializeVersions ? [] : [...state.versions];
         if (props.versioned) {
             versions.unshift({code, createdAt: updatedAt});
         }
+        return {
+                code: code,
+                preCode: pre,
+                hasCanvasOutput: hasCanvasOutput,
+                hasTurtleOutput: hasTurtleOutput,
+                hasGraphicsOutput: hasGraphicsOutput,
+                hasEdits: hasEdits,
+                updatedAt: updatedAt,
+                versions: versions
+        };
+    }
+
+    const setCode = (raw: string) => {
+        const data = prepareCode(raw);
         setState(
             (state) => ({
                 ...state,
-                code,
-                preCode: pre,
-                hasCanvasOutput,
-                hasTurtleOutput,
-                hasGraphicsOutput,
-                hasEdits,
-                updatedAt,
-                versions
+                ...data
             })
         );
-        set({code, createdAt: state.createdAt, updatedAt, versions});
+        set({code: data.code, createdAt: state.createdAt, updatedAt: data.updatedAt, versions: data.versions});
     };
     const execScript = () => {
         const toExec = `${state.code}`;
@@ -172,13 +186,22 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
             alert('Brython not loaded');
             return;
         }
-        (window as any).__BRYTHON__.runPythonSource(
-            src,
-            {
-                id: 'main', 
-                pythonpath: [libDir]
-            }
-        );
+        setState((s) => ({...s, isExecuting: true, isGraphicsmodalOpen: state.hasGraphicsOutput}));
+        const active = document.getElementById(DOM_ELEMENT_IDS.communicator(state.codeId));
+        active.setAttribute('data--start-time', `${Date.now()}`);
+        /**
+         * ensure that the script is executed after the current event loop.
+         * Otherwise, the brython script will not be able to access the graphics output.
+         */
+        setTimeout(() => {
+            (window as any).__BRYTHON__.runPythonSource(
+                src,
+                {
+                    id: 'main', 
+                    pythonpath: [libDir]
+                }
+            );
+        }, 0);
     };
     const load = async () => {
         return loadData(storage);
@@ -193,19 +216,16 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         storage.del();
         return Status.SUCCESS;
     }
-    const { pre, code } = getPreCode(props.raw);
+    const codeData = prepareCode(props.raw, { initializeVersions: true });
     let state: Script = {
-        id: props.id || uuidv4(),
+        id: id,
         codeId: codeId,
         lang: props.lang,
-        code: code,
         pristineCode: props.raw,
         setCode: setCode,
         isExecuting: false,
         setExecuting: (isExecuting: boolean) => setState((s) => ({...s, isExecuting: isExecuting})),
-        execScript: execScript, 
-        preCode: pre,
-        versions: [],
+        execScript: execScript,
         logs: [],
         addLogMessage: (log: LogMessage) => {
             setState((s) => ({...s, logs: [...s.logs, log]}));
@@ -213,17 +233,24 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         clearLogMessages: () => {
             setState((s) => ({...s, logs: []}));
         },
-        hasGraphicsOutput: checkGraphicsOutput(props.raw),
-        hasTurtleOutput: checkTurtleOutput(props.raw),
-        hasCanvasOutput: checkCanvasOutput(props.raw),
+        isGraphicsmodalOpen: false,
+        closeGraphicsModal: () => setState((s) => ({...s, isGraphicsmodalOpen: false})),
+        stopScript: () => {
+            console.log('stop script');
+            const code = document.getElementById(DOM_ELEMENT_IDS.communicator(state.codeId));
+            console.log('code', code, DOM_ELEMENT_IDS.communicator(state.codeId));
+            if (code) {
+                code.removeAttribute('data--start-time');
+            }
+        },
         hasEdits: false,
-        updatedAt: new Date(),
         createdAt: createdAt,
         isLoaded: false,
         load: load,
         set: set,
         del: del,
-        status: Status.IDLE
+        status: Status.IDLE,
+        ...codeData
     };
     const getState = () => state;
     const listeners = new Set<() => void>();

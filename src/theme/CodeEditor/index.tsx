@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styles from './styles.module.css';
-import PyEditor from './PyEditor';
+import PyEditor from './Editor';
 import BrythonCommunicator from './BrythonCommunicator';
 import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';

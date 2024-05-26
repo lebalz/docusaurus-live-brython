@@ -10,8 +10,9 @@ interface Props {
 }
 const GraphicsResult = (props: Props) => {
     const { store } = useScript();
-    // const { codeId } = useStore(store, (state) => ({codeId: state.codeId}));
     const codeId = useStore(store, (state) => state.codeId);
+    const closeGraphicsModal = useStore(store, (state) => state.closeGraphicsModal);
+    const stopScript = useStore(store, (state) => state.stopScript);
     return (
         <Draggable
         >
@@ -26,8 +27,8 @@ const GraphicsResult = (props: Props) => {
                         style={{ zIndex: 1000 }}
                         className={styles.slimStrippedButton}
                         onClick={() => {
-                            // documentStore.setOpendTurtleModal(undefined);
-                            // pyScript.stopScript(document);
+                            stopScript();
+                            closeGraphicsModal();
                         }}>
                         <span aria-hidden="true">X</span>
                     </button>

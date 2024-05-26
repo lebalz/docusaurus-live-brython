@@ -72,7 +72,6 @@ def gameloop(func):
     Game.sleep = sleep
     
     def wrap(*args, **kwargs):
-        print('called wrap', args, kwargs)
         Game.sleep_requested = False
         if func.__code__.co_argcount > 0:
             result = func(time.now() - t0) # type: ignore
