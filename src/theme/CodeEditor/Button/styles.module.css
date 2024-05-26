@@ -1,0 +1,8 @@
+.button {
+    z-index: calc(var(--ifm-z-index-fixed) - 2);
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    margin: 0px 2px;
+}

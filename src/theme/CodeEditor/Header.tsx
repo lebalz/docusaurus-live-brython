@@ -3,27 +3,25 @@ import clsx from 'clsx';
 // import {default as editorStyles} from "./styles.module.css";
 import styles from './styles.module.css';
 import { useScript, useStore } from './WithScript/ScriptStore';
+import Button, { Color } from './Button';
 
-interface PlayProps {
-}
-const PlayButton = (props: PlayProps) => {
+
+const PlayButton = () => {
     const { store } = useScript();
-    // const { isExecuting, execScript, id, codeId } = useStore(store, (state) => ({isExecuting: state.isExecuting, id: state.id, codeId: state.codeId, execScript: state.execScript}));
     const isExecuting = useStore(store, (state) => state.isExecuting);
     const id = useStore(store, (state) => state.id);
     const codeId = useStore(store, (state) => state.codeId);
     const execScript = useStore(store, (state) => state.execScript);
     return (
-        <button
+        <Button
+            icon='Play'
+            color={Color.Success}
             onClick={() => {
                 execScript()
             }}
             className={clsx(styles.playButton, styles.headerButton)}
             title={`Code Ausführen ${id} ${codeId}`}
-        >
-            {/* <FontAwesomeIcon icon={isExecuting ? faPython : faPlay} spin={isExecuting} /> */}
-            Exec
-        </button>
+        />
     );
 };
 
@@ -41,10 +39,8 @@ const DownloadButton = (props: {title: string}) => {
     const lang = useStore(store, (state) => state.lang);
     const id = useStore(store, (state) => state.id);
     return (
-        <button
-            className={clsx(
-                styles.headerButton
-            )}
+        <Button
+            icon='Download'
             onClick={() => {
                 const downloadLink = document.createElement("a");
                 const file = new Blob([code],    
@@ -59,10 +55,29 @@ const DownloadButton = (props: {title: string}) => {
                 document.body.removeChild(downloadLink);
             }}
             title="Download"
-        >
-            {/* <FontAwesomeIcon icon={faDownload} /> */}
-            Download
-        </button>
+        />
+        // <button
+        //     className={clsx(
+        //         styles.headerButton
+        //     )}
+        //     onClick={() => {
+        //         const downloadLink = document.createElement("a");
+        //         const file = new Blob([code],    
+        //                     {type: 'text/plain;charset=utf-8'});
+        //         downloadLink.href = URL.createObjectURL(file);
+        //         const fExt = lang === 'python' ? '.py' : `.${lang}`;
+        //         const fTitle = props.title === lang ? id : props.title
+        //         const fName = fTitle.endsWith(fExt) ? fTitle : `${fTitle}${fExt}`;
+        //         downloadLink.download = fName;
+        //         document.body.appendChild(downloadLink);
+        //         downloadLink.click();
+        //         document.body.removeChild(downloadLink);
+        //     }}
+        //     title="Download"
+        // >
+        //     {/* <FontAwesomeIcon icon={faDownload} /> */}
+        //     Download
+        // </button>
     )
 }
 
@@ -135,14 +150,12 @@ const Header = ({ slim, title, resettable, noCompare, download }: Props) => {
                         )}
                     </span> */}
                     {hasEdits && resettable && (
-                        <button
+                        <Button
                             onClick={onReset}
                             className={styles.headerButton}
                             title="Änderungen Verwerfen"
-                        >
-                            {/* <FontAwesomeIcon icon={faUndo} /> */}
-                            Reset
-                        </button>
+                            icon="Undo"
+                        />
                     )}
                     {download && (
                         <DownloadButton title={title} />
