@@ -17,9 +17,11 @@ jobs:
           node-version: '18.x'
       - name: Test Build
         run: |
+          yarn link
           cd website
           if [ -e yarn.lock ]; then
           yarn install --frozen-lockfile
+          yarn link docusaurus-live-brython
           elif [ -e package-lock.json ]; then
           npm ci
           else
@@ -42,11 +44,13 @@ jobs:
           USE_SSH: true
           GIT_USER: git
         run: |
+          yarn link
           cd website/
           git config --global user.email "lebalz@outlook.com"
           git config --global user.name "lebalz"
           if [ -e yarn.lock ]; then
             yarn install --frozen-lockfile
+            yarn link docusaurus-live-brython
           elif [ -e package-lock.json ]; then
             npm ci
           else
