@@ -1,10 +1,8 @@
 import * as React from "react";
 import { BRYTHON_NOTIFICATION_EVENT, DOM_ELEMENT_IDS } from "./constants";
 import { LogMessage, useScript, useStore } from './WithScript/ScriptStore';
-import { useRefWithCallback } from "./utils/use_ref_with_clbk";
-interface Props {
-}
-const BrythonCommunicator = (props: Props) => {
+
+const BrythonCommunicator = () => {
     const { store } = useScript();
     const addLogMessage = useStore(store, (state) => state.addLogMessage);
     const clearLogMessages = useStore(store, (state) => state.clearLogMessages);

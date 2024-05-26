@@ -236,9 +236,7 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         isGraphicsmodalOpen: false,
         closeGraphicsModal: () => setState((s) => ({...s, isGraphicsmodalOpen: false})),
         stopScript: () => {
-            console.log('stop script');
             const code = document.getElementById(DOM_ELEMENT_IDS.communicator(state.codeId));
-            console.log('code', code, DOM_ELEMENT_IDS.communicator(state.codeId));
             if (code) {
                 code.removeAttribute('data--start-time');
             }

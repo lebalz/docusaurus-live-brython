@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './styles.module.css';
 import { DOM_ELEMENT_IDS } from '../constants';
 import Draggable from 'react-draggable';
-import { checkForButtonClick } from '../utils/check_for_button_click';
+import { checkForButtonClick } from '../utils/checkForButtonClick';
 import { useScript, useStore } from '../WithScript/ScriptStore';
 interface Props {
     controls?: JSX.Element;
@@ -15,6 +15,8 @@ const GraphicsResult = (props: Props) => {
     const stopScript = useStore(store, (state) => state.stopScript);
     return (
         <Draggable
+            onStop={checkForButtonClick}
+            positionOffset={{ x: 0, y: '-50%' }}
         >
             <div className={styles.brythonGraphicsResult}>
                 <div className={styles.brythonGraphicsResultHead}>

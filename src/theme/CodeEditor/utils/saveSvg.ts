@@ -1,4 +1,4 @@
-import { removeAnimations } from "./svg_without_animations";
+import { removeAnimations } from "./svgWithoutAnimations";
 
 const duration = (anim: SVGAnimateElement) => {
   const dur = anim.getAttribute('dur') || '';

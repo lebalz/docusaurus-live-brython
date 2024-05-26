@@ -15,19 +15,15 @@
  */
 
 import type { DocusaurusConfig, HtmlTags, LoadContext, Plugin, Preset } from '@docusaurus/types';
+import {Joi} from '@docusaurus/utils-validation'
 // eslint-disable-next-line import/no-extraneous-dependencies, import/order
 import webpack from 'webpack';
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import type { ThemeOptions, Options } from './options';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-interface ThemeOptions {
-    brython_src?: string;
-    brython_stdlib_src?: string;
-    libDir?: string;
-}
 
 export const NAME = 'docusaurus-live-brython' as const;
 export const DEFAULT_LIB_DIR = 'bry-libs' as const;
@@ -40,17 +36,19 @@ const theme: Plugin<{ remoteHeadTags: HtmlTags[] }> = (
     return {
         name: NAME,
         async loadContent() {
-            const staticDir = path.join(context.siteDir, context.siteConfig.staticDirectories[0], libDir);
-            await fs.ensureDir(staticDir);
-            if (process.env.NODE_ENV !== 'production') {
-                const assets = fs.readdirSync(path.join(__dirname, 'assets'));
-                for (const asset of assets) {
-                    const assetFile = path.join(__dirname, 'assets', asset);
-                    const assetOutFile = path.join(staticDir, asset);
-                    logger.info(`copy "${asset}" to "${assetOutFile}"`);
-                    await fs.copyFile(assetFile, assetOutFile);
+            if (!options.skipCopyAssetsToLibDir) {
+                const staticDir = path.join(context.siteDir, context.siteConfig.staticDirectories[0], libDir);
+                await fs.ensureDir(staticDir);
+                if (process.env.NODE_ENV !== 'production') {
+                    const assets = fs.readdirSync(path.join(__dirname, 'assets'));
+                    for (const asset of assets) {
+                        const assetFile = path.join(__dirname, 'assets', asset);
+                        const assetOutFile = path.join(staticDir, asset);
+                        logger.info(`copy "${asset}" to "${assetOutFile}"`);
+                        await fs.copyFile(assetFile, assetOutFile);
+                    }
+                    return assets;
                 }
-                return assets;
             }
         },
         async contentLoaded({ content, actions }) {
@@ -82,7 +80,7 @@ const theme: Plugin<{ remoteHeadTags: HtmlTags[] }> = (
                     {
                         tagName: 'script',
                         attributes: {
-                            src: options.brython_src || "https://raw.githack.com/brython-dev/brython/master/www/src/brython.js",
+                            src: options.brythonSrc,
                             crossorigin: "anonymous",
                             referrerpolicy: "no-referrer",
                             defer: 'defer'
@@ -91,7 +89,7 @@ const theme: Plugin<{ remoteHeadTags: HtmlTags[] }> = (
                     {
                         tagName: 'script',
                         attributes: {
-                            src: options.brython_stdlib_src || "https://raw.githack.com/brython-dev/brython/master/www/src/brython_stdlib.js",
+                            src: options.brythonStdlibSrc,
                             crossorigin: "anonymous",
                             referrerpolicy: "no-referrer",
                             defer: 'defer'
@@ -99,8 +97,13 @@ const theme: Plugin<{ remoteHeadTags: HtmlTags[] }> = (
                     }
                 ],
             };
+        },
+        getSwizzleComponentList() {
+            return [];
         }
     } as Plugin;
 }
 
 export default theme;
+export {validateThemeConfig} from './options';
+export {ThemeOptions, Options};

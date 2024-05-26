@@ -4,7 +4,7 @@ import { DOM_ELEMENT_IDS } from '../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faRunning } from '@fortawesome/free-solid-svg-icons';
 import GraphicsResult from '.';
-import { saveSvg } from '../utils/save_svg';
+import { saveSvg } from '../utils/saveSvg';
 import { useScript, useStore } from '../WithScript/ScriptStore';
 
 const TurtleResult = () => {
