@@ -18,6 +18,8 @@ jobs:
       - name: Test Build
         run: |
           yarn link
+          yarn install --frozen-lockfile
+          yarn run build
           cd website
           if [ -e yarn.lock ]; then
           yarn install --frozen-lockfile
