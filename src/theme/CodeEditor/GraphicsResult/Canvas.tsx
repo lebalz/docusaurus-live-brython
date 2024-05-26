@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { DOM_ELEMENT_IDS } from '../constants';
 import GraphicsResult from '.';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles.module.css';
 import { useScript, useStore } from '../WithScript/ScriptStore';
 

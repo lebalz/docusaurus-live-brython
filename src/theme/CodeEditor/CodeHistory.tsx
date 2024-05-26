@@ -4,8 +4,6 @@ import styles from './styles.module.css';
 import { Prism } from 'prism-react-renderer';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSync } from '@fortawesome/free-solid-svg-icons';
 import { useScript, useStore } from './WithScript/ScriptStore';
 
 interface Props {

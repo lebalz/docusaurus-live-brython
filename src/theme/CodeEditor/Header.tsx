@@ -2,17 +2,6 @@ import * as React from 'react';
 import clsx from 'clsx';
 // import {default as editorStyles} from "./styles.module.css";
 import styles from './styles.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPython } from '@fortawesome/free-brands-svg-icons';
-import {
-    faPlay,
-    faUndo,
-    faFileSignature,
-    faFileCode,
-    faCheckCircle,
-    faSync,
-    faDownload,
-} from '@fortawesome/free-solid-svg-icons';
 import { useScript, useStore } from './WithScript/ScriptStore';
 
 interface PlayProps {
