@@ -22,8 +22,7 @@ jobs:
           yarn run build
           cd website
           if [ -e yarn.lock ]; then
-          yarn install --frozen-lockfile
-          yarn link "docusaurus-live-brython"
+          yarn install
           elif [ -e package-lock.json ]; then
           npm ci
           else
