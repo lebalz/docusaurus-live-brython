@@ -22,7 +22,7 @@ import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import type { ThemeOptions, Options } from './options';
+import { type ThemeOptions, type Options, DEFAULT_OPTIONS } from './options';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const NAME = 'docusaurus-live-brython' as const;
@@ -74,13 +74,13 @@ const theme: Plugin<{ remoteHeadTags: HtmlTags[] }> = (
         getTypeScriptThemePath() {
             return '../src/theme';
         },
-        injectHtmlTags({ content }: { content: { remoteHeadTags: HtmlTags[] } }) {
+        injectHtmlTags() {
             return {
                 headTags: [
                     {
                         tagName: 'script',
                         attributes: {
-                            src: options.brythonSrc,
+                            src: options.brythonSrc || DEFAULT_OPTIONS.brythonSrc,
                             crossorigin: "anonymous",
                             referrerpolicy: "no-referrer",
                             defer: 'defer'
@@ -89,7 +89,7 @@ const theme: Plugin<{ remoteHeadTags: HtmlTags[] }> = (
                     {
                         tagName: 'script',
                         attributes: {
-                            src: options.brythonStdlibSrc,
+                            src: options.brythonStdlibSrc || DEFAULT_OPTIONS.brythonStdlibSrc,
                             crossorigin: "anonymous",
                             referrerpolicy: "no-referrer",
                             defer: 'defer'

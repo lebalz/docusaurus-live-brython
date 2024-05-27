@@ -23,6 +23,7 @@ interface Props {
     title?: string;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
     size?: Size;
+    spin?: boolean;
     color?: Color;
     className?: string;
 }
@@ -34,10 +35,12 @@ const Button = (props: Props) => {
         <button 
             className={clsx('button', props.color || Color.Secondary, props.size || Size.Small, styles.button)}
             onClick={props.onClick}
+            title={props.title}
         >
             <Icon 
                 icon={props.icon}
                 className={styles.icon}
+                spin={props.spin}
             />
         </button>
     )

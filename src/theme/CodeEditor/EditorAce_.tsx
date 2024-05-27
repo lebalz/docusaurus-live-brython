@@ -27,10 +27,11 @@ const ALIAS_LANG_MAP_ACE = {
 const Editor = (props: Props) => {
     const eRef = React.useRef<AceEditor>(null);
     const { store } = useScript();
-    // const { code, lang, codeId, setCode } = useStore(store, (state) => ({code: state.code, codeId: state.codeId, lang: state.lang, setCode: state.setCode}));
     const code = useStore(store, (state) => state.code);
+    const pristineCode = useStore(store, (state) => state.pristineCode);
     const lang = useStore(store, (state) => state.lang);
     const codeId = useStore(store, (state) => state.codeId);
+    const showRaw = useStore(store, (state) => state.showRaw);
     const setCode = useStore(store, (state) => state.setCode);
     const execScript = useStore(store, (state) => state.execScript);
 
@@ -93,8 +94,8 @@ const Editor = (props: Props) => {
                 onChange={(value: string) => {
                     setCode(value);
                 }}
-                readOnly={false}
-                value={code}
+                readOnly={showRaw}
+                value={showRaw ? pristineCode : code}
                 defaultValue={code || '\n'}
                 name={DOM_ELEMENT_IDS.aceEditor(codeId)}
                 editorProps={{ $blockScrolling: true }}

@@ -32,6 +32,7 @@ export interface Script extends StoredScript {
      */
     codeId: string;
     pristineCode: string;
+    showRaw: boolean;
     setCode: (code: string) => void;
     isExecuting?: boolean;
     setExecuting: (executing: boolean) => void;
@@ -221,7 +222,8 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         id: id,
         codeId: codeId,
         lang: props.lang,
-        pristineCode: props.raw,
+        showRaw: false,
+        pristineCode: codeData.code,
         setCode: setCode,
         isExecuting: false,
         setExecuting: (isExecuting: boolean) => setState((s) => ({...s, isExecuting: isExecuting})),
