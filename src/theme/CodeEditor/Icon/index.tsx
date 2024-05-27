@@ -3,6 +3,16 @@ import * as Icons from './icons';
 import styles from './styles.module.css';
 import clsx from 'clsx';
 
+export enum Color {
+    Primary = 'var(--ifm-color-primary)',
+    Secondary = 'var(--ifm-color-secondary)',
+    Success = 'var(--ifm-color-success)',
+    Info = 'var(--ifm-color-info)',
+    Warning = 'var(--ifm-color-warning)',
+    Danger = 'var(--ifm-color-danger)',
+    Link = 'var(--ifm-color-link)'
+}
+
 interface Props {
     icon: keyof typeof Icons;
     size?: number | string;

@@ -5,6 +5,7 @@ import { checkCanvasOutput, checkGraphicsOutput, checkTurtleOutput, getPreCode, 
 import { ReactContextError, createStorageSlot } from "@docusaurus/theme-common";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { DOM_ELEMENT_IDS } from "../constants";
+import throttle from 'lodash/throttle';
 
 export interface Version {
     code: string;
@@ -74,7 +75,7 @@ export type StorageSlot = {
 
 export enum Status {
     IDLE = 'IDLE',
-    LOADING = 'LOADING',
+    SYNCING = 'SYNCING',
     ERROR = 'ERROR',
     SUCCESS = 'SUCCESS'
 }
@@ -92,6 +93,7 @@ interface Store<T = Script> {
     getState: () => T;
     setState: (fn: (state: Script) => Script) => void;
     subscribe: (listener: () => void) => () => void;
+    saveNow: () => Promise<Status>;
 }
 
 
@@ -129,16 +131,18 @@ export const createStore = (props: InitState, libDir: string): Store => {
     const storage = createStorageSlot(storageKey);
     
     const loadData = (store) => {
+        setState((s) => ({...s, status: Status.SYNCING}));
         const script = getStorageScript(store);
         const loadedCode = script?.code ? prepareCode(script.code, { codeOnly: true }) : {};
         if (!state.isLoaded) {
-            setState((s) => ({...s, isLoaded: true, ...(script || {}), ...loadedCode}));
+            setState((s) => ({...s, isLoaded: true, ...(script || {}), ...loadedCode, status: Status.SUCCESS}));        
             return Status.SUCCESS;
         }
         if (script) {
-            setState((s) => ({...s, ...script, ...loadedCode}));
+            setState((s) => ({...s, ...script, ...loadedCode, status: Status.SUCCESS}));
             return Status.SUCCESS;
         }
+        setState((s) => ({...s, status: Status.ERROR}));
         return Status.ERROR;
     }
 
@@ -177,6 +181,7 @@ export const createStore = (props: InitState, libDir: string): Store => {
         );
         set({code: data.code, createdAt: state.createdAt, updatedAt: data.updatedAt, versions: data.versions});
     };
+
     const execScript = () => {
         const toExec = `${state.code}`;
         const lineShift = state.preCode.split(/\n/).length;
@@ -207,12 +212,29 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
     const load = async () => {
         return loadData(storage);
     };
-    const set = async (script: StoredScript) => {
+    const _set = async (script: StoredScript) => {
+        setState((s) => ({...s, status: Status.SYNCING}));
         if (syncStorageScript(script, storage)) {
+            setState((s) => ({...s, status: Status.SUCCESS}));
             return Status.SUCCESS;
         }
+        setState((s) => ({...s, status: Status.ERROR}));
         return Status.ERROR;
     };
+
+    const set = throttle(
+        _set,
+        1000,
+        {leading: false, trailing: true}
+    );
+
+    const saveNow = async () => {
+        set.cancel();
+        return _set({code: state.code, createdAt: state.createdAt, updatedAt: state.updatedAt, versions: state.versions});
+    }
+
+
+
     const del = async () => {
         storage.del();
         return Status.SUCCESS;
@@ -252,6 +274,8 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         status: Status.IDLE,
         ...codeData
     };
+    
+
     const getState = () => state;
     const listeners = new Set<() => void>();
     const setState = (fn: (state: Script) => Script) => {
@@ -262,7 +286,7 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         listeners.add(listener);
         return () => listeners.delete(listener);
     };
-    return { getState, setState, subscribe } satisfies Store;
+    return { getState, setState, subscribe, saveNow } satisfies Store;
 };
     
 

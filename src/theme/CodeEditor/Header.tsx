@@ -1,15 +1,13 @@
 import * as React from 'react';
 import clsx from 'clsx';
-// import {default as editorStyles} from "./styles.module.css";
 import styles from './styles.module.css';
-import { useScript, useStore } from './WithScript/ScriptStore';
-import Button, { Color } from './Button';
-import { translate } from '@docusaurus/Translate';
+import { Status, useScript, useStore } from './WithScript/ScriptStore';
 import ShowRaw from './Actions/ShowRaw';
 import RunCode from './Actions/RunCode';
-import Icon from './Icon';
+import Icon, { Color } from './Icon';
 import Reset from './Actions/Reset';
 import DownloadCode from './Actions/DownloadCode';
+import ShowSyncStatus from './Actions/ShowSyncStatus';
 
 interface Props {
     slim: boolean;
@@ -20,33 +18,20 @@ interface Props {
 }
 
 const Header = ({ slim, title, resettable, noCompare, download }: Props) => {
-    const [showSavedNotification, setShowSavedNotification] = React.useState(false);
     const { store } = useScript();
 
     const hasEdits = useStore(store, (state) => state.hasEdits);
     const lang = useStore(store, (state) => state.lang);
     const isLoaded = useStore(store, (state) => state.isLoaded);
+    const status = useStore(store, (state) => state.status);
+
 
     return (
         <div className={clsx(styles.brythonCodeBlockHeader, styles.brythonCodeBlockHeader, styles.controls)}>
             {!slim && (
                 <React.Fragment>
                     <div className={styles.title}>{title}</div>
-                    {!isLoaded && (
-                        <Icon icon='Sync' spin size={'1.2em'} color={Color.Primary}/>
-                    )}
-                    {<div className={styles.spacer}></div>}
-                    {/* <span style={{ minWidth: '1em' }}>
-                        {pyScript.saveService.state === 'save' && (
-                            <FontAwesomeIcon icon={faSync} style={{ color: '#3578e5' }} spin />
-                        )}
-                        {showSavedNotification && (
-                            <FontAwesomeIcon
-                                icon={faCheckCircle}
-                                style={{ color: 'var(--ifm-color-success)' }}
-                            />
-                        )}
-                    </span> */}
+                    <ShowSyncStatus />
                     {hasEdits && resettable && (
                         <Reset />
                     )}

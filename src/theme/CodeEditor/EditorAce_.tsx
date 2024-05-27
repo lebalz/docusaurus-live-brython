@@ -46,14 +46,14 @@ const Editor = (props: Props) => {
                     exec: () => execScript(),
                 });
             }
-            // node.editor.commands.addCommand({
-            //     // commands is array of key bindings.
-            //     name: 'save',
-            //     bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
-            //     exec: () => {
-            //         pyScript.saveService.saveNow();
-            //     },
-            // });
+            node.editor.commands.addCommand({
+                // commands is array of key bindings.
+                name: 'save',
+                bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
+                exec: () => {
+                    store.saveNow();
+                },
+            });
             return () => {
                 if (node && node.editor) {
                     const cmd = node.editor.commands.commands['execute'];
