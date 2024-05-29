@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styles from './styles.module.css';
-import { DOM_ELEMENT_IDS } from '../../constants';
+import { DOM_ELEMENT_IDS } from '../../../constants';
 import GraphicsResult from '.';
-import { saveSvg } from '../utils/saveSvg';
-import { useScript, useStore } from '../../WithScript/ScriptStore';
-import Button, { Color } from '../../Button';
+import { saveSvg } from '../../utils/saveSvg';
+import { useScript, useStore } from '../../../WithScript/ScriptStore';
+import Button, { Color } from '../../../Button';
 import clsx from 'clsx';
 
 const TurtleResult = () => {

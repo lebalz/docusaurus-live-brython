@@ -6,9 +6,9 @@ import {
 } from "../constants";
 import { useScript, useStore } from '../WithScript/ScriptStore';
 import Result from "./Result";
-import TurtleResult from "./GraphicsResult/Turtle";
-import CanvasResult from "./GraphicsResult/Canvas";
-import GraphicsResult from "./GraphicsResult";
+import TurtleResult from "./Result/Graphics/Turtle";
+import CanvasResult from "./Result/Graphics/Canvas";
+import GraphicsResult from "./Result/Graphics";
 import Header from "./Header";
 import EditorAce from "./EditorAce";
 
