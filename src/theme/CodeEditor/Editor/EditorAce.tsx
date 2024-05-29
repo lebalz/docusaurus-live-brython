@@ -73,7 +73,11 @@ const EditorAce = (props: Props) => {
                 className={clsx(styles.brythonEditor, !props.showLineNumbers && styles.noGutter)}
                 style={{
                     width: '100%',
+                    lineHeight: 'var(--ifm-pre-line-height)',
+                    fontSize: 'var(--ifm-code-font-size)',
+                    fontFamily: 'var(--ifm-font-family-monospace)'
                 }}
+                fontSize={'var(--ifm-code-font-size)'}
                 onPaste={(e) => {
                     if (props.versioned) {
                         /**

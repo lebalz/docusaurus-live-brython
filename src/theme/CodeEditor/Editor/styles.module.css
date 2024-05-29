@@ -15,7 +15,6 @@
 .brythonEditor {
 	flex-grow: 1;
 	flex-basis: 80ch;
-	font: var(--ifm-code-font-size) / var(--ifm-pre-line-height) var(--ifm-font-family-monospace) !important;
 	/*rtl:ignore*/
 	direction: ltr;
 }
