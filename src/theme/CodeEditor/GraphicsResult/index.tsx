@@ -4,6 +4,7 @@ import { DOM_ELEMENT_IDS } from '../constants';
 import Draggable from 'react-draggable';
 import { checkForButtonClick } from '../utils/checkForButtonClick';
 import { useScript, useStore } from '../WithScript/ScriptStore';
+import Button from '../Button';
 interface Props {
     controls?: JSX.Element;
     main?: JSX.Element;
@@ -23,17 +24,14 @@ const GraphicsResult = (props: Props) => {
                     <span>Output</span>
                     <span className={styles.spacer} ></span>
                     {props.controls}
-                    <button
-                        aria-label="Close"
-                        type="button"
-                        style={{ zIndex: 1000 }}
-                        className={styles.slimStrippedButton}
+                    <Button
+                        icon="Close"
                         onClick={() => {
                             stopScript();
                             closeGraphicsModal();
-                        }}>
-                        <span aria-hidden="true">X</span>
-                    </button>
+                        }}
+                        iconSize='12px'
+                    />
                 </div>
                 <div
                     id={DOM_ELEMENT_IDS.graphicsResult(codeId)}

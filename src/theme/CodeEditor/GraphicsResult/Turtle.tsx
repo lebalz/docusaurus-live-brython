@@ -4,6 +4,8 @@ import { DOM_ELEMENT_IDS } from '../constants';
 import GraphicsResult from '.';
 import { saveSvg } from '../utils/saveSvg';
 import { useScript, useStore } from '../WithScript/ScriptStore';
+import Button, { Color } from '../Button';
+import clsx from 'clsx';
 
 const TurtleResult = () => {
     const { store } = useScript();
@@ -13,32 +15,30 @@ const TurtleResult = () => {
         <GraphicsResult
             controls={
                 <React.Fragment>
-                    <button
-                        aria-label="Download Animated SVG"
-                        type="button"
-                        className={styles.slimStrippedButton}
-                        style={{ zIndex: 1000 }}
+                    <Button
+                        icon='AnimationPlay'
                         onClick={() => {
                             const turtleResult = (document.getElementById(DOM_ELEMENT_IDS.turtleSvgContainer(codeId)) as any) as SVGSVGElement;
                             if (turtleResult) {
                                 saveSvg(turtleResult, `${codeId}`, code, true)
                             }
-                        }}>
-                        <span aria-hidden="true">R</span>
-                    </button>
-                    <button
-                        aria-label="Download SVG"
-                        type="button"
-                        className={styles.slimStrippedButton}
-                        style={{ zIndex: 1000 }}
+                        }}
+                        className={clsx(styles.slimStrippedButton)}
+                        iconSize='12px'
+                        title="Download Animated SVG"
+                    />
+                    <Button
+                        icon='Download'
+                        iconSize='12px'
                         onClick={() => {
                             const turtleResult = (document.getElementById(DOM_ELEMENT_IDS.turtleSvgContainer(codeId)) as any) as SVGSVGElement;
                             if (turtleResult) {
                                 saveSvg(turtleResult, `${codeId}`, code)
                             }
-                        }}>
-                        <span aria-hidden="true">D</span>
-                    </button>
+                        }}
+                        title="Download SVG"
+                        className={styles.slimStrippedButton}
+                    />
                 </React.Fragment>
             }
         />
