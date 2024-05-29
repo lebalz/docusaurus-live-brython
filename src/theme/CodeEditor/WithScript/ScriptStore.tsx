@@ -10,6 +10,7 @@ import throttle from 'lodash/throttle';
 export interface Version {
     code: string;
     createdAt: Date;
+    version: number;
 }
 
 export interface StoredScript {
@@ -48,6 +49,7 @@ export interface Script extends StoredScript {
     */
    isLoaded: boolean;
    status: Status;
+   versionsLoaded: boolean;
 }
 
 export interface LogMessage {
@@ -137,16 +139,38 @@ export const createStore = (props: InitState, libDir: string): Store => {
         const script = getStorageScript(store);
         const loadedCode = script?.code ? prepareCode(script.code, { codeOnly: true }) : {};
         if (!state.isLoaded) {
-            setState((s) => ({...s, isLoaded: true, ...(script || {}), ...loadedCode, status: canSave ? Status.SUCCESS : s.status}));        
+            setState((s) => ({
+                ...s, 
+                isLoaded: true, 
+                ...(script || {}), 
+                ...loadedCode,
+                versions: script?.versions || [],
+                versionsLoaded: true,
+                status: canSave ? Status.SUCCESS : s.status
+            }));        
             return Status.SUCCESS;
         }
         if (script) {
-            setState((s) => ({...s, ...script, ...loadedCode, status: canSave ? Status.SUCCESS : s.status}));
+            setState((s) => ({...s, ...script, ...loadedCode, status: canSave ? Status.SUCCESS : s.status, versionsLoaded: true}));
             return Status.SUCCESS;
         }
         setState((s) => ({...s, status: canSave ? Status.ERROR : s.status}));
         return Status.ERROR;
     }
+
+    const _addVersion = (version: Version) => {
+        if (!props.versioned) {
+            return;
+        }
+        const versions = [...state.versions];
+        versions.unshift(version);
+        setState((s) => ({...s, versions: versions}));
+    }
+    const addVersion = throttle(
+        _addVersion,
+        1000,
+        {leading: false, trailing: true}
+    );
 
     const prepareCode = (raw: string, config: { codeOnly?: boolean, stateNotInitialized?: boolean } = {}) => {
         const { pre, code } = config.codeOnly 
@@ -157,19 +181,17 @@ export const createStore = (props: InitState, libDir: string): Store => {
         const hasCanvasOutput = checkCanvasOutput(raw);
         const hasTurtleOutput = checkTurtleOutput(raw);
         const hasGraphicsOutput = checkGraphicsOutput(raw);
-        const versions = config.stateNotInitialized ? [] : [...state.versions];
-        if (props.versioned) {
-            versions.unshift({code, createdAt: updatedAt});
+        if (props.versioned && !config.stateNotInitialized) {
+            addVersion({code, createdAt: updatedAt, version: state.versions.length + 1});
         }
         return {
-                code: code,
-                preCode: pre,
-                hasCanvasOutput: hasCanvasOutput,
-                hasTurtleOutput: hasTurtleOutput,
-                hasGraphicsOutput: hasGraphicsOutput,
-                hasEdits: hasEdits,
-                updatedAt: updatedAt,
-                versions: versions
+            code: code,
+            preCode: pre,
+            hasCanvasOutput: hasCanvasOutput,
+            hasTurtleOutput: hasTurtleOutput,
+            hasGraphicsOutput: hasGraphicsOutput,
+            hasEdits: hasEdits,
+            updatedAt: updatedAt
         };
     }
 
@@ -182,7 +204,7 @@ export const createStore = (props: InitState, libDir: string): Store => {
             })
         );
         if (props.id) {
-            set({code: data.code, createdAt: state.createdAt, updatedAt: data.updatedAt, versions: data.versions});
+            set({code: data.code, createdAt: state.createdAt, updatedAt: data.updatedAt, versions: state.versions});
         }
     };
 
@@ -236,8 +258,6 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         return _set({code: state.code, createdAt: state.createdAt, updatedAt: state.updatedAt, versions: state.versions});
     }
 
-
-
     const del = async () => {
         storage.del();
         return Status.SUCCESS;
@@ -274,6 +294,8 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         createdAt: createdAt,
         isLoaded: false,
         status: Status.IDLE,
+        versions: [],
+        versionsLoaded: false,
         ...codeData
     };
     
@@ -290,6 +312,7 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
     };
     const loadVersions = async () => {
         // noop
+        setState((s) => ({...s, versionsLoaded: true}));
         return Promise.resolve();
     }
 

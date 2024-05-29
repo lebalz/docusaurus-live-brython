@@ -4,9 +4,9 @@ import Editor from './Editor';
 import BrythonCommunicator from './BrythonCommunicator';
 import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
-import CodeHistory from './CodeHistory';
 import { useScript, useStore } from './WithScript/ScriptStore';
 import BrowserOnly from '@docusaurus/BrowserOnly';
+import CodeHistory from './CodeHistory';
 
 interface Props {
     slim: boolean;
@@ -27,6 +27,7 @@ interface Props {
 const PyAceEditor = (props: Props) => {
     const { store } = useScript();
     const lang = useStore(store, (state) => state.lang);
+    console.log(props)
     return (
         <BrowserOnly
             fallback={<div>Loading...</div>}
@@ -42,9 +43,7 @@ const PyAceEditor = (props: Props) => {
                                 )}
                             >
                                 <Editor {...props} />
-                                {!props.noHistory && (
-                                    <CodeHistory />
-                                )}
+                                <CodeHistory />
                             </div>
                             {lang === 'python' && <BrythonCommunicator />}
                         </div>

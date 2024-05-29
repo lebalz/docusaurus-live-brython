@@ -5,9 +5,10 @@ import { Prism } from 'prism-react-renderer';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { useScript, useStore } from '../WithScript/ScriptStore';
-
-interface Props {
-}
+import { translate } from '@docusaurus/Translate';
+import Button from '../Button';
+import DiffViewer from 'react-diff-viewer';
+import Details from '@theme/Details';
 
 const highlightSyntax = (str: string) => {
     if (!str) {
@@ -22,46 +23,48 @@ const highlightSyntax = (str: string) => {
     );
 };
 
-const CodeHistory = (props: Props) => {
+const CodeHistory = () => {
     const [version, setVersion] = React.useState(1);
     const [open, setOpen] = React.useState(false);
     const { store } = useScript();
     const versions = useStore(store, (state) => state.versions);
+    const versionsLoaded = useStore(store, (state) => state.versionsLoaded);
+
+    React.useEffect(() => {
+        console.log('versions', versions[version]);
+    }, [version, versions]);
 
     if (versions?.length < 1) {
         return null;
     }
     return (
         <div className={clsx(styles.codeHistory)}>
-            <details
-                open={open}
-                onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (!open) {
-                        store.loadVersions();
-                    }
-                    setOpen(!open);
-                }}
-                className={clsx('alert alert--info', styles.historyDetails)}
+            <Details
+                className={clsx(styles.historyDetails)}
+                summary={
+                    <summary>
+                        <div className={clsx(styles.summary)}>
+                            <span className="badge badge--secondary">
+                                {
+                                    versionsLoaded
+                                        ? translate({message: '{n} Versions', id: 'CodeHistory.nVersions.text'}, {n: versions.length})
+                                        : translate({message: 'Load Versions', id: 'CodeHistory.LoadVersions.text'})
+                                }
+                            </span>
+                            <span className={clsx(styles.spacer)}></span>
+                            <Button
+                                icon='Sync'
+                                title={translate({message: 'Sync Versions', id: 'CodeHistory.LoadVersions.text'})}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    store.loadVersions();
+                                }}
+                            />
+                        </div>
+                    </summary>
+                }
             >
-                <summary>
-                    <span className="badge badge--secondary">
-                        {/* {pyScript.versionsLoaded ? `${versions.length} Versions` : 'Load Versions'} */}
-                        {`${versions.length} Versions`}
-                    </span>
-                    {/* <FontAwesomeIcon
-                        className={clsx(styles.faButton)}
-                        color={'var(--ifm-color-primary)'}
-                        // spin={pyScript.versionsLoaded === 'loading'}
-                        // icon={faSync}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            pyScript.loadVersions();
-                        }}
-                    /> */}
-                </summary>
                 <div
                     className={clsx(styles.content)}
                     onClick={(e) => {
@@ -69,7 +72,6 @@ const CodeHistory = (props: Props) => {
                         e.stopPropagation();
                     }}
                 >
-
                     <div className={clsx(styles.versionControl)}>
                         <Slider
                             value={version}
@@ -87,29 +89,18 @@ const CodeHistory = (props: Props) => {
                             V{version}
                         </span>
                     </div>
-                    {/* <div className={clsx(styles.diffViewer)}>
+                    <div className={clsx(styles.diffViewer)}>
                         {versions.length > 1 && (
                             <DiffViewer
-                                leftTitle={pyScript.versions[version - 1].version}
-                                rightTitle={
-                                    <div>
-                                        {pyScript.versions[version].version}
-                                        {pyScript.versions[version].pasted && userStore.current?.admin && (
-                                            <span style={{ float: 'right' }} className="badge badge--danger">
-                                                Pasted
-                                            </span>
-                                        )}
-                                    </div>
-                                }
                                 splitView
-                                oldValue={pyScript.versions[version - 1].data.code}
-                                newValue={pyScript.versions[version].data.code}
+                                oldValue={versions[version - 1].code}
+                                newValue={versions[version].code}
                                 renderContent={highlightSyntax}
                             />
                         )}
-                    </div> */}
+                    </div>
                 </div>
-            </details>
+            </Details>
         </div>
     );
 };

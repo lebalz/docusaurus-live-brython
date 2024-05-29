@@ -1,6 +1,18 @@
-.historyDetails {
+.codeHistory>.historyDetails {
 	cursor: pointer;
+	margin-bottom: 0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 }
+.summary {
+	display: flex;
+	align-items: center;
+}
+.spacer {
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-basis: 0;
+} 
 
 .versionControl {
 	padding: 1em 2em;
