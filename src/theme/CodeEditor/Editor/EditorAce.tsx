@@ -32,8 +32,6 @@ const EditorAce = (props: Props) => {
     const lang = useStore(store, (state) => state.lang);
     const codeId = useStore(store, (state) => state.codeId);
     const showRaw = useStore(store, (state) => state.showRaw);
-    const setCode = useStore(store, (state) => state.setCode);
-    const execScript = useStore(store, (state) => state.execScript);
 
     React.useEffect(() => {
         if (eRef && eRef.current) {
@@ -43,7 +41,7 @@ const EditorAce = (props: Props) => {
                     // commands is array of key bindings.
                     name: 'execute',
                     bindKey: { win: 'Ctrl-Enter', mac: 'Command-Enter' },
-                    exec: () => execScript(),
+                    exec: () => store.execScript(),
                 });
             }
             node.editor.commands.addCommand({
@@ -70,7 +68,7 @@ const EditorAce = (props: Props) => {
     }, [eRef, lang]);
 
     return (
-        <div className={clsx(styles.brythonCodeBlock, styles.editor)}>
+        <div className={clsx(styles.editor)}>
             <AceEditor
                 className={clsx(styles.brythonEditor, !props.showLineNumbers && styles.noGutter)}
                 style={{
@@ -92,7 +90,7 @@ const EditorAce = (props: Props) => {
                 mode={ALIAS_LANG_MAP_ACE[lang as keyof typeof ALIAS_LANG_MAP_ACE] ?? lang}
                 theme="dracula"
                 onChange={(value: string) => {
-                    setCode(value);
+                    store.setCode(value);
                 }}
                 readOnly={showRaw}
                 value={showRaw ? pristineCode : code}

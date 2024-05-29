@@ -13,7 +13,6 @@ interface Props {
 const RunCode = (props: Props) => {
     const { store } = useScript();
     const isExecuting = useStore(store, (state) => state.isExecuting);
-    const execScript = useStore(store, (state) => state.execScript);
     return (
         <Button
             icon={isExecuting ? 'Python' : 'Play'}
@@ -22,7 +21,7 @@ const RunCode = (props: Props) => {
             className={clsx(styles.runCode, props.slim && styles.slim)}
             iconSize={props.slim ? '1.2em' : '1.6em'}
             onClick={() => {
-                execScript()
+                store.execScript()
             }}
             title={translate({
                 message: 'Run code snippet {title}',

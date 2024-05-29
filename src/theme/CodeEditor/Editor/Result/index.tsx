@@ -24,7 +24,7 @@ const Result = (props: Props) => {
         return msg.output;
     });
     return (
-        <div className={styles.brythonOut}>
+        <div className={styles.result}>
             <CodeBlock metastring={`{${errors.join(',')}}`}>
                 {code.join('')}
             </CodeBlock>

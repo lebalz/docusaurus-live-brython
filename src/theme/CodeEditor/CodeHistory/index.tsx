@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 import { Prism } from 'prism-react-renderer';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import { useScript, useStore } from './WithScript/ScriptStore';
+import { useScript, useStore } from '../WithScript/ScriptStore';
 
 interface Props {
 }
@@ -39,7 +39,7 @@ const CodeHistory = (props: Props) => {
                     e.preventDefault();
                     e.stopPropagation();
                     if (!open) {
-                        // pyScript.loadVersions();
+                        store.loadVersions();
                     }
                     setOpen(!open);
                 }}

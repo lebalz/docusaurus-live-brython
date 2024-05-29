@@ -29,7 +29,7 @@ const PyAceEditor = (props: Props) => {
     const lang = useStore(store, (state) => state.lang);
     return (
         <BrowserOnly
-            fallback={<div>loading...</div>}
+            fallback={<div>Loading...</div>}
         >
             {() => {
                     return (
@@ -41,12 +41,12 @@ const PyAceEditor = (props: Props) => {
                                     'live_py'
                                 )}
                             >
-                                {lang === 'python' && <BrythonCommunicator />}
                                 <Editor {...props} />
                                 {!props.noHistory && (
                                     <CodeHistory />
                                 )}
                             </div>
+                            {lang === 'python' && <BrythonCommunicator />}
                         </div>
                     )
             }}

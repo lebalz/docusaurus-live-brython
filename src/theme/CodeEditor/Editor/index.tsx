@@ -46,9 +46,11 @@ const Editor = (props: Props) => {
         maxLines={props.maxLines}
       />
       {lang === 'python' &&
-        <div className={clsx(styles.result)}>
+        <>
+          <Result />
+          <div id={DOM_ELEMENT_IDS.outputDiv(codeId)}></div>
           {isGraphicsmodalOpen && (
-            <React.Fragment>
+            <>
               {hasTurtleOutput && (
                 <TurtleResult />
               )}
@@ -58,11 +60,9 @@ const Editor = (props: Props) => {
               {!hasCanvasOutput && !hasTurtleOutput && (
                 <GraphicsResult />
               )}
-            </React.Fragment>
+            </>
           )}
-          <Result />
-          <div id={DOM_ELEMENT_IDS.outputDiv(codeId)}></div>
-        </div>
+        </>
       }
     </React.Fragment>
   );

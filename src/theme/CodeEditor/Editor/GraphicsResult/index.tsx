@@ -12,8 +12,6 @@ interface Props {
 const GraphicsResult = (props: Props) => {
     const { store } = useScript();
     const codeId = useStore(store, (state) => state.codeId);
-    const closeGraphicsModal = useStore(store, (state) => state.closeGraphicsModal);
-    const stopScript = useStore(store, (state) => state.stopScript);
     return (
         <Draggable
             onStop={checkForButtonClick}
@@ -22,13 +20,13 @@ const GraphicsResult = (props: Props) => {
             <div className={styles.brythonGraphicsResult}>
                 <div className={styles.brythonGraphicsResultHead}>
                     <span>Output</span>
-                    <span className={styles.spacer} ></span>
+                    <span className={styles.spacer}></span>
                     {props.controls}
                     <Button
                         icon="Close"
                         onClick={() => {
-                            stopScript();
-                            closeGraphicsModal();
+                            store.stopScript();
+                            store.closeGraphicsModal();
                         }}
                         iconSize='12px'
                     />

@@ -22,7 +22,7 @@ const Header = (props: Props) => {
     const hasEdits = useStore(store, (state) => state.hasEdits);
     const lang = useStore(store, (state) => state.lang);
     return (
-        <div className={clsx(styles.brythonCodeBlockHeader, styles.brythonCodeBlockHeader, styles.controls)}>
+        <div className={clsx(styles.controls, props.slim && styles.slim)}>
             {!props.slim && (
                 <React.Fragment>
                     <div className={styles.title}>{props.title}</div>

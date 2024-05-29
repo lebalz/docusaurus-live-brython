@@ -5,7 +5,6 @@ import { translate } from '@docusaurus/Translate';
 
 const Reset = () => {
     const { store } = useScript();
-    const setCode = useStore(store, (state) => state.setCode);
     const pristine = useStore(store, (state) => state.pristineCode);
     
     const onReset = () => {
@@ -13,7 +12,7 @@ const Reset = () => {
             message: 'Discard your edits? Your changes will be lost!'
         }));
         if (shouldReset) {
-            setCode(pristine);
+            store.setCode(pristine);
         }
     };
     return (

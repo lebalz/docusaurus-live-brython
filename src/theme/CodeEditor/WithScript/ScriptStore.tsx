@@ -34,30 +34,20 @@ export interface Script extends StoredScript {
     codeId: string;
     pristineCode: string;
     showRaw: boolean;
-    setCode: (code: string) => void;
     isExecuting?: boolean;
-    setExecuting: (executing: boolean) => void;
-    execScript: () => void,
     preCode: string;
     lang: 'py' | string;
     logs: LogMessage[];
-    addLogMessage: (log: LogMessage) => void;
-    clearLogMessages: () => void;
     isGraphicsmodalOpen: boolean;
-    stopScript: () => void;
     hasGraphicsOutput: boolean;
-    closeGraphicsModal: () => void;
     hasTurtleOutput: boolean;
     hasCanvasOutput: boolean;
     hasEdits: boolean;
     /**
      * Storage props
-     */
-    isLoaded: boolean;
-    load: () => Promise<Status>;
-    set: (script: StoredScript) => Promise<Status>;
-    del: () => Promise<Status>;
-    status: Status;
+    */
+   isLoaded: boolean;
+   status: Status;
 }
 
 export interface LogMessage {
@@ -94,6 +84,17 @@ interface Store<T = Script> {
     setState: (fn: (state: Script) => Script) => void;
     subscribe: (listener: () => void) => () => void;
     saveNow: () => Promise<Status>;
+    setCode: (code: string) => void;
+    setExecuting: (executing: boolean) => void;
+    execScript: () => void,
+    stopScript: () => void;
+    closeGraphicsModal: () => void;
+    load: () => Promise<Status>;
+    set: (script: StoredScript) => Promise<Status>;
+    del: () => Promise<Status>;
+    addLogMessage: (log: LogMessage) => void;
+    clearLogMessages: () => void;
+    loadVersions: () => Promise<void>;
 }
 
 
@@ -242,37 +243,36 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         return Status.SUCCESS;
     }
     const codeData = prepareCode(props.raw, { stateNotInitialized: true });
+    const setExecuting = (isExecuting: boolean) => {
+        setState((s) => ({...s, isExecuting: isExecuting}))
+    };
+    const addLogMessage = (log: LogMessage) => {
+        setState((s) => ({...s, logs: [...s.logs, log]}));
+    };
+    const clearLogMessages = () => {
+        setState((s) => ({...s, logs: []}));
+    };
+    const closeGraphicsModal = () => {
+        setState((s) => ({...s, isGraphicsmodalOpen: false}));
+    };
+    const stopScript = () => {
+        const code = document.getElementById(DOM_ELEMENT_IDS.communicator(state.codeId));
+        if (code) {
+            code.removeAttribute('data--start-time');
+        }
+    };
     let state: Script = {
         id: id,
         codeId: codeId,
         lang: props.lang,
         showRaw: false,
         pristineCode: codeData.code,
-        setCode: setCode,
         isExecuting: false,
-        setExecuting: (isExecuting: boolean) => setState((s) => ({...s, isExecuting: isExecuting})),
-        execScript: execScript,
         logs: [],
-        addLogMessage: (log: LogMessage) => {
-            setState((s) => ({...s, logs: [...s.logs, log]}));
-        },
-        clearLogMessages: () => {
-            setState((s) => ({...s, logs: []}));
-        },
         isGraphicsmodalOpen: false,
-        closeGraphicsModal: () => setState((s) => ({...s, isGraphicsmodalOpen: false})),
-        stopScript: () => {
-            const code = document.getElementById(DOM_ELEMENT_IDS.communicator(state.codeId));
-            if (code) {
-                code.removeAttribute('data--start-time');
-            }
-        },
         hasEdits: false,
         createdAt: createdAt,
         isLoaded: false,
-        load: load,
-        set: set,
-        del: del,
         status: Status.IDLE,
         ...codeData
     };
@@ -288,7 +288,28 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         listeners.add(listener);
         return () => listeners.delete(listener);
     };
-    return { getState, setState, subscribe, saveNow } satisfies Store;
+    const loadVersions = async () => {
+        // noop
+        return Promise.resolve();
+    }
+
+    return { 
+        getState, 
+        setState, 
+        subscribe, 
+        saveNow, 
+        addLogMessage, 
+        clearLogMessages, 
+        closeGraphicsModal, 
+        del, 
+        set, 
+        load, 
+        setCode, 
+        execScript, 
+        setExecuting, 
+        stopScript,
+        loadVersions
+    } satisfies Store;
 };
     
 
@@ -309,7 +330,7 @@ const ScriptContext = (props: InitState & { children: React.ReactNode; }) => {
     React.useEffect(() => {
         const store = createStore(props, libDir);
         setStore(store);
-        store.getState().load();
+        store.load();
     }, [props.id, libDir]);
 
     if (!store) {

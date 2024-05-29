@@ -4,9 +4,6 @@ import { LogMessage, useScript, useStore } from './WithScript/ScriptStore';
 
 const BrythonCommunicator = () => {
     const { store } = useScript();
-    const addLogMessage = useStore(store, (state) => state.addLogMessage);
-    const clearLogMessages = useStore(store, (state) => state.clearLogMessages);
-    const setExecuting = useStore(store, (state) => state.setExecuting);
     const codeId = useStore(store, (state) => state.codeId);
     
 
@@ -21,14 +18,14 @@ const BrythonCommunicator = () => {
                 const data = event.detail as LogMessage;
                 switch (data.type) {
                     case "start":
-                        clearLogMessages();
-                        setExecuting(true);
+                        store.clearLogMessages();
+                        store.setExecuting(true);
                         break;
                     case "done":
-                        setExecuting(false);
+                        store.setExecuting(false);
                         break;
                     default:
-                        addLogMessage(data);
+                        store.addLogMessage(data);
                         break;
                 }
             }
@@ -38,7 +35,7 @@ const BrythonCommunicator = () => {
             current.removeEventListener(BRYTHON_NOTIFICATION_EVENT, onBryNotify as EventListener)
         }
 
-    }, [ref, addLogMessage, setExecuting, clearLogMessages]);
+    }, [ref, store]);
 
     return (
         <div

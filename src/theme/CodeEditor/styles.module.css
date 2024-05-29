@@ -10,20 +10,6 @@
 	grid-template-areas: 'controls' 'editor' 'result';
 }
 
-.controls {
-	grid-area: controls;
-}
-
-.editor {
-	grid-area: editor;
-}
-
-.result {
-	grid-area: result;
-	max-width: 100%;
-	overflow-x: auto;
-}
-
 .containerSlim {
 	display: grid;
 	grid-template-columns: 1fr min-content;
@@ -32,6 +18,16 @@
 	grid-auto-flow: row;
 	grid-template-areas: 'editor controls' 'result result';
 }
+
+
+.containerSlim .headerButton {
+	z-index: calc(var(--ifm-z-index-fixed) - 2);
+	height: 100%;
+	border-radius: 0px;
+	padding: 2px 6px;
+	margin: 0px;
+}
+
 
 .wrapper:last-child .playgroundContainer {
 	margin-bottom: inherit;
@@ -44,160 +40,4 @@
 	overflow: hidden;
 	flex-grow: 1;
 	flex-shrink: 1;
-}
-
-:global(.flex) :local(.playgroundContainer) {
-	margin-bottom: 0;
-}
-
-.brythonCodeBlock {
-	display: flex;
-	flex-wrap: wrap;
-}
-
-.brythonCodeBlock .noGutter :global .ace_scroller {
-	left: 4px !important;
-}
-
-.brythonCodeBlock :global .ace_scrollbar.ace_scrollbar-h {
-	overflow-x: hidden !important;
-}
-
-.brythonEditor {
-	flex-grow: 1;
-	flex-basis: 80ch;
-	font: var(--ifm-code-font-size) / var(--ifm-pre-line-height) var(--ifm-font-family-monospace) !important;
-	/*rtl:ignore*/
-	direction: ltr;
-}
-
-.brythonOut {
-	--ifm-leading: 0;
-	flex-grow: 1;
-	flex-basis: 80ch;
-}
-
-.brythonOut>pre {
-	margin-bottom: 0px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-}
-
-.brythonOut :global .theme-code-block-highlighted-line {
-	color: var(--ifm-color-danger-darker) !important;
-	background: transparent;
-}
-
-.containerSlim>.brythonCodeBlockHeader {
-	padding: 0px;
-}
-
-.spacer {
-	flex-grow: 1;
-}
-
-.playgroundHeader:first-of-type {
-	background: var(--ifm-color-emphasis-600);
-	color: var(--ifm-color-content-inverse);
-}
-
-.badge {
-	cursor: pointer;
-}
-
-.controls {
-	z-index: calc(var(--ifm-z-index-fixed) - 2);
-	grid-area: controls;
-}
-
-.headerButton {
-	z-index: calc(var(--ifm-z-index-fixed) - 2);
-	border: none;
-	border-radius: 6px;
-	padding: 6px 12px;
-	cursor: pointer;
-	margin: 0px 2px;
-}
-
-.headerButton:hover {
-	box-shadow: 2px 2px 45px var(--ifm-color-primary);
-}
-
-.containerSlim .headerButton {
-	z-index: calc(var(--ifm-z-index-fixed) - 2);
-	height: 100%;
-	border-radius: 0px;
-	padding: 2px 6px;
-	margin: 0px;
-}
-
-.brythonCodeBlockHeader {
-	display: flex;
-	align-items: center;
-	letter-spacing: 0.08em;
-	padding: 0.5em;
-	text-transform: uppercase;
-	font-weight: bold;
-	background: var(--ifm-color-emphasis-200);
-	color: var(--ifm-color-content);
-	font-size: calc(var(--ifm-code-font-size) * 1.2);
-}
-
-.brythonCodeBlockHeader>.title {
-	flex-shrink: 1;
-	flex-grow: 1;
-	overflow-x: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-.showRawButton {
-	background-color: var(--ifm-color-primary);
-	color: white;
-}
-
-.showRawButtonDisabled {
-	background-color: transparent;
-	border: 2px solid var(--ifm-color-primary);
-	color: var(--ifm-color-primary);
-	padding: 4px 10px;
-}
-
-.codeHistory .historyDetails {
-	cursor: pointer;
-}
-
-.codeHistory .versionControl {
-	padding: 1em 2em;
-	box-shadow: var(--ifm-global-shadow-lw);
-	border-radius: var(--ifm-global-radius);
-}
-
-.codeHistory .faButton {
-	margin-left: 1em;
-}
-
-.codeHistory .faButton:hover {
-	transform: scale(1.2);
-}
-
-.codeHistory .diffViewer {
-	--ifm-pre-background: rgba(255, 255, 255, 0);
-	--ifm-alert-background-color: rgba(255, 255, 255, 0);
-	--ifm-alert-background-color-highlight: rgba(255, 255, 255, 0);
-	--ifm-table-stripe-background: rgba(255, 255, 255, 0);
-	font-family: monospace;
-	overflow: auto;
-}
-
-.codeHistory .diffViewer table tbody tr td {
-	padding-top: 0;
-	padding-bottom: 0;
-}
-
-.codeHistory .diffViewer table tbody tr td pre {
-	white-space: nowrap;
-	padding-top: 0;
-	padding-bottom: 0;
-	line-height: 18px;
 }

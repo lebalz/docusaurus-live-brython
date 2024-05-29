@@ -1,0 +1,19 @@
+.result {
+	grid-area: result;
+	max-width: 100%;
+	overflow-x: auto;
+    --ifm-leading: 0;
+    flex-grow: 1;
+    flex-basis: 80ch;
+}
+
+.result>pre {
+	margin-bottom: 0px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.result :global(.theme-code-block-highlighted-line) {
+	color: var(--ifm-color-danger-darker) !important;
+	background: transparent;
+}

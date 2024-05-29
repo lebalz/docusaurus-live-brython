@@ -1,0 +1,26 @@
+.controls {
+    grid-area: controls;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.08em;
+    
+    z-index: calc(var(--ifm-z-index-fixed) - 2);
+    padding: 0.5em;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: var(--ifm-color-emphasis-200);
+    color: var(--ifm-color-content);
+    font-size: calc(var(--ifm-code-font-size) * 1.2);
+}
+
+.controls > .title {
+	flex-shrink: 1;
+	flex-grow: 1;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.controls.slim {
+    padding: 0;
+}
