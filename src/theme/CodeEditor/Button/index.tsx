@@ -23,6 +23,7 @@ interface Props {
     title?: string;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
     size?: Size;
+    iconSize?: string;
     spin?: boolean;
     color?: Color;
     className?: string;
@@ -41,6 +42,7 @@ const Button = (props: Props) => {
                 icon={props.icon}
                 className={styles.icon}
                 spin={props.spin}
+                size={props.iconSize || '1.6em'}
             />
         </button>
     )

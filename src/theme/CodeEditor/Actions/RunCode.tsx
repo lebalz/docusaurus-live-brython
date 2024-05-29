@@ -20,6 +20,7 @@ const RunCode = (props: Props) => {
             spin={isExecuting}
             color={Color.Success}
             className={clsx(styles.runCode, props.slim && styles.slim)}
+            iconSize={props.slim ? '1.2em' : '1.6em'}
             onClick={() => {
                 execScript()
             }}
