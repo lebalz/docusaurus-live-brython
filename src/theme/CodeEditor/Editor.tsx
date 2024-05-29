@@ -1,7 +1,7 @@
 import * as React from "react";
 import clsx from "clsx";
 import styles from "./styles.module.css";
-import Editor from "./EditorAce";
+import EditorAce from "./EditorAce";
 import {
   DOM_ELEMENT_IDS,
 } from "./constants";
@@ -24,14 +24,12 @@ interface Props {
   maxLines?: number;
 }
 
-const PyEditor = (props: Props) => {
+const Editor = (props: Props) => {
   const { store } = useScript();
-  // const { lang, codeId } = useStore(store, (state) => ({lang: state.lang, codeId: state.codeId}));
   const lang = useStore(store, (state) => state.lang);
   const codeId = useStore(store, (state) => state.codeId);
   const hasCanvasOutput = useStore(store, (state) => state.hasCanvasOutput);
   const hasTurtleOutput = useStore(store, (state) => state.hasTurtleOutput);
-  const hasGraphicsOutput = useStore(store, (state) => state.hasGraphicsOutput);
   const isGraphicsmodalOpen = useStore(store, (state) => state.isGraphicsmodalOpen);
   
   return (
@@ -43,7 +41,7 @@ const PyEditor = (props: Props) => {
         download={props.download}
         noCompare={props.noCompare}
       />
-      <Editor 
+      <EditorAce 
         showLineNumbers={props.showLineNumbers} 
         maxLines={props.maxLines}
       />
@@ -70,4 +68,4 @@ const PyEditor = (props: Props) => {
   );
 };
 
-export default PyEditor;
+export default Editor;

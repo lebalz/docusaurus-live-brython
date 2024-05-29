@@ -2,9 +2,12 @@ import * as React from 'react';
 import { useScript, useStore } from '../WithScript/ScriptStore';
 import Button, { Color } from '../Button';
 import { translate } from '@docusaurus/Translate';
+import styles from './styles.module.css';
+import clsx from 'clsx';
 
 interface Props {
     title: string;
+    slim: boolean;
 }
 
 const RunCode = (props: Props) => {
@@ -16,6 +19,7 @@ const RunCode = (props: Props) => {
             icon={isExecuting ? 'Python' : 'Play'}
             spin={isExecuting}
             color={Color.Success}
+            className={clsx(styles.runCode, props.slim && styles.slim)}
             onClick={() => {
                 execScript()
             }}

@@ -124,38 +124,40 @@ const syncStorageScript = (script: StoredScript, storage: StorageSlot): boolean 
 }
 
 export const createStore = (props: InitState, libDir: string): Store => {
+    const canSave = !!props.id;
+    console.log(props)
     const id = props.id || uuidv4();
-    const codeId = `code.${props.title}.${id}`.replace(/(-|\.)/g, '_');
+    const codeId = `code.${props.title || props.lang}.${id}`.replace(/(-|\.)/g, '_');
     const createdAt = new Date();
-    const storageKey = `code.${props.title || 'code_block'}`;
+    const storageKey = `code.${props.title || 'code_block'}.${id}`;
     const storage = createStorageSlot(storageKey);
     
     const loadData = (store) => {
-        setState((s) => ({...s, status: Status.SYNCING}));
+        setState((s) => ({...s, status: canSave ? Status.SYNCING : s.status}));
         const script = getStorageScript(store);
         const loadedCode = script?.code ? prepareCode(script.code, { codeOnly: true }) : {};
         if (!state.isLoaded) {
-            setState((s) => ({...s, isLoaded: true, ...(script || {}), ...loadedCode, status: Status.SUCCESS}));        
+            setState((s) => ({...s, isLoaded: true, ...(script || {}), ...loadedCode, status: canSave ? Status.SUCCESS : s.status}));        
             return Status.SUCCESS;
         }
         if (script) {
-            setState((s) => ({...s, ...script, ...loadedCode, status: Status.SUCCESS}));
+            setState((s) => ({...s, ...script, ...loadedCode, status: canSave ? Status.SUCCESS : s.status}));
             return Status.SUCCESS;
         }
-        setState((s) => ({...s, status: Status.ERROR}));
+        setState((s) => ({...s, status: canSave ? Status.ERROR : s.status}));
         return Status.ERROR;
     }
 
-    const prepareCode = (raw: string, config: { codeOnly?: boolean, initializeVersions?: boolean } = {}) => {
+    const prepareCode = (raw: string, config: { codeOnly?: boolean, stateNotInitialized?: boolean } = {}) => {
         const { pre, code } = config.codeOnly 
                                 ? { pre: getPreCode(state.pristineCode).pre, code: raw }
                                 : getPreCode(raw);
-        const hasEdits = raw !== props.raw;
+        const hasEdits = code !== (config.stateNotInitialized ? getPreCode(props.raw).code : state.pristineCode);
         const updatedAt = new Date();
         const hasCanvasOutput = checkCanvasOutput(raw);
         const hasTurtleOutput = checkTurtleOutput(raw);
         const hasGraphicsOutput = checkGraphicsOutput(raw);
-        const versions = config.initializeVersions ? [] : [...state.versions];
+        const versions = config.stateNotInitialized ? [] : [...state.versions];
         if (props.versioned) {
             versions.unshift({code, createdAt: updatedAt});
         }
@@ -179,7 +181,9 @@ export const createStore = (props: InitState, libDir: string): Store => {
                 ...data
             })
         );
-        set({code: data.code, createdAt: state.createdAt, updatedAt: data.updatedAt, versions: data.versions});
+        if (props.id) {
+            set({code: data.code, createdAt: state.createdAt, updatedAt: data.updatedAt, versions: data.versions});
+        }
     };
 
     const execScript = () => {
@@ -195,6 +199,7 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         setState((s) => ({...s, isExecuting: true, isGraphicsmodalOpen: state.hasGraphicsOutput}));
         const active = document.getElementById(DOM_ELEMENT_IDS.communicator(state.codeId));
         active.setAttribute('data--start-time', `${Date.now()}`);
+        console.log(libDir, `http://localhost:3000${libDir}`)
         /**
          * ensure that the script is executed after the current event loop.
          * Otherwise, the brython script will not be able to access the graphics output.
@@ -203,7 +208,6 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
             (window as any).__BRYTHON__.runPythonSource(
                 src,
                 {
-                    id: 'main', 
                     pythonpath: [libDir]
                 }
             );
@@ -213,12 +217,12 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         return loadData(storage);
     };
     const _set = async (script: StoredScript) => {
-        setState((s) => ({...s, status: Status.SYNCING}));
+        setState((s) => ({...s, status: canSave ? Status.SYNCING : s.status}));
         if (syncStorageScript(script, storage)) {
-            setState((s) => ({...s, status: Status.SUCCESS}));
+            setState((s) => ({...s, status: canSave ? Status.SUCCESS : s.status}));
             return Status.SUCCESS;
         }
-        setState((s) => ({...s, status: Status.ERROR}));
+        setState((s) => ({...s, status: canSave ? Status.ERROR : s.status}));
         return Status.ERROR;
     };
 
@@ -239,7 +243,7 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         storage.del();
         return Status.SUCCESS;
     }
-    const codeData = prepareCode(props.raw, { initializeVersions: true });
+    const codeData = prepareCode(props.raw, { stateNotInitialized: true });
     let state: Script = {
         id: id,
         codeId: codeId,

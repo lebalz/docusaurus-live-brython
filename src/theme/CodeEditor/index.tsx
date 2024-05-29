@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styles from './styles.module.css';
-import PyEditor from './Editor';
+import Editor from './Editor';
 import BrythonCommunicator from './BrythonCommunicator';
 import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
@@ -41,7 +41,7 @@ const PyAceEditor = (props: Props) => {
                 )}
             >
                 {lang === 'python' && <BrythonCommunicator />}
-                <PyEditor {...props} />
+                <Editor {...props} />
                 {!props.noHistory && (
                     <CodeHistory />
                 )}

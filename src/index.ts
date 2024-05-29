@@ -14,10 +14,8 @@
  * 
  */
 
-import type { DocusaurusConfig, HtmlTags, LoadContext, Plugin, Preset } from '@docusaurus/types';
-import {Joi} from '@docusaurus/utils-validation'
+import type { HtmlTags, LoadContext, Plugin } from '@docusaurus/types';
 // eslint-disable-next-line import/no-extraneous-dependencies, import/order
-import webpack from 'webpack';
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import path from 'path';

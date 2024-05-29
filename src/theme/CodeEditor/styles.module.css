@@ -1,8 +1,5 @@
 /** * Copyright (c) Facebook, Inc. and its affiliates. * * This source code is licensed under the MIT license found in the * LICENSE file in the root directory of this source tree. */
-.wrapper {
-	/**/
-}
- .wrapper .containerBig {
+.containerBig {
 	 display: grid;
 	 flex-grow: 1;
 	 flex-shrink: 1;
@@ -13,18 +10,18 @@
 	 grid-auto-flow: row;
 	 grid-template-areas: 'controls' 'editor' 'result';
 }
- .wrapper .controls {
+.controls {
 	 grid-area: controls;
 }
- .wrapper .editor {
+.editor {
 	 grid-area: editor;
 }
- .wrapper .result {
+.result {
 	 grid-area: result;
 	 max-width: 100%;
 	 overflow-x: auto;
 }
- .wrapper .containerSlim {
+.containerSlim {
 	 display: grid;
 	 grid-template-columns: 1fr min-content;
 	 grid-template-rows: 1fr min-content;
@@ -32,10 +29,12 @@
 	 grid-auto-flow: row;
 	 grid-template-areas: 'editor controls' 'result result';
 }
- .wrapper:last-child .playgroundContainer {
+
+.wrapper:last-child .playgroundContainer {
 	 margin-bottom: inherit;
 }
- .wrapper .playgroundContainer {
+
+.playgroundContainer {
 	 margin-bottom: var(--ifm-leading);
 	 border-radius: var(--ifm-global-radius);
 	 box-shadow: var(--ifm-global-shadow-lw);
@@ -43,20 +42,22 @@
 	 flex-grow: 1;
 	 flex-shrink: 1;
 }
- .wrapper :global .flex :local .playgroundContainer {
+
+:global(.flex) :local(.playgroundContainer) {
 	 margin-bottom: 0;
 }
- .wrapper .brythonCodeBlock {
+.brythonCodeBlock {
 	 display: flex;
 	 flex-wrap: wrap;
 }
- .wrapper .brythonCodeBlock .noGutter :global .ace_scroller {
+.brythonCodeBlock .noGutter :global .ace_scroller {
 	 left: 4px !important;
 }
- .wrapper .brythonCodeBlock :global .ace_scrollbar.ace_scrollbar-h {
+.brythonCodeBlock :global .ace_scrollbar.ace_scrollbar-h {
 	 overflow-x: hidden !important;
 }
- .wrapper .brythonGraphicsResult {
+
+.brythonGraphicsResult {
 	 position: absolute;
 	 left: 0;
 	 cursor: move;

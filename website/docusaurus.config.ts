@@ -18,6 +18,7 @@ const config: Config = {
   favicon: 'img/favicon.ico',
   organizationName: 'lebalz', // Usually your GitHub org/user name.
   projectName: 'docusaurus-live-brython', // Usually your repo name.
+  trailingSlash: false,
   themeConfig: {
     navbar: {
       title: 'Live Brython',

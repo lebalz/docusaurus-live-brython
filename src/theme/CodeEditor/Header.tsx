@@ -17,33 +17,29 @@ interface Props {
     noCompare: boolean;
 }
 
-const Header = ({ slim, title, resettable, noCompare, download }: Props) => {
+const Header = (props: Props) => {
     const { store } = useScript();
 
     const hasEdits = useStore(store, (state) => state.hasEdits);
     const lang = useStore(store, (state) => state.lang);
-    const isLoaded = useStore(store, (state) => state.isLoaded);
-    const status = useStore(store, (state) => state.status);
-
-
     return (
         <div className={clsx(styles.brythonCodeBlockHeader, styles.brythonCodeBlockHeader, styles.controls)}>
-            {!slim && (
+            {!props.slim && (
                 <React.Fragment>
-                    <div className={styles.title}>{title}</div>
+                    <div className={styles.title}>{props.title}</div>
                     <ShowSyncStatus />
-                    {hasEdits && resettable && (
+                    {hasEdits && props.resettable && (
                         <Reset />
                     )}
-                    {download && (
-                        <DownloadCode title={title} />
+                    {props.download && (
+                        <DownloadCode title={props.title} />
                     )}
-                    {hasEdits && !noCompare && (
+                    {hasEdits && !props.noCompare && (
                        <ShowRaw />
                     )}
                 </React.Fragment>
             )}
-            {lang === 'python' && <RunCode title={title} />}
+            {lang === 'python' && <RunCode title={props.title} slim={props.slim} />}
         </div>
     );
 };

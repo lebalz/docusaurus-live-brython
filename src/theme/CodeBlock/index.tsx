@@ -61,9 +61,6 @@ export default function CodeBlockWrapper(props: Props): JSX.Element {
     //     return <Playground scope={ReactLiveScope} {...props} />;
     // }
     if (metaProps.live_py && ExecutionEnvironment.canUseDOM) {
-        if (!metaProps.id && !metaProps.slim) {
-            return <CodeBlock {...props} />;
-        }
         const title = props.title || metaProps.title;
 
         const rawcode: string = (props.children as string || '').replace(/\s*\n$/, '');

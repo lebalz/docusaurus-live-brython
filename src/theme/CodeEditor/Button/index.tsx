@@ -33,7 +33,7 @@ const Button = (props: Props) => {
 
     return (
         <button 
-            className={clsx('button', props.color || Color.Secondary, props.size || Size.Small, styles.button)}
+            className={clsx('button', props.color || Color.Secondary, props.size || Size.Small, styles.button, props.className)}
             onClick={props.onClick}
             title={props.title}
         >
