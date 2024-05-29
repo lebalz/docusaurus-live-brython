@@ -1,16 +1,16 @@
 import * as React from "react";
 import clsx from "clsx";
 import styles from "./styles.module.css";
-import EditorAce from "./EditorAce";
 import {
   DOM_ELEMENT_IDS,
-} from "./constants";
-import TurtleResult from "./GraphicsResult/Turtle";
-import Header from "./Header";
-import GraphicsResult from "./GraphicsResult";
-import CanvasResult from "./GraphicsResult/Canvas";
-import { useScript, useStore } from './WithScript/ScriptStore';
+} from "../constants";
+import { useScript, useStore } from '../WithScript/ScriptStore';
 import Result from "./Result";
+import TurtleResult from "./GraphicsResult/Turtle";
+import CanvasResult from "./GraphicsResult/Canvas";
+import GraphicsResult from "./GraphicsResult";
+import Header from "./Header";
+import EditorAce from "./EditorAce";
 
 interface Props {
   slim: boolean;
@@ -41,7 +41,7 @@ const Editor = (props: Props) => {
         download={props.download}
         noCompare={props.noCompare}
       />
-      <EditorAce 
+      <EditorAce
         showLineNumbers={props.showLineNumbers} 
         maxLines={props.maxLines}
       />

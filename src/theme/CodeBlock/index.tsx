@@ -5,7 +5,6 @@ import CodeBlock, {type Props as CodeBlockType} from '@theme-init/CodeBlock';
 // @ts-ignore
 import type { WrapperProps } from '@docusaurus/types';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import { sanitizedTitle, sanitizeId } from '../CodeEditor/utils/sanitizers';
 import CodeEditor from '../CodeEditor';
 
 // @ts-ignore
@@ -31,6 +30,14 @@ interface MetaProps {
         noCompare?: boolean;
         maxLines?: string;
         title?: string
+}
+
+
+const sanitizedTitle = (id: string) => {
+    if (!id) {
+        return;
+    }
+    return id.replace(/--/g, '<<HYPHEN>>').replace(/__/g, '<<UNDERSCORE>>').replace(/[-_]/g, ' ').replace(/<<UNDERSCORE>>/g, '_').replace(/<<HYPHEN>>/g, '-')
 }
 
 const extractMetaProps = (props: {metastring?: string}): MetaProps => {

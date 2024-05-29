@@ -125,7 +125,6 @@ const syncStorageScript = (script: StoredScript, storage: StorageSlot): boolean 
 
 export const createStore = (props: InitState, libDir: string): Store => {
     const canSave = !!props.id;
-    console.log(props)
     const id = props.id || uuidv4();
     const codeId = `code.${props.title || props.lang}.${id}`.replace(/(-|\.)/g, '_');
     const createdAt = new Date();
@@ -199,7 +198,6 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         setState((s) => ({...s, isExecuting: true, isGraphicsmodalOpen: state.hasGraphicsOutput}));
         const active = document.getElementById(DOM_ELEMENT_IDS.communicator(state.codeId));
         active.setAttribute('data--start-time', `${Date.now()}`);
-        console.log(libDir, `http://localhost:3000${libDir}`)
         /**
          * ensure that the script is executed after the current event loop.
          * Otherwise, the brython script will not be able to access the graphics output.

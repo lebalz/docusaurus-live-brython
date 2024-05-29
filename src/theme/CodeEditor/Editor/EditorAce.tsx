@@ -1,7 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import { DOM_ELEMENT_IDS } from './constants';
+import { DOM_ELEMENT_IDS } from '../constants';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/mode-python';
@@ -10,7 +10,7 @@ import 'ace-builds/src-noconflict/mode-svg';
 import 'ace-builds/src-noconflict/theme-dracula';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import 'ace-builds/webpack-resolver';
-import { useScript, useStore } from './WithScript/ScriptStore';
+import { useScript, useStore } from '../WithScript/ScriptStore';
 // import 'ace-builds/src-noconflict/theme-textmate';
 // import('ace-builds/src-noconflict/snippets/python'),
 
@@ -24,7 +24,7 @@ const ALIAS_LANG_MAP_ACE = {
     mpy: 'python',
 }
 
-const Editor = (props: Props) => {
+const EditorAce = (props: Props) => {
     const eRef = React.useRef<AceEditor>(null);
     const { store } = useScript();
     const code = useStore(store, (state) => state.code);
@@ -114,4 +114,4 @@ const Editor = (props: Props) => {
         </div>
     );
 };
-export default Editor;
+export default EditorAce;

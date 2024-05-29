@@ -1,13 +1,12 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import { Status, useScript, useStore } from './WithScript/ScriptStore';
-import ShowRaw from './Actions/ShowRaw';
-import RunCode from './Actions/RunCode';
-import Icon, { Color } from './Icon';
-import Reset from './Actions/Reset';
-import DownloadCode from './Actions/DownloadCode';
-import ShowSyncStatus from './Actions/ShowSyncStatus';
+import { useScript, useStore } from '../../WithScript/ScriptStore';
+import ShowSyncStatus from '../../Actions/ShowSyncStatus';
+import Reset from '../../Actions/Reset';
+import DownloadCode from '../../Actions/DownloadCode';
+import ShowRaw from '../../Actions/ShowRaw';
+import RunCode from '../../Actions/RunCode';
 
 interface Props {
     slim: boolean;

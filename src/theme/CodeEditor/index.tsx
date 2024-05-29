@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import CodeHistory from './CodeHistory';
 import { useScript, useStore } from './WithScript/ScriptStore';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
 interface Props {
     slim: boolean;
@@ -24,29 +25,32 @@ interface Props {
 }
 
 const PyAceEditor = (props: Props) => {
-    const inBrowser = useIsBrowser();
     const { store } = useScript();
     const lang = useStore(store, (state) => state.lang);
-
-    if (!inBrowser) {
-        return <div>SSR</div>;
-    }
     return (
-        <div className={clsx(styles.wrapper, 'notranslate')}>
-            <div
-                className={clsx(
-                    styles.playgroundContainer,
-                    props.slim ? styles.containerSlim : styles.containerBig,
-                    'live_py'
-                )}
-            >
-                {lang === 'python' && <BrythonCommunicator />}
-                <Editor {...props} />
-                {!props.noHistory && (
-                    <CodeHistory />
-                )}
-            </div>
-        </div>
+        <BrowserOnly
+            fallback={<div>loading...</div>}
+        >
+            {() => {
+                    return (
+                        <div className={clsx(styles.wrapper, 'notranslate')}>
+                            <div
+                                className={clsx(
+                                    styles.playgroundContainer,
+                                    props.slim ? styles.containerSlim : styles.containerBig,
+                                    'live_py'
+                                )}
+                            >
+                                {lang === 'python' && <BrythonCommunicator />}
+                                <Editor {...props} />
+                                {!props.noHistory && (
+                                    <CodeHistory />
+                                )}
+                            </div>
+                        </div>
+                    )
+            }}
+        </BrowserOnly>
     );
 };
 

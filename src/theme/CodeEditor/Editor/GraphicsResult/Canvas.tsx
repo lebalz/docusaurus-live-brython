@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { DOM_ELEMENT_IDS } from '../constants';
+import { DOM_ELEMENT_IDS } from '../../constants';
 import GraphicsResult from '.';
 import styles from './styles.module.css';
-import { useScript, useStore } from '../WithScript/ScriptStore';
+import { useScript, useStore } from '../../WithScript/ScriptStore';
 
 const downloadCanvas = (canvasId: string) => {
     const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
