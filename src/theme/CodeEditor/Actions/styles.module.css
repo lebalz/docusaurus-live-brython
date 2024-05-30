@@ -4,3 +4,12 @@
     padding: 2px 4px;
     margin: 0px;
 }
+
+
+html[data-theme='dark'] {
+    .runCode {
+        color: white
+    }
+}
+  
+  
