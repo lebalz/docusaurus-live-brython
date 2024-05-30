@@ -1,10 +1,12 @@
+.runCode {
+    margin-right: 0;
+}
 .runCode.slim {
     height: 100%;
     border-radius: 0px;
     padding: 2px 4px;
     margin: 0px;
 }
-
 
 html[data-theme='dark'] {
     .runCode {

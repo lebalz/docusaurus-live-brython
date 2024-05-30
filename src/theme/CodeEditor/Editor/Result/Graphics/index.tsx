@@ -5,6 +5,7 @@ import Draggable from 'react-draggable';
 import { checkForButtonClick } from '../../utils/checkForButtonClick';
 import { useScript, useStore } from '../../../WithScript/Store';
 import Button from '../../../Button';
+import clsx from 'clsx';
 interface Props {
     controls?: JSX.Element;
     main?: JSX.Element;
@@ -24,6 +25,7 @@ const GraphicsResult = (props: Props) => {
                     {props.controls}
                     <Button
                         icon="Close"
+                        className={clsx(styles.closeButton)}
                         onClick={() => {
                             store.stopScript();
                             store.closeGraphicsModal();

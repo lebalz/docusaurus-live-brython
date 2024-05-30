@@ -5,7 +5,8 @@
     letter-spacing: 0.08em;
     
     z-index: calc(var(--ifm-z-index-fixed) - 2);
-    padding: 0.5em;
+    padding: 0.2em;
+    padding-left: 0.5em;
     text-transform: uppercase;
     font-weight: bold;
     background: var(--ifm-color-emphasis-200);
