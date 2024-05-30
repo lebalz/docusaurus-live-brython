@@ -66,7 +66,6 @@ while True:
     if abs(p[0]) < 1 and abs(p[1]) < 1:
         break
 end_fill()
-done()
 ```
 
 ### Persist code to the local storage
@@ -109,8 +108,8 @@ To get started, add the theme to your Docusaurus project:
 
 Then add it to your `docusaurus.config.js`:
 
-```diff
-module.exports = {
+```js
+export default = {
   ...
 // highlight-next-line
 + themes: ['docusaurus-live-brython'],

@@ -23,7 +23,7 @@ const Reset = () => {
                 description: 'Reset the code to its original state',
                 id: 'theme.CodeEditor.Header.reset',
             })}
-            icon="Undo"
+            icon="Reset"
         />
     )
 }

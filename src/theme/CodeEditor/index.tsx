@@ -42,7 +42,9 @@ const PyAceEditor = (props: Props) => {
                                 )}
                             >
                                 <Editor {...props} />
-                                <CodeHistory />
+                                {!props.noHistory && (
+                                    <CodeHistory />
+                                )}
                             </div>
                             {lang === 'python' && <BrythonCommunicator />}
                         </div>

@@ -1,5 +1,4 @@
-from browser import document, html # type: ignore
-from browser import timer, window # type: ignore
+from browser import document # type: ignore
 from config import Config # type: ignore
 
 class Rectangle():
@@ -27,7 +26,7 @@ class Rectangle():
 
     @property
     def color(self):
-        return self._color
+        return self._color or 'rgba(0,0,0,0)'
 
     @color.setter
     def color(self, color: str):
@@ -142,7 +141,7 @@ class Grid():
         parent.appendChild(canv)
 
     @staticmethod
-    def from_bin_text(bin_text: str, colors={'s': 'black', '1': 'black', 'x': 'black', 'bg': ''}):
+    def from_text(bin_text: str, colors={'s': 'black', '1': 'black', 'x': 'black', 'bg': ''}):
         lines = bin_text.lower().splitlines()
         if 'bg' not in colors:
             colors['bg'] = ''
@@ -174,16 +173,16 @@ class Grid():
         self.max = len(lines)
 
         
-    def tolist(self):
+    def to_list(self):
         return [[c.color for c in l.line] for l in self.lines]
 
     @property
     def color_grid(self):
-        return self.tolist()
+        return self.to_list()
 
     @property
     def grid(self):
-        return self.tolist()
+        return self.to_list()
 
     @property
     def size(self):

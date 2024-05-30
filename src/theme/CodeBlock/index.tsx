@@ -1,5 +1,6 @@
 import React from 'react';
 import CodeBlock, {type Props as CodeBlockType} from '@theme-init/CodeBlock';
+import { default as ThemeCodeBlock } from '@theme-original/CodeBlock';
 // import CodeBlock from '@theme-original/CodeBlock';
 // import CodeBlockType from '@theme/CodeBlock';
 // @ts-ignore
@@ -7,10 +8,9 @@ import type { WrapperProps } from '@docusaurus/types';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import CodeEditor from '../CodeEditor';
 
-// @ts-ignore
-// import Playground from '@theme/Playground';
-// @ts-ignore
-import ReactLiveScope from '@theme/ReactLiveScope';
+
+// import Playground from '@theme-original/Playground';
+// import ReactLiveScope from '@theme-original/ReactLiveScope';
 import ScriptContext from '../CodeEditor/WithScript/Store';
 
 
@@ -23,7 +23,7 @@ interface MetaProps {
         id?: string;
         slim?: boolean;
         readonly?: boolean;
-        persist?: boolean;
+        noReset?: boolean;
         noDownload?: boolean;
         versioned?: boolean;
         noHistory?: boolean;
@@ -86,7 +86,7 @@ export default function CodeBlockWrapper(props: Props): JSX.Element {
                     {...metaProps}
                     maxLines={metaProps.maxLines && Number.parseInt(metaProps.maxLines, 10)}
                     readonly={!!metaProps.readonly}
-                    resettable={!metaProps.persist}
+                    resettable={!metaProps.noReset}
                     download={!metaProps.versioned && !metaProps.noDownload}
                     slim={!!metaProps.slim}
                     showLineNumbers={!(!!metaProps.slim && !/\n/.test(code))}

@@ -3,6 +3,7 @@ import { DOM_ELEMENT_IDS } from '../../../constants';
 import GraphicsResult from '.';
 import styles from './styles.module.css';
 import { useScript, useStore } from '../../../WithScript/Store';
+import Button from '../../../Button';
 
 const downloadCanvas = (canvasId: string) => {
     const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
@@ -32,16 +33,15 @@ const CanvasResult = () => {
     return (
         <GraphicsResult
             controls={
-                <button
-                    aria-label="Download SVG"
-                    type="button"
-                    className={styles.slimStrippedButton}
-                    style={{ zIndex: 1000 }}
+                <Button
+                    icon='Download'
+                    iconSize='12px'
                     onClick={() => {
                         downloadCanvas(DOM_ELEMENT_IDS.canvasContainer(codeId))
-                    }}>
-                    <span aria-hidden="true">Download</span>
-                </button>
+                    }}
+                    title="Download SVG"
+                    className={styles.slimStrippedButton}
+                />
             }
             main={
                 <canvas 

@@ -34,6 +34,7 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
         setState((s) => ({...s, status: canSave ? Status.SYNCING : s.status}));
         const script = getStorageScript(store);
         const loadedCode = script?.code ? prepareCode(script.code, { codeOnly: true }) : {};
+        addVersion.cancel();
         if (!state.isLoaded) {
             setState((s) => ({
                 ...s, 
@@ -151,7 +152,7 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
     );
 
     const _addVersion = (version: Version) => {
-        if (!props.versioned) {
+        if (!props.versioned || !props.id) {
             return;
         }
         const versions = [...state.versions];
