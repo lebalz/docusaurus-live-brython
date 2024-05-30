@@ -22,6 +22,7 @@ interface Props {
   noCompare: boolean;
   precode: string;
   maxLines?: number;
+  versioned?: boolean;
 }
 
 const Editor = (props: Props) => {
@@ -44,6 +45,7 @@ const Editor = (props: Props) => {
       <EditorAce
         showLineNumbers={props.showLineNumbers} 
         maxLines={props.maxLines}
+        versioned={props.versioned}
       />
       {lang === 'python' &&
         <>

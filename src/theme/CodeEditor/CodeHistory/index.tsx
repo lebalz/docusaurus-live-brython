@@ -5,7 +5,7 @@ import { Prism } from 'prism-react-renderer';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { useScript, useStore } from '../WithScript/Store';
-import { translate } from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import Button from '../Button';
 import DiffViewer from 'react-diff-viewer';
 import Details from '@theme/Details';
@@ -25,16 +25,11 @@ const highlightSyntax = (str: string) => {
 
 const CodeHistory = () => {
     const [version, setVersion] = React.useState(1);
-    const [open, setOpen] = React.useState(false);
     const { store } = useScript();
     const versions = useStore(store, (state) => state.versions);
     const versionsLoaded = useStore(store, (state) => state.versionsLoaded);
 
-    React.useEffect(() => {
-        console.log('versions', versions[version]);
-    }, [version, versions]);
-
-    if (versions?.length < 1) {
+    if (versions?.length < 2) {
         return null;
     }
     return (
@@ -95,6 +90,26 @@ const CodeHistory = () => {
                                 splitView
                                 oldValue={versions[version - 1].code}
                                 newValue={versions[version].code}
+                                leftTitle={
+                                    <div className={clsx(styles.diffHeader)}>
+                                        {`V${version}`}
+                                        {versions[version].pasted && (
+                                            <span className={clsx('badge', 'badge--danger')}>
+                                                <Translate id="CodeHistory.PastedBadge.Text">Pasted</Translate>
+                                            </span>
+                                        )}
+                                    </div>
+                                }
+                                rightTitle={
+                                    <div className={clsx(styles.diffHeader)}>
+                                        {`V${version}`}
+                                        {versions[version].pasted && (
+                                            <span className={clsx('badge', 'badge--danger')}>
+                                                <Translate id="CodeHistory.PastedBadge.Text">Pasted</Translate>
+                                            </span>
+                                        )}
+                                    </div>
+                                }
                                 renderContent={highlightSyntax}
                             />
                         )}

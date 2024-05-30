@@ -3,6 +3,7 @@ export interface Version {
     code: string;
     createdAt: Date;
     version: number;
+    pasted?: boolean;
 }
 
 export interface StoredScript {
@@ -42,6 +43,7 @@ export interface Script extends StoredScript {
    isLoaded: boolean;
    status: Status;
    versionsLoaded: boolean;
+   isPasted: boolean;
 }
 
 export interface LogMessage {
@@ -78,7 +80,7 @@ export interface Store<T = Script> {
     setState: (fn: (state: Script) => Script) => void;
     subscribe: (listener: () => void) => () => void;
     saveNow: () => Promise<Status>;
-    setCode: (code: string) => void;
+    setCode: (code: string, action?: 'insert' | 'remove' | string) => void;
     setExecuting: (executing: boolean) => void;
     execScript: () => void,
     stopScript: () => void;

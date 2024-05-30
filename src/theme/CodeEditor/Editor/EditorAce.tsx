@@ -78,13 +78,12 @@ const EditorAce = (props: Props) => {
                     fontFamily: 'var(--ifm-font-family-monospace)'
                 }}
                 fontSize={'var(--ifm-code-font-size)'}
-                onPaste={(e) => {
+                onPaste={() => {
                     if (props.versioned) {
                         /**
-                         * Save and mark pasted content immediately
+                         * Save immediately as pasted content
                          */
-                        // pyScript.setPastedEdit(true);
-                        // pyScript.saveService.saveNow();
+                        store.setState((s) => ({ ...s, isPasted: true }));
                     }
                 }}
                 focus={false}
@@ -93,8 +92,8 @@ const EditorAce = (props: Props) => {
                 ref={eRef}
                 mode={ALIAS_LANG_MAP_ACE[lang as keyof typeof ALIAS_LANG_MAP_ACE] ?? lang}
                 theme="dracula"
-                onChange={(value: string) => {
-                    store.setCode(value);
+                onChange={(value: string, e: {action: 'insert' | 'remove'}) => {
+                    store.setCode(value, e.action);
                 }}
                 readOnly={showRaw}
                 value={showRaw ? pristineCode : code}

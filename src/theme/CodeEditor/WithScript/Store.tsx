@@ -8,7 +8,6 @@ import { DOM_ELEMENT_IDS } from "../constants";
 import throttle from 'lodash/throttle';
 import { getStorageScript, syncStorageScript } from "./Storage";
 import { type InitState, type LogMessage, type Script, Status, type Store, type StoredScript, type Version } from "./Types";
-
 export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: number): Store => {
     const canSave = !!props.id;
     const id = props.id || uuidv4();
@@ -16,6 +15,20 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
     const createdAt = new Date();
     const storageKey = `code.${props.title || 'code_block'}.${id}`;
     const storage = createStorageSlot(storageKey);
+    storage.listen((e) => {
+        if (e.key === storageKey) {
+            try {
+                if (e.newValue) {
+                    const script = JSON.parse(e.newValue) as StoredScript;
+                    if (new Date(script.updatedAt) > state.updatedAt) {
+                        loadData(storage);
+                    }
+                }
+            } catch (err) {
+                console.warn(err);
+            }
+        }
+    });
     
     const loadData = (store) => {
         setState((s) => ({...s, status: canSave ? Status.SYNCING : s.status}));
@@ -30,7 +43,7 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
                 versions: script?.versions || [],
                 versionsLoaded: true,
                 status: canSave ? Status.SUCCESS : s.status
-            }));        
+            }));
             return Status.SUCCESS;
         }
         if (script) {
@@ -41,19 +54,6 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
         return Status.ERROR;
     }
 
-    const _addVersion = (version: Version) => {
-        if (!props.versioned) {
-            return;
-        }
-        const versions = [...state.versions];
-        versions.unshift(version);
-        setState((s) => ({...s, versions: versions}));
-    }
-    const addVersion = throttle(
-        _addVersion,
-        syncMaxOnceEvery,
-        {leading: false, trailing: true}
-    );
 
     const prepareCode = (raw: string, config: { codeOnly?: boolean, stateNotInitialized?: boolean } = {}) => {
         const { pre, code } = config.codeOnly 
@@ -65,7 +65,7 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
         const hasTurtleOutput = checkTurtleOutput(raw);
         const hasGraphicsOutput = checkGraphicsOutput(raw);
         if (props.versioned && !config.stateNotInitialized) {
-            addVersion({code, createdAt: updatedAt, version: state.versions.length + 1});
+            addVersion({code: code, createdAt: updatedAt, version: state.versions.length + 1});
         }
         return {
             code: code,
@@ -78,7 +78,10 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
         };
     }
 
-    const setCode = (raw: string) => {
+    const setCode = (raw: string, action?: 'insert' | 'remove' | string) => {
+        if (state.isPasted && action === 'remove') {
+            return;
+        }
         const data = prepareCode(raw);
         setState(
             (state) => ({
@@ -87,7 +90,18 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
             })
         );
         if (props.id) {
-            set({code: data.code, createdAt: state.createdAt, updatedAt: data.updatedAt, versions: state.versions});
+            const toStore: StoredScript = {code: data.code, createdAt: state.createdAt, updatedAt: data.updatedAt, versions: state.versions};
+            if (state.isPasted) {
+                addVersion.flush();
+                if (toStore.versions.length > 0) {
+                    toStore.versions[toStore.versions.length - 1].pasted = true;
+                }
+                set(toStore);
+                set.flush();
+                state.isPasted = false;
+            } else {
+                set(toStore);
+            }
         }
     };
 
@@ -136,9 +150,23 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         {leading: false, trailing: true}
     );
 
+    const _addVersion = (version: Version) => {
+        if (!props.versioned) {
+            return;
+        }
+        const versions = [...state.versions];
+        versions.push(version);
+        setState((s) => ({...s, versions: versions}));
+    }
+    const addVersion = throttle(
+        _addVersion,
+        syncMaxOnceEvery,
+        {leading: false, trailing: true}
+    );
+
     const saveNow = async () => {
-        set.cancel();
-        return _set({code: state.code, createdAt: state.createdAt, updatedAt: state.updatedAt, versions: state.versions});
+        addVersion.flush();
+        return set.flush();
     }
 
     const del = async () => {
@@ -179,6 +207,7 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         status: Status.IDLE,
         versions: [],
         versionsLoaded: false,
+        isPasted: false,
         ...codeData
     };
     
@@ -195,6 +224,8 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
     };
     const loadVersions = async () => {
         // noop
+        state.isLoaded = false;
+        load();
         setState((s) => ({...s, versionsLoaded: true}));
         return Promise.resolve();
     }

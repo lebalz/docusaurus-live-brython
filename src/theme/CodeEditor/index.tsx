@@ -27,7 +27,6 @@ interface Props {
 const PyAceEditor = (props: Props) => {
     const { store } = useScript();
     const lang = useStore(store, (state) => state.lang);
-    console.log(props)
     return (
         <BrowserOnly
             fallback={<div>Loading...</div>}
