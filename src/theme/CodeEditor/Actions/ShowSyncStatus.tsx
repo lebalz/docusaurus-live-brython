@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Status, useScript, useStore } from '../WithScript/Store';
+import { useScript, useStore } from '../WithScript/Store';
 import Icon, { Color } from '../Icon';
+import { Status } from '../WithScript/Types';
 
 const ShowSyncStatus = () => {
     const { store } = useScript();

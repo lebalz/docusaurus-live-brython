@@ -1,6 +1,7 @@
 import * as React from "react";
 import { BRYTHON_NOTIFICATION_EVENT, DOM_ELEMENT_IDS } from "./constants";
-import { LogMessage, useScript, useStore } from './WithScript/Store';
+import { useScript, useStore } from './WithScript/Store';
+import { type LogMessage } from './WithScript/Types';
 
 const BrythonCommunicator = () => {
     const { store } = useScript();

@@ -1,4 +1,4 @@
-import { StorageSlot, StoredScript } from "./Store";
+import type { StorageSlot, StoredScript } from "./Types";
 
 export const getStorageScript = (storage: StorageSlot): StoredScript | undefined => {
     const storedCode = storage.get();
