@@ -36,6 +36,12 @@ export type ThemeOptions = {
      * @default false
      */
     skipCopyAssetsToLibDir: boolean;
+    /**
+     * Specifies the the time in milliseconds to wait before syncing current changes to the local store.
+     * This is useful to prevent storing the code on every key press.
+     * @default 1000
+     */
+    syncMaxOnceEvery: number;
 }
 
 
@@ -46,13 +52,15 @@ export const DEFAULT_OPTIONS: ThemeOptions = {
     brythonStdlibSrc: 'https://raw.githack.com/brython-dev/brython/master/www/src/brython_stdlib.js',
     libDir: '/bry-libs/',
     skipCopyAssetsToLibDir: false,
+    syncMaxOnceEvery: 1000
 };
 
 const ThemeOptionSchema = Joi.object<ThemeOptions>({
     brythonSrc: Joi.string().default(DEFAULT_OPTIONS.brythonSrc),
     brythonStdlibSrc: Joi.string().default(DEFAULT_OPTIONS.brythonStdlibSrc),
     libDir: Joi.string().default(DEFAULT_OPTIONS.libDir),
-    skipCopyAssetsToLibDir: Joi.boolean().default(DEFAULT_OPTIONS.skipCopyAssetsToLibDir)
+    skipCopyAssetsToLibDir: Joi.boolean().default(DEFAULT_OPTIONS.skipCopyAssetsToLibDir),
+    syncMaxOnceEvery: Joi.number().default(DEFAULT_OPTIONS.syncMaxOnceEvery)
 });
 
 export function validateThemeConfig(

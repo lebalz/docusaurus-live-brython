@@ -1,7 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import { useScript, useStore } from '../../WithScript/ScriptStore';
+import { useScript, useStore } from '../../WithScript/Store';
 import ShowSyncStatus from '../../Actions/ShowSyncStatus';
 import Reset from '../../Actions/Reset';
 import DownloadCode from '../../Actions/DownloadCode';

@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './styles.module.css';
 // @ts-ignore
 import CodeBlock from '@theme/CodeBlock';
-import { useScript, useStore } from '../../WithScript/ScriptStore';
+import { useScript, useStore } from '../../WithScript/Store';
 
 interface Props {
 }

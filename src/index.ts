@@ -50,9 +50,8 @@ const theme: Plugin<{ remoteHeadTags: HtmlTags[] }> = (
             }
         },
         async contentLoaded({ content, actions }) {
-            const { setGlobalData, addRoute } = actions;
-            // Create friends global data
-            setGlobalData({ libDir: `/${libDir.replace(/(\/|\\)/g, '')}/` });
+            const { setGlobalData } = actions;
+            setGlobalData({ libDir: `/${libDir.replace(/(\/|\\)/g, '')}/`, syncMaxOnceEvery: options.syncMaxOnceEvery || DEFAULT_OPTIONS.syncMaxOnceEvery});
         },
         configureWebpack() {
             return {

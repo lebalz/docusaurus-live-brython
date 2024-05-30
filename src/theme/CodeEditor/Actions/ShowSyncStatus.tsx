@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Status, useScript, useStore } from '../WithScript/ScriptStore';
+import { Status, useScript, useStore } from '../WithScript/Store';
 import Icon, { Color } from '../Icon';
 
 const ShowSyncStatus = () => {

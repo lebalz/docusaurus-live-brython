@@ -4,7 +4,7 @@ import Editor from './Editor';
 import BrythonCommunicator from './BrythonCommunicator';
 import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
-import { useScript, useStore } from './WithScript/ScriptStore';
+import { useScript, useStore } from './WithScript/Store';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import CodeHistory from './CodeHistory';
 

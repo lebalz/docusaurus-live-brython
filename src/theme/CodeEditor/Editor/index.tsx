@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 import {
   DOM_ELEMENT_IDS,
 } from "../constants";
-import { useScript, useStore } from '../WithScript/ScriptStore';
+import { useScript, useStore } from '../WithScript/Store';
 import Result from "./Result";
 import TurtleResult from "./Result/Graphics/Turtle";
 import CanvasResult from "./Result/Graphics/Canvas";

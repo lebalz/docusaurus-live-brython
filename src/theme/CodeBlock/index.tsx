@@ -11,7 +11,7 @@ import CodeEditor from '../CodeEditor';
 // import Playground from '@theme/Playground';
 // @ts-ignore
 import ReactLiveScope from '@theme/ReactLiveScope';
-import ScriptContext from '../CodeEditor/WithScript/ScriptStore';
+import ScriptContext from '../CodeEditor/WithScript/Store';
 
 
 type Props = WrapperProps<typeof CodeBlockType>;

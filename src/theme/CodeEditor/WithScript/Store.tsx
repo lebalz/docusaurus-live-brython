@@ -6,6 +6,7 @@ import { ReactContextError, createStorageSlot } from "@docusaurus/theme-common";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { DOM_ELEMENT_IDS } from "../constants";
 import throttle from 'lodash/throttle';
+import { getStorageScript, syncStorageScript } from "./Storage";
 
 export interface Version {
     code: string;
@@ -91,42 +92,13 @@ interface Store<T = Script> {
     execScript: () => void,
     stopScript: () => void;
     closeGraphicsModal: () => void;
-    load: () => Promise<Status>;
-    set: (script: StoredScript) => Promise<Status>;
-    del: () => Promise<Status>;
     addLogMessage: (log: LogMessage) => void;
     clearLogMessages: () => void;
+    load: () => Promise<Status>;
     loadVersions: () => Promise<void>;
 }
 
-
-const getStorageScript = (storage: StorageSlot): StoredScript | undefined => {
-    const storedCode = storage.get();
-    if (storedCode) {
-        try {
-            const script = JSON.parse(storedCode);
-            if (script) {
-                return script;
-            }
-        } catch (e) {
-            console.warn(`Failed to parse code for value "${storedCode}"`, e);
-            storage.del();
-        }
-    }
-    return;
-}
-
-const syncStorageScript = (script: StoredScript, storage: StorageSlot): boolean => {
-    try {
-        storage.set(JSON.stringify(script));
-        return true;
-    } catch (e) {
-        console.warn(`Failed to save the code ${script}`, e);
-        return false;
-    }
-}
-
-export const createStore = (props: InitState, libDir: string): Store => {
+export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: number): Store => {
     const canSave = !!props.id;
     const id = props.id || uuidv4();
     const codeId = `code.${props.title || props.lang}.${id}`.replace(/(-|\.)/g, '_');
@@ -168,7 +140,7 @@ export const createStore = (props: InitState, libDir: string): Store => {
     }
     const addVersion = throttle(
         _addVersion,
-        1000,
+        syncMaxOnceEvery,
         {leading: false, trailing: true}
     );
 
@@ -249,7 +221,7 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
 
     const set = throttle(
         _set,
-        1000,
+        syncMaxOnceEvery,
         {leading: false, trailing: true}
     );
 
@@ -324,17 +296,14 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         addLogMessage, 
         clearLogMessages, 
         closeGraphicsModal, 
-        del, 
-        set, 
-        load, 
         setCode, 
         execScript, 
         setExecuting, 
         stopScript,
+        load, 
         loadVersions
     } satisfies Store;
 };
-    
 
 type Selector<T, R> = (state: T) => R;
 export const useStore = <T, R>(store: Store<T>, selector: Selector<T, R>): R => {
@@ -348,10 +317,10 @@ export const Context = React.createContext<{store: Store} | undefined>(undefined
 
 
 const ScriptContext = (props: InitState & { children: React.ReactNode; }) => {
-    const {libDir} = usePluginData('docusaurus-live-brython') as {libDir: string};
+    const {libDir, syncMaxOnceEvery} = usePluginData('docusaurus-live-brython') as {libDir: string, syncMaxOnceEvery: number};
     const [store, setStore] = React.useState<Store | null>(null);
     React.useEffect(() => {
-        const store = createStore(props, libDir);
+        const store = createStore(props, libDir, syncMaxOnceEvery);
         setStore(store);
         store.load();
     }, [props.id, libDir]);

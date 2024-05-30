@@ -22,7 +22,7 @@ module.exports = {
 }
 ```
 
-Configure Brython source:
+Configure [👉 Brython source](https://github.com/brython-dev/brython):
 
 
 ```diff
@@ -31,8 +31,8 @@ module.exports = {
 + themes: [
 +   ['docusaurus-live-brython'],
 +   {
-+     brython_src: 'https://cdn.jsdelivr.net/npm/brython@3.9.5/brython.min.js', // default
-+     brython_stdlib_src: 'https://cdn.jsdelivr.net/npm/brython@3.9.5/brython_stdlib.js' // default
++     brython_src: 'https://cdn.jsdelivr.net/npm/brython@3.12.4/brython.min.js', // default
++     brython_stdlib_src: 'https://cdn.jsdelivr.net/npm/brython@3.12.4/brython_stdlib.js' // default
 +   }
   presets: ['@docusaurus/preset-classic']
   ...
@@ -88,6 +88,14 @@ User edited code is stored in the localStorage. To lookup the edits, id's for ea
 
 Ensure to locally link the plugin to the website, s.t. changes take place immediately.
 
+To compile and copy the changed `.css` files to the `lib` folder, run
+```sh
+yarn run watch
+```
+
+To see the changes within docusaurus, launch the documentation website located under `website/`.
+
+Initially link the plugin to the website (only needed once)
 ```sh
 # in the project root
 yarn link
@@ -95,4 +103,9 @@ yarn link
 cd website
 
 yarn link docusaurus-live-brython
+```
+
+Then start the website
+```sh
+yarn run start
 ```

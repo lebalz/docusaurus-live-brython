@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useScript, useStore } from '../WithScript/ScriptStore';
+import { useScript, useStore } from '../WithScript/Store';
 import Button, { Color } from '../Button';
 import { translate } from '@docusaurus/Translate';
 

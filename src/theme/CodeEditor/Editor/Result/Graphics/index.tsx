@@ -3,7 +3,7 @@ import styles from './styles.module.css';
 import { DOM_ELEMENT_IDS } from '../../../constants';
 import Draggable from 'react-draggable';
 import { checkForButtonClick } from '../../utils/checkForButtonClick';
-import { useScript, useStore } from '../../../WithScript/ScriptStore';
+import { useScript, useStore } from '../../../WithScript/Store';
 import Button from '../../../Button';
 interface Props {
     controls?: JSX.Element;
