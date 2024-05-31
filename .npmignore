@@ -17,6 +17,7 @@ yarn-debug.log*
 yarn-error.log*
 
 *.info
+.tsbuildinfo*
+tsconfig*
 /bin
 /website
-/src

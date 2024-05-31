@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-live-brython",
-  "version": "3.0.0-beta.2",
+  "version": "3.0.0-beta.3",
   "description": "Docusaurus live code block component for python.",
   "publishConfig": {
     "access": "public"
@@ -9,7 +9,8 @@
   "types": "lib/index.d.ts",
   "sideEffects": false,
   "files": [
-    "lib"
+    "lib",
+    "src"
   ],
   "exports": {
     "./lib/*": "./lib/*",
@@ -29,7 +30,6 @@
   "author": "Balthasar Hofer <lebalz@outlook.com>",
   "bugs": "https://github.com/lebalz/dokusaurus-live-brython/issues",
   "dependencies": {
-    "@docusaurus/core": "^3.0.0",
     "ace-builds": "^1.4.12",
     "clsx": "^2.1.1",
     "lodash": "^4.17.21",
@@ -41,6 +41,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@docusaurus/core": "^3.3.2",
     "@docusaurus/module-type-aliases": "^3.3.2",
     "@docusaurus/theme-classic": "^3.3.2",
     "@docusaurus/theme-common": "^3.3.2",
@@ -58,6 +59,7 @@
     "typescript": "^5.4.2"
   },
   "peerDependencies": {
+    "@docusaurus/core": "^3.3.2",
     "@docusaurus/theme-common": "^3.3.2",
     "prism-react-renderer": "^2.1",
     "webpack": "^5.0.0"
