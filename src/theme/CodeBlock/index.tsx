@@ -1,16 +1,10 @@
 import React from 'react';
 import CodeBlock, {type Props as CodeBlockType} from '@theme-init/CodeBlock';
-import { default as ThemeCodeBlock } from '@theme-original/CodeBlock';
-// import CodeBlock from '@theme-original/CodeBlock';
-// import CodeBlockType from '@theme/CodeBlock';
 // @ts-ignore
 import type { WrapperProps } from '@docusaurus/types';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import CodeEditor from '../CodeEditor';
 
-
-// import Playground from '@theme-original/Playground';
-// import ReactLiveScope from '@theme-original/ReactLiveScope';
 import ScriptContext from '../CodeEditor/WithScript/Store';
 
 
