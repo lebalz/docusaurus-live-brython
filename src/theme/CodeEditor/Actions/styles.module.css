@@ -8,10 +8,7 @@
     margin: 0px;
 }
 
-html[data-theme='dark'] {
-    .runCode {
+html[data-theme='dark'] .runCode {
         color: white
-    }
-}
-  
+} 
   
