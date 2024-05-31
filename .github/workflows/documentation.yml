@@ -52,8 +52,7 @@ jobs:
           git config --global user.email "lebalz@outlook.com"
           git config --global user.name "lebalz"
           if [ -e yarn.lock ]; then
-            yarn install --frozen-lockfile
-            yarn link docusaurus-live-brython
+            yarn install
           elif [ -e package-lock.json ]; then
             npm ci
           else
