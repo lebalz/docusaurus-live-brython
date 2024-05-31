@@ -28,6 +28,11 @@ const config: Config = {
       },
       items: [
         {
+          to: 'docs',
+          position: 'left',
+          label: 'Documentation'
+        },
+        {
           to: 'playground',
           position: 'left',
           label: 'Playground'
