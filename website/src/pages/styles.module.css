@@ -23,3 +23,13 @@
   align-items: center;
   justify-content: center;
 }
+.section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card {
+  max-width: 550px;
+  box-shadow: var(--ifm-global-shadow-tl);
+  margin: 2em;
+}
