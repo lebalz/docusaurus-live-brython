@@ -3,6 +3,10 @@
 > [!NOTE]\
 > This theme works with Docusaurus v3+.
 
+
+> [!WARNING]
+> This theme is still in development and the api is not considered stable in the beta phase.
+
 ## [Live demo here](https://lebalz.github.io/docusaurus-live-brython/)
 ## [Python-Playground](https://lebalz.github.io/docusaurus-live-brython/playground)
 
