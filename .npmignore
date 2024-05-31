@@ -21,3 +21,5 @@ yarn-error.log*
 tsconfig*
 /bin
 /website
+*.gif
+.github/
