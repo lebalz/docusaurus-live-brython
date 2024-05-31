@@ -1,5 +1,8 @@
 # Docusaurus Live Codeblock for Python
 
+> [!NOTE]\
+> This theme works with Docusaurus v3+.
+
 ## [Live demo here](https://lebalz.github.io/docusaurus-live-brython/)
 ## [Python-Playground](https://lebalz.github.io/docusaurus-live-brython/playground)
 
