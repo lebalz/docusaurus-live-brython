@@ -46,6 +46,8 @@ jobs:
           GIT_USER: git
         run: |
           yarn link
+          yarn install --frozen-lockfile
+          yarn run build
           cd website/
           git config --global user.email "lebalz@outlook.com"
           git config --global user.name "lebalz"
