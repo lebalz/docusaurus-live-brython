@@ -1,12 +1,11 @@
 import * as React from 'react';
 import styles from './styles.module.css';
-import Editor from './Editor';
-import BrythonCommunicator from './BrythonCommunicator';
+import Editor from 'docusaurus-live-brython/theme/CodeEditor/Editor';
+import BrythonCommunicator from 'docusaurus-live-brython/theme/CodeEditor/BrythonCommunicator';
 import clsx from 'clsx';
-import useIsBrowser from '@docusaurus/useIsBrowser';
-import { useScript, useStore } from './WithScript/Store';
+import { useScript, useStore } from 'docusaurus-live-brython/theme/CodeEditor/WithScript/Store';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import CodeHistory from './CodeHistory';
+import CodeHistory from 'docusaurus-live-brython/theme/CodeEditor/CodeHistory';
 
 interface Props {
     slim: boolean;
@@ -55,3 +54,4 @@ const PyAceEditor = (props: Props) => {
 };
 
 export default PyAceEditor;
+

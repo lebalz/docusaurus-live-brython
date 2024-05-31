@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { DOM_ELEMENT_IDS } from '../../../constants';
-import GraphicsResult from '.';
+import { DOM_ELEMENT_IDS } from 'docusaurus-live-brython/theme/CodeEditor/constants';
+import Graphics from 'docusaurus-live-brython/theme/CodeEditor/Editor/Result/Graphics';
 import styles from './styles.module.css';
-import { useScript, useStore } from '../../../WithScript/Store';
-import Button from '../../../Button';
+import { useScript, useStore } from 'docusaurus-live-brython/theme/CodeEditor/WithScript/Store';
+import Button from 'docusaurus-live-brython/theme/CodeEditor/Button';
 
 const downloadCanvas = (canvasId: string) => {
     const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
@@ -25,13 +25,13 @@ const downloadCanvas = (canvasId: string) => {
     document.body.removeChild(downloadLink);
   };
 
-const CanvasResult = () => {
+const Canvas = () => {
     const { store } = useScript();
     // const { codeId } = useStore(store, (state) => ({codeId: state.codeId}));
     const codeId = useStore(store, (state) => state.codeId);
 
     return (
-        <GraphicsResult
+        <Graphics
             controls={
                 <Button
                     icon='Download'
@@ -58,4 +58,4 @@ const CanvasResult = () => {
     )
 };
 
-export default CanvasResult;
+export default Canvas;

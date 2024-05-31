@@ -1,12 +1,12 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import { useScript, useStore } from '../../WithScript/Store';
-import ShowSyncStatus from '../../Actions/ShowSyncStatus';
-import Reset from '../../Actions/Reset';
-import DownloadCode from '../../Actions/DownloadCode';
-import ShowRaw from '../../Actions/ShowRaw';
-import RunCode from '../../Actions/RunCode';
+import { useScript, useStore } from 'docusaurus-live-brython/theme/CodeEditor/WithScript/Store';
+import ShowSyncStatus from 'docusaurus-live-brython/theme/CodeEditor/Actions/ShowSyncStatus';
+import Reset from 'docusaurus-live-brython/theme/CodeEditor/Actions/Reset';
+import DownloadCode from 'docusaurus-live-brython/theme/CodeEditor/Actions/DownloadCode';
+import ShowRaw from 'docusaurus-live-brython/theme/CodeEditor/Actions/ShowRaw';
+import RunCode from 'docusaurus-live-brython/theme/CodeEditor/Actions/RunCode';
 
 interface Props {
     slim: boolean;

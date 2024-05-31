@@ -1,16 +1,14 @@
 import * as React from "react";
-import clsx from "clsx";
-import styles from "./styles.module.css";
 import {
   DOM_ELEMENT_IDS,
-} from "../constants";
-import { useScript, useStore } from '../WithScript/Store';
-import Result from "./Result";
-import TurtleResult from "./Result/Graphics/Turtle";
-import CanvasResult from "./Result/Graphics/Canvas";
-import GraphicsResult from "./Result/Graphics";
-import Header from "./Header";
-import EditorAce from "./EditorAce";
+} from "docusaurus-live-brython/theme/CodeEditor/constants";
+import { useScript, useStore } from 'docusaurus-live-brython/theme/CodeEditor/WithScript/Store';
+import Result from "docusaurus-live-brython/theme/CodeEditor/Editor/Result";
+import Turtle from "docusaurus-live-brython/theme/CodeEditor/Editor/Result/Graphics/Turtle";
+import Canvas from "docusaurus-live-brython/theme/CodeEditor/Editor/Result/Graphics/Canvas";
+import Graphics from "docusaurus-live-brython/theme/CodeEditor/Editor/Result/Graphics";
+import Header from "docusaurus-live-brython/theme/CodeEditor/Editor/Header";
+import EditorAce from "docusaurus-live-brython/theme/CodeEditor/Editor/EditorAce";
 
 interface Props {
   slim: boolean;
@@ -54,13 +52,13 @@ const Editor = (props: Props) => {
           {isGraphicsmodalOpen && (
             <>
               {hasTurtleOutput && (
-                <TurtleResult />
+                <Turtle />
               )}
               {hasCanvasOutput && (
-                <CanvasResult />
+                <Canvas />
               )}
               {!hasCanvasOutput && !hasTurtleOutput && (
-                <GraphicsResult />
+                <Graphics />
               )}
             </>
           )}

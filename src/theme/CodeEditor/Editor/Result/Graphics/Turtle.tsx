@@ -1,18 +1,18 @@
 import * as React from 'react';
 import styles from './styles.module.css';
-import { DOM_ELEMENT_IDS } from '../../../constants';
-import GraphicsResult from '.';
-import { saveSvg } from '../../utils/saveSvg';
-import { useScript, useStore } from '../../../WithScript/Store';
-import Button, { Color } from '../../../Button';
+import { DOM_ELEMENT_IDS } from 'docusaurus-live-brython/theme/CodeEditor/constants';
+import Graphics from 'docusaurus-live-brython/theme/CodeEditor/Editor/Result/Graphics';
+import { saveSvg } from 'docusaurus-live-brython/theme/CodeEditor/Editor/utils/saveSvg';
+import { useScript, useStore } from 'docusaurus-live-brython/theme/CodeEditor/WithScript/Store';
+import Button from 'docusaurus-live-brython/theme/CodeEditor/Button';
 import clsx from 'clsx';
 
-const TurtleResult = () => {
+const Turtle = () => {
     const { store } = useScript();
     const codeId = useStore(store, (state) => state.codeId);
     const code = useStore(store, (state) => state.code);
     return (
-        <GraphicsResult
+        <Graphics
             controls={
                 <React.Fragment>
                     <Button
@@ -45,4 +45,4 @@ const TurtleResult = () => {
     )
 }
 
-export default TurtleResult;
+export default Turtle;

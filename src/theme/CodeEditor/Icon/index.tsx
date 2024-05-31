@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Icons from './icons';
+import * as Icons from 'docusaurus-live-brython/theme/CodeEditor/Icon/icons';
 import styles from './styles.module.css';
 import clsx from 'clsx';
 

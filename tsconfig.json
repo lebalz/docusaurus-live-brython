@@ -10,7 +10,8 @@
     "composite": true,
     "moduleResolution": "bundler",
     "module": "esnext",
-    "target": "esnext"
+    "target": "esnext",
+    "baseUrl": "./"
   },
   "include": ["src"],
   "exclude": ["**/__tests__/**"]

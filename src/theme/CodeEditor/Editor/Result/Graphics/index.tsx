@@ -1,16 +1,16 @@
 import * as React from 'react';
 import styles from './styles.module.css';
-import { DOM_ELEMENT_IDS } from '../../../constants';
+import { DOM_ELEMENT_IDS } from 'docusaurus-live-brython/theme/CodeEditor/constants';
 import Draggable from 'react-draggable';
-import { checkForButtonClick } from '../../utils/checkForButtonClick';
-import { useScript, useStore } from '../../../WithScript/Store';
-import Button from '../../../Button';
+import { checkForButtonClick } from 'docusaurus-live-brython/theme/CodeEditor/Editor/utils/checkForButtonClick';
+import { useScript, useStore } from 'docusaurus-live-brython/theme/CodeEditor/WithScript/Store';
+import Button from 'docusaurus-live-brython/theme/CodeEditor/Button';
 import clsx from 'clsx';
 interface Props {
     controls?: JSX.Element;
     main?: JSX.Element;
 }
-const GraphicsResult = (props: Props) => {
+const Graphics = (props: Props) => {
     const { store } = useScript();
     const codeId = useStore(store, (state) => state.codeId);
     return (
@@ -44,4 +44,4 @@ const GraphicsResult = (props: Props) => {
     );
 };
 
-export default GraphicsResult;
+export default Graphics;

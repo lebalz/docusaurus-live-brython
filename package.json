@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-live-brython",
-  "version": "3.0.0-beta.5",
+  "version": "3.0.0-beta.6",
   "description": "Docusaurus live code block component for python.",
   "publishConfig": {
     "access": "public"
@@ -9,12 +9,46 @@
   "types": "lib/index.d.ts",
   "sideEffects": false,
   "exports": {
+    "./theme/CodeEditor/Editor": {
+      "types": "./lib/theme/CodeEditor/Editor/index.d.ts",
+      "default": "./lib/theme/CodeEditor/Editor/index.jsx"
+    },
+    "./theme/CodeEditor/Editor/Result": {
+      "types": "./lib/theme/CodeEditor/Editor/Result/index.d.ts",
+      "default": "./lib/theme/CodeEditor/Editor/Result/index.jsx"
+    },
+    "./theme/CodeEditor/Editor/Header": {
+      "types": "./lib/theme/CodeEditor/Editor/Header/index.d.ts",
+      "default": "./lib/theme/CodeEditor/Editor/Header/index.jsx"
+    },
+    "./theme/CodeEditor/Editor/Result/Graphics": {
+      "types": "./lib/theme/CodeEditor/Editor/Result/Graphics/index.d.ts",
+      "default": "./lib/theme/CodeEditor/Editor/Result/Graphics/index.jsx"
+    },
+    "./theme/CodeEditor/CodeHistory": {
+      "types": "./lib/theme/CodeEditor/CodeHistory/index.d.ts",
+      "default": "./lib/theme/CodeEditor/CodeHistory/index.jsx"
+    },
+    "./theme/CodeEditor/Icon": {
+      "types": "./lib/theme/CodeEditor/Icon/index.d.ts",
+      "default": "./lib/theme/CodeEditor/Icon/index.jsx"
+    },
+    "./theme/CodeEditor/Button": {
+      "types": "./lib/theme/CodeEditor/Button/index.d.ts",
+      "default": "./lib/theme/CodeEditor/Button/index.jsx"
+    },
+    "./theme/CodeEditor/*": {
+      "types": "./lib/theme/CodeEditor/*.d.ts",
+      "default": "./lib/theme/CodeEditor/*.jsx?"
+    },
+    "./theme/CodeEditor": {
+      "types": "./lib/theme/CodeEditor/index.d.ts",
+      "default": "./lib/theme/CodeEditor/index.jsx"
+    },
     ".": {
       "types": "./lib/index.d.ts",
       "default": "./lib/index.js"
-    },
-    "./lib/*": "./lib/*",
-    "./src/*": "./src/*"
+    }
   },
   "scripts": {
     "build": "tsc --build && node ./bin/copyUntypedFiles.js && prettier --config ./.prettierrc --write \"lib/theme/**/*.js\"",
