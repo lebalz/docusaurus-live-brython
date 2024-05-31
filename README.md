@@ -1,5 +1,8 @@
 # Docusaurus Live Codeblock for Python
 
+![NPM Version](https://img.shields.io/npm/v/docusaurus-live-brython)
+
+
 > [!NOTE]\
 > This theme works with Docusaurus v3+.
 
@@ -115,4 +118,13 @@ yarn link docusaurus-live-brython
 Then start the website
 ```sh
 yarn run start
+```
+
+### Publish
+
+```bash
+yarn run build
+# when running inside wsl, use --auth=legacy
+npm login --auth=legacy
+npm publish --auth=legacy
 ```
