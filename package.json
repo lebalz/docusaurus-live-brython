@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-live-brython",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0-beta.2",
   "description": "Docusaurus live code block component for python.",
   "publishConfig": {
     "access": "public"
@@ -8,6 +8,9 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "sideEffects": false,
+  "files": [
+    "lib"
+  ],
   "exports": {
     "./lib/*": "./lib/*",
     "./src/*": "./src/*"
