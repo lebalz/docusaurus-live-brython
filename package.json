@@ -25,10 +25,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/lebalz/dokusaurus-live-brython.git"
+    "url": "git://github.com/lebalz/docusaurus-live-brython.git"
   },
   "author": "Balthasar Hofer <lebalz@outlook.com>",
-  "bugs": "https://github.com/lebalz/dokusaurus-live-brython/issues",
+  "bugs": "https://github.com/lebalz/docusaurus-live-brython/issues",
+  "homepage": "https://lebalz.github.io/docusaurus-live-brython/",
   "dependencies": {
     "ace-builds": "^1.4.12",
     "clsx": "^2.1.1",
