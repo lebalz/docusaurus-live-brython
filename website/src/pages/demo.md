@@ -82,7 +82,7 @@ from grid import Grid
 from game import gameloop, sleep
 
 # initial state
-grid = Grid.from_bin_text('''
+grid = Grid.from_text('''
   
  
  

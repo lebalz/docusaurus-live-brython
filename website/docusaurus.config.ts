@@ -33,6 +33,11 @@ const config: Config = {
           label: 'Documentation'
         },
         {
+          to: 'demo',
+          position: 'left',
+          label: 'Demo'
+        },
+        {
           to: 'playground',
           position: 'left',
           label: 'Playground'
