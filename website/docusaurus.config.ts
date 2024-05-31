@@ -79,8 +79,17 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
+  scripts: [
+    {
+      src: 'https://umami.gbsl.website/tell-me.js',
+      ['data-website-id']: '8783952a-0904-4284-9115-61f387c4499d',
+      ['data-domains']: 'lebalz.github.io',
+      async: true,
+      defer: true
+    }
+  ],
   themes: [
-      'docusaurus-live-brython'
+    'docusaurus-live-brython'
   ],
 };
 
