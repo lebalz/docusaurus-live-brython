@@ -1,0 +1,20 @@
+.editor {
+	grid-area: editor;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.editor .noGutter :global(.ace_scroller) {
+	left: 4px !important;
+}
+
+.editor :global(.ace_scrollbar.ace_scrollbar-h) {
+	overflow-x: hidden !important;
+}
+
+.brythonEditor {
+	flex-grow: 1;
+	flex-basis: 80ch;
+	/*rtl:ignore*/
+	direction: ltr;
+}

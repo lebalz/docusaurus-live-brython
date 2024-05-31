@@ -11,15 +11,18 @@ jobs:
     if: github.event_name != 'push'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '12.x'
+          node-version: '18.x'
       - name: Test Build
         run: |
+          yarn link
+          yarn install --frozen-lockfile
+          yarn run build
           cd website
           if [ -e yarn.lock ]; then
-          yarn install --frozen-lockfile
+          yarn install
           elif [ -e package-lock.json ]; then
           npm ci
           else
@@ -30,10 +33,10 @@ jobs:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '12.x'
+          node-version: '18.x'
       - uses: webfactory/ssh-agent@v0.5.0
         with:
           ssh-private-key: ${{ secrets.PAGES_DEPLOY }}
@@ -42,11 +45,13 @@ jobs:
           USE_SSH: true
           GIT_USER: git
         run: |
+          yarn link
           cd website/
           git config --global user.email "lebalz@outlook.com"
           git config --global user.name "lebalz"
           if [ -e yarn.lock ]; then
             yarn install --frozen-lockfile
+            yarn link docusaurus-live-brython
           elif [ -e package-lock.json ]; then
             npm ci
           else

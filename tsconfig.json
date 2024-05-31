@@ -1,0 +1,17 @@
+{
+  "extends": "@docusaurus/tsconfig",
+  "compilerOptions": {
+    "noEmit": false,
+    "incremental": true,
+    "tsBuildInfoFile": "lib/.tsbuildinfo",
+    "rootDir": "src",
+    "outDir": "lib",
+    "esModuleInterop": true,
+    "composite": true,
+    "moduleResolution": "bundler",
+    "module": "esnext",
+    "target": "esnext"
+  },
+  "include": ["src"],
+  "exclude": ["**/__tests__/**"]
+}
