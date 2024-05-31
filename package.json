@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-live-brython",
-  "version": "3.0.0-beta.7",
+  "version": "3.0.0-beta.8",
   "description": "Docusaurus live code block component for python.",
   "publishConfig": {
     "access": "public"
@@ -9,6 +9,10 @@
   "types": "lib/index.d.ts",
   "sideEffects": false,
   "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
     "./theme/CodeEditor/Editor": {
       "types": "./lib/theme/CodeEditor/Editor/index.d.ts",
       "default": "./lib/theme/CodeEditor/Editor/index.jsx"
@@ -37,33 +41,29 @@
       "types": "./lib/theme/CodeEditor/Button/index.d.ts",
       "default": "./lib/theme/CodeEditor/Button/index.jsx"
     },
-    "./theme/CodeEditor/*": {
-      "types": "./lib/theme/CodeEditor/*.d.ts",
-      "default": "./lib/theme/CodeEditor/*.jsx"
-    },
     "./theme/CodeEditor/constants": {
       "types": "./lib/theme/CodeEditor/constants.d.ts",
       "default": "./lib/theme/CodeEditor/constants.js"
-    },
-    "./theme/CodeEditor/Editor/utils": {
-      "types": "./lib/theme/CodeEditor/Editor/utils/*.d.ts",
-      "default": "./lib/theme/CodeEditor/Editor/utils/*.js"
-    },
-    "./theme/CodeEditor/WithScript": {
-      "types": "./lib/theme/CodeEditor/WithScript/*.d.ts",
-      "default": "./lib/theme/CodeEditor/WithScript/*.js"
-    },
-    "./theme/CodeEditor": {
-      "types": "./lib/theme/CodeEditor/index.d.ts",
-      "default": "./lib/theme/CodeEditor/index.jsx"
     },
     "./theme/CodeEditor/Icon/icons": {
       "types": "./lib/theme/CodeEditor/Icon/icons.d.ts",
       "default": "./lib/theme/CodeEditor/Icon/icons.js"
     },
-    ".": {
-      "types": "./lib/index.d.ts",
-      "default": "./lib/index.js"
+    "./theme/CodeEditor": {
+      "types": "./lib/theme/CodeEditor/index.d.ts",
+      "default": "./lib/theme/CodeEditor/index.jsx"
+    },
+    "./theme/CodeEditor/Editor/utils/*": {
+      "types": "./lib/theme/CodeEditor/Editor/utils/*.d.ts",
+      "default": "./lib/theme/CodeEditor/Editor/utils/*.js"
+    },
+    "./theme/CodeEditor/WithScript/*": {
+      "types": "./lib/theme/CodeEditor/WithScript/*.d.ts",
+      "default": "./lib/theme/CodeEditor/WithScript/*.js"
+    },
+    "./theme/CodeEditor/*": {
+      "types": "./lib/theme/CodeEditor/*.d.ts",
+      "default": "./lib/theme/CodeEditor/*.jsx"
     }
   },
   "scripts": {
