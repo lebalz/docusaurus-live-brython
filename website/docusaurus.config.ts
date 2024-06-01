@@ -68,6 +68,21 @@ const config: Config = {
       theme: lightCodeTheme,
       darkTheme: darkCodeTheme,
     },
+    metadata: [
+      { name: 'keywords', content: 'docusaurus, brython, live, python, markdown, codeblock'},
+      { name: 'description', content: 'Execute your Markdown Python Codeblocks in your Browser'},
+      { name: 'og:title', content: 'Live Brython'},
+      { name: 'og:description', content: 'Execute your Markdown Python Codeblocks in your Browser'},
+      { name: 'og:image', content: 'https://lebalz.github.io/docusaurus-live-brython/img/logo.png'},
+      { name: 'og:url', content: 'https://lebalz.github.io/docusaurus-live-brython'},
+      // { name: 'og:type', content: 'website'},
+      // { name: 'twitter:card', content: 'summary'},
+      { name: 'twitter:site', content: '@lebalz'},
+      { name: 'twitter:creator', content: '@lebalz'},
+      { name: 'twitter:title', content: 'Live Brython'},
+      { name: 'twitter:description', content: 'Execute your Markdown Python Codeblocks in your Browser'},
+      { name: 'twitter:image', content: 'https://lebalz.github.io/docusaurus-live-brython/img/logo.png'},
+    ]
   } satisfies Preset.ThemeConfig,
   presets: [
     [
