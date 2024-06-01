@@ -70,9 +70,9 @@ const config: Config = {
     },
     metadata: [
       { name: 'keywords', content: 'docusaurus, brython, live, python, markdown, codeblock'},
-      { name: 'description', content: 'Interact and execute your Markdown Python Codeblocks in Docusaurus 3'},
+      { name: 'description', content: 'Execute and interact with your Markdown Python Codeblocks in Docusaurus 3'},
       { name: 'og:title', content: 'Docusaurus Live Brython'},
-      { name: 'og:description', content: 'Interact and execute your Markdown Python Codeblocks in Docusaurus 3'},
+      { name: 'og:description', content: 'Execute and interact with your Markdown Python Codeblocks in Docusaurus 3'},
       { name: 'og:image', content: 'https://lebalz.github.io/docusaurus-live-brython/img/og_preview.png'},
       { name: 'og:url', content: 'https://lebalz.github.io/docusaurus-live-brython'},
       { name: 'og:type', content: 'website'},
@@ -80,7 +80,7 @@ const config: Config = {
       { name: 'twitter:site', content: '@lebalz'},
       { name: 'twitter:creator', content: '@lebalz'},
       { name: 'twitter:title', content: 'Docusaurus Live Brython'},
-      { name: 'twitter:description', content: 'Interact and execute your Markdown Python Codeblocks in Docusaurus 3'},
+      { name: 'twitter:description', content: 'Execute and interact with your Markdown Python Codeblocks in Docusaurus 3'},
       { name: 'twitter:image', content: 'https://lebalz.github.io/docusaurus-live-brython/img/twitter_preview.png'},
     ]
   } satisfies Preset.ThemeConfig,
