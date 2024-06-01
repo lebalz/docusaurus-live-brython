@@ -3,7 +3,7 @@ import styles from './styles.module.css';
 import Editor from '@theme/CodeEditor/Editor';
 import BrythonCommunicator from '@theme/CodeEditor/BrythonCommunicator';
 import clsx from 'clsx';
-import { useScript, useStore } from '@theme/CodeEditor/WithScript/Store';
+import { useScript, useStore } from 'docusaurus-live-brython/client';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import CodeHistory from '@theme/CodeEditor/CodeHistory';
 
@@ -23,7 +23,7 @@ interface Props {
     noHistory: boolean;
 }
 
-const PyAceEditor = (props: Props) => {
+const CodeEditor = (props: Props) => {
     const { store } = useScript();
     const lang = useStore(store, (state) => state.lang);
     return (
@@ -53,5 +53,5 @@ const PyAceEditor = (props: Props) => {
     );
 };
 
-export default PyAceEditor;
+export default CodeEditor;
 

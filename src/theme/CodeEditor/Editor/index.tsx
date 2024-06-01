@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   DOM_ELEMENT_IDS,
 } from "@theme/CodeEditor/constants";
-import { useScript, useStore } from '@theme/CodeEditor/WithScript/Store';
+import { useScript, useStore } from 'docusaurus-live-brython/client';
 import Result from "@theme/CodeEditor/Editor/Result";
 import Turtle from "@theme/CodeEditor/Editor/Result/Graphics/Turtle";
 import Canvas from "@theme/CodeEditor/Editor/Result/Graphics/Canvas";

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import { useScript, useStore } from '@theme/CodeEditor/WithScript/Store';
+import { useScript, useStore } from 'docusaurus-live-brython/client';
 import ShowSyncStatus from '@theme/CodeEditor/Actions/ShowSyncStatus';
 import Reset from '@theme/CodeEditor/Actions/Reset';
 import DownloadCode from '@theme/CodeEditor/Actions/DownloadCode';

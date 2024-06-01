@@ -3,7 +3,7 @@ import styles from './styles.module.css';
 import { DOM_ELEMENT_IDS } from '@theme/CodeEditor/constants';
 import Draggable from 'react-draggable';
 import { checkForButtonClick } from '@theme/CodeEditor/Editor/utils/checkForButtonClick';
-import { useScript, useStore } from '@theme/CodeEditor/WithScript/Store';
+import { useScript, useStore } from 'docusaurus-live-brython/client';
 import Button from '@theme/CodeEditor/Button';
 import clsx from 'clsx';
 interface Props {

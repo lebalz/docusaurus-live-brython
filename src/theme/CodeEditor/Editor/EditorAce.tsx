@@ -10,7 +10,7 @@ import 'ace-builds/src-noconflict/mode-svg';
 import 'ace-builds/src-noconflict/theme-dracula';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import 'ace-builds/webpack-resolver';
-import { useScript, useStore } from '@theme/CodeEditor/WithScript/Store';
+import { useScript, useStore } from 'docusaurus-live-brython/client';
 // import 'ace-builds/src-noconflict/theme-textmate';
 // import('ace-builds/src-noconflict/snippets/python'),
 

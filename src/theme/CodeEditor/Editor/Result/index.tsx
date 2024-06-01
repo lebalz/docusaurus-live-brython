@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './styles.module.css';
 // @ts-ignore
 import CodeBlock from '@theme/CodeBlock';
-import { useScript, useStore } from '@theme/CodeEditor/WithScript/Store';
+import { useScript, useStore } from 'docusaurus-live-brython/client';
 
 interface Props {
 }

@@ -13,6 +13,7 @@ export interface StoredScript {
     versions: Version[];
 }
 
+export type Selector<T, R> = (state: T) => R;
 export interface Script extends StoredScript {
     /**
      * this is normally a uuid
