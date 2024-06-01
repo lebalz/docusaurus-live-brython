@@ -1,7 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import { DOM_ELEMENT_IDS } from 'docusaurus-live-brython/theme/CodeEditor/constants';
+import { DOM_ELEMENT_IDS } from '@theme/CodeEditor/constants';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/mode-python';
@@ -10,7 +10,7 @@ import 'ace-builds/src-noconflict/mode-svg';
 import 'ace-builds/src-noconflict/theme-dracula';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import 'ace-builds/webpack-resolver';
-import { useScript, useStore } from 'docusaurus-live-brython/theme/CodeEditor/WithScript/Store';
+import { useScript, useStore } from '@theme/CodeEditor/WithScript/Store';
 // import 'ace-builds/src-noconflict/theme-textmate';
 // import('ace-builds/src-noconflict/snippets/python'),
 

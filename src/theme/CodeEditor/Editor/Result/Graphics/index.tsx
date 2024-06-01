@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styles from './styles.module.css';
-import { DOM_ELEMENT_IDS } from 'docusaurus-live-brython/theme/CodeEditor/constants';
+import { DOM_ELEMENT_IDS } from '@theme/CodeEditor/constants';
 import Draggable from 'react-draggable';
-import { checkForButtonClick } from 'docusaurus-live-brython/theme/CodeEditor/Editor/utils/checkForButtonClick';
-import { useScript, useStore } from 'docusaurus-live-brython/theme/CodeEditor/WithScript/Store';
-import Button from 'docusaurus-live-brython/theme/CodeEditor/Button';
+import { checkForButtonClick } from '@theme/CodeEditor/Editor/utils/checkForButtonClick';
+import { useScript, useStore } from '@theme/CodeEditor/WithScript/Store';
+import Button from '@theme/CodeEditor/Button';
 import clsx from 'clsx';
 interface Props {
     controls?: JSX.Element;

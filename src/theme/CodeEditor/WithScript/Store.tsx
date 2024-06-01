@@ -1,12 +1,12 @@
 import React, { useCallback } from "react";
 import { useSyncExternalStore } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { checkCanvasOutput, checkGraphicsOutput, checkTurtleOutput, getPreCode, sanitizePyScript } from "docusaurus-live-brython/theme/CodeEditor/WithScript/helpers";
+import { checkCanvasOutput, checkGraphicsOutput, checkTurtleOutput, getPreCode, sanitizePyScript } from "@theme/CodeEditor/WithScript/helpers";
 import { ReactContextError, createStorageSlot } from "@docusaurus/theme-common";
 import { usePluginData } from "@docusaurus/useGlobalData";
-import { DOM_ELEMENT_IDS } from "docusaurus-live-brython/theme/CodeEditor/constants";
+import { DOM_ELEMENT_IDS } from "@theme/CodeEditor/constants";
 import throttle from 'lodash/throttle';
-import { getStorageScript, syncStorageScript } from "docusaurus-live-brython/theme/CodeEditor/WithScript/Storage";
+import { getStorageScript, syncStorageScript } from "@theme/CodeEditor/WithScript/Storage";
 import { type InitState, type LogMessage, type Script, Status, type Store, type StoredScript, type Version } from "./Types";
 export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: number): Store => {
     const canSave = !!props.id;

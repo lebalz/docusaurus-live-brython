@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styles from './styles.module.css';
-import Editor from 'docusaurus-live-brython/theme/CodeEditor/Editor';
-import BrythonCommunicator from 'docusaurus-live-brython/theme/CodeEditor/BrythonCommunicator';
+import Editor from '@theme/CodeEditor/Editor';
+import BrythonCommunicator from '@theme/CodeEditor/BrythonCommunicator';
 import clsx from 'clsx';
-import { useScript, useStore } from 'docusaurus-live-brython/theme/CodeEditor/WithScript/Store';
+import { useScript, useStore } from '@theme/CodeEditor/WithScript/Store';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import CodeHistory from 'docusaurus-live-brython/theme/CodeEditor/CodeHistory';
+import CodeHistory from '@theme/CodeEditor/CodeHistory';
 
 interface Props {
     slim: boolean;

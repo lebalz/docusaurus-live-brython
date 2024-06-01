@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useScript, useStore } from 'docusaurus-live-brython/theme/CodeEditor/WithScript/Store';
-import Icon, { Color } from 'docusaurus-live-brython/theme/CodeEditor/Icon';
-import { Status } from 'docusaurus-live-brython/theme/CodeEditor/WithScript/Types';
+import { useScript, useStore } from '@theme/CodeEditor/WithScript/Store';
+import Icon, { Color } from '@theme/CodeEditor/Icon';
+import { Status } from '@theme/CodeEditor/WithScript/Types';
 
 const ShowSyncStatus = () => {
     const { store } = useScript();

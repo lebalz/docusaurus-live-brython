@@ -1,4 +1,4 @@
-import { removeAnimations } from "docusaurus-live-brython/theme/CodeEditor/Editor/utils/svgWithoutAnimations";
+import { removeAnimations } from "@theme/CodeEditor/Editor/utils/svgWithoutAnimations";
 
 const duration = (anim: SVGAnimateElement) => {
   const dur = anim.getAttribute('dur') || '';

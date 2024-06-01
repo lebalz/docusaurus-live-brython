@@ -1,4 +1,4 @@
-import type { StorageSlot, StoredScript } from "docusaurus-live-brython/theme/CodeEditor/WithScript/Types";
+import type { StorageSlot, StoredScript } from "@theme/CodeEditor/WithScript/Types";
 
 export const getStorageScript = (storage: StorageSlot): StoredScript | undefined => {
     const storedCode = storage.get();

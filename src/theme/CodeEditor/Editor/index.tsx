@@ -1,14 +1,14 @@
 import * as React from "react";
 import {
   DOM_ELEMENT_IDS,
-} from "docusaurus-live-brython/theme/CodeEditor/constants";
-import { useScript, useStore } from 'docusaurus-live-brython/theme/CodeEditor/WithScript/Store';
-import Result from "docusaurus-live-brython/theme/CodeEditor/Editor/Result";
-import Turtle from "docusaurus-live-brython/theme/CodeEditor/Editor/Result/Graphics/Turtle";
-import Canvas from "docusaurus-live-brython/theme/CodeEditor/Editor/Result/Graphics/Canvas";
-import Graphics from "docusaurus-live-brython/theme/CodeEditor/Editor/Result/Graphics";
-import Header from "docusaurus-live-brython/theme/CodeEditor/Editor/Header";
-import EditorAce from "docusaurus-live-brython/theme/CodeEditor/Editor/EditorAce";
+} from "@theme/CodeEditor/constants";
+import { useScript, useStore } from '@theme/CodeEditor/WithScript/Store';
+import Result from "@theme/CodeEditor/Editor/Result";
+import Turtle from "@theme/CodeEditor/Editor/Result/Graphics/Turtle";
+import Canvas from "@theme/CodeEditor/Editor/Result/Graphics/Canvas";
+import Graphics from "@theme/CodeEditor/Editor/Result/Graphics";
+import Header from "@theme/CodeEditor/Editor/Header";
+import EditorAce from "@theme/CodeEditor/Editor/EditorAce";
 
 interface Props {
   slim: boolean;

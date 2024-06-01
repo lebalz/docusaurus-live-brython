@@ -1,8 +1,8 @@
 import * as React from 'react';
-import * as Icons from 'docusaurus-live-brython/theme/CodeEditor/Icon/icons';
+import * as Icons from '@theme/CodeEditor/Icon/icons';
 import styles from './styles.module.css';
 import clsx from 'clsx';
-import Icon from 'docusaurus-live-brython/theme/CodeEditor/Icon';
+import Icon from '@theme/CodeEditor/Icon';
 
 export enum Color {
     Primary = 'button--primary',

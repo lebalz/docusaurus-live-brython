@@ -3,9 +3,9 @@ import CodeBlock, {type Props as CodeBlockType} from '@theme-init/CodeBlock';
 // @ts-ignore
 import type { WrapperProps } from '@docusaurus/types';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import CodeEditor from 'docusaurus-live-brython/theme/CodeEditor';
+import CodeEditor from '@theme/CodeEditor';
 
-import ScriptContext from 'docusaurus-live-brython/theme/CodeEditor/WithScript/Store';
+import ScriptContext from '@theme/CodeEditor/WithScript/Store';
 
 
 type Props = WrapperProps<typeof CodeBlockType>;

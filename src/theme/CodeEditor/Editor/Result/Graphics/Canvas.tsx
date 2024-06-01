@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { DOM_ELEMENT_IDS } from 'docusaurus-live-brython/theme/CodeEditor/constants';
-import Graphics from 'docusaurus-live-brython/theme/CodeEditor/Editor/Result/Graphics';
+import { DOM_ELEMENT_IDS } from '@theme/CodeEditor/constants';
+import Graphics from '@theme/CodeEditor/Editor/Result/Graphics';
 import styles from './styles.module.css';
-import { useScript, useStore } from 'docusaurus-live-brython/theme/CodeEditor/WithScript/Store';
-import Button from 'docusaurus-live-brython/theme/CodeEditor/Button';
+import { useScript, useStore } from '@theme/CodeEditor/WithScript/Store';
+import Button from '@theme/CodeEditor/Button';
 
 const downloadCanvas = (canvasId: string) => {
     const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
