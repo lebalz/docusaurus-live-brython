@@ -13,7 +13,7 @@ export enum Color {
     Link = 'var(--ifm-color-link)'
 }
 
-interface Props {
+export interface Props {
     icon: keyof typeof Icons;
     size?: number | string;
     spin?: boolean;

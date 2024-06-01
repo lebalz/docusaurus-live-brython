@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useScript, useStore } from 'docusaurus-live-brython/client';
+import { useScript, useStore } from '@theme/CodeEditor/hooks';
 import Button, { Color } from '@theme/CodeEditor/Button';
 import { translate } from '@docusaurus/Translate';
 

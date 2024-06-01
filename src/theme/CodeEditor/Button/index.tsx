@@ -18,7 +18,7 @@ export enum Size {
     Large = 'button--lg',
 }
 
-interface Props {
+export interface Props {
     icon: keyof typeof Icons;
     title?: string;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;

@@ -1,6 +1,5 @@
 import React from 'react';
 import CodeBlock, {type Props as CodeBlockType} from '@theme-init/CodeBlock';
-// @ts-ignore
 import type { WrapperProps } from '@docusaurus/types';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import CodeEditor from '@theme/CodeEditor';

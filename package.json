@@ -13,9 +13,9 @@
       "types": "./lib/index.d.ts",
       "default": "./lib/index.js"
     },
-    "./client": {
-      "types": "./lib/client/index.d.ts",
-      "default": "./lib/client/index.js"
+    "./theme/CodeEditor/hooks": {
+      "types": "./lib/theme/CodeEditor/hooks/index.d.ts",
+      "default": "./lib/theme/CodeEditor/hooks/index.js"
     },
     "./theme/CodeEditor/Editor": {
       "types": "./lib/theme/CodeEditor/Editor/index.d.ts",

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { BRYTHON_NOTIFICATION_EVENT, DOM_ELEMENT_IDS } from "@theme/CodeEditor/constants";
-import { useScript, useStore } from 'docusaurus-live-brython/client';
+import { useScript, useStore } from '@theme/CodeEditor/hooks';
 import { type LogMessage } from '@theme/CodeEditor/WithScript/Types';
 
 const BrythonCommunicator = () => {

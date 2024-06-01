@@ -1,13 +1,9 @@
 import * as React from 'react';
 import styles from './styles.module.css';
-// @ts-ignore
 import CodeBlock from '@theme/CodeBlock';
-import { useScript, useStore } from 'docusaurus-live-brython/client';
+import { useScript, useStore } from '@theme/CodeEditor/hooks';
 
-interface Props {
-}
-
-const Result = (props: Props) => {
+const Result = () => {
     const { store } = useScript();
     const logs = useStore(store, (state) => state.logs);
     if (logs.length === 0) {

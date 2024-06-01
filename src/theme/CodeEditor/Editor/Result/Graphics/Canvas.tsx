@@ -2,7 +2,7 @@ import * as React from 'react';
 import { DOM_ELEMENT_IDS } from '@theme/CodeEditor/constants';
 import Graphics from '@theme/CodeEditor/Editor/Result/Graphics';
 import styles from './styles.module.css';
-import { useScript, useStore } from 'docusaurus-live-brython/client';
+import { useScript, useStore } from '@theme/CodeEditor/hooks';
 import Button from '@theme/CodeEditor/Button';
 
 const downloadCanvas = (canvasId: string) => {

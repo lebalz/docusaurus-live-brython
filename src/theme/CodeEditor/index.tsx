@@ -3,11 +3,11 @@ import styles from './styles.module.css';
 import Editor from '@theme/CodeEditor/Editor';
 import BrythonCommunicator from '@theme/CodeEditor/BrythonCommunicator';
 import clsx from 'clsx';
-import { useScript, useStore } from 'docusaurus-live-brython/client';
+import { useScript, useStore } from '@theme/CodeEditor/hooks';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import CodeHistory from '@theme/CodeEditor/CodeHistory';
 
-interface Props {
+export interface Props {
     slim: boolean;
     readonly: boolean;
     children: React.ReactNode;

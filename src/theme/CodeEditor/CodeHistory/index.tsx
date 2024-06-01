@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 import { Prism } from 'prism-react-renderer';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import { useScript, useStore } from 'docusaurus-live-brython/client';
+import { useScript, useStore } from '@theme/CodeEditor/hooks';
 import Translate, { translate } from '@docusaurus/Translate';
 import Button from '@theme/CodeEditor/Button';
 import DiffViewer from 'react-diff-viewer';

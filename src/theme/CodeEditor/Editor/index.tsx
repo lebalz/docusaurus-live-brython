@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   DOM_ELEMENT_IDS,
 } from "@theme/CodeEditor/constants";
-import { useScript, useStore } from 'docusaurus-live-brython/client';
+import { useScript, useStore } from '@theme/CodeEditor/hooks';
 import Result from "@theme/CodeEditor/Editor/Result";
 import Turtle from "@theme/CodeEditor/Editor/Result/Graphics/Turtle";
 import Canvas from "@theme/CodeEditor/Editor/Result/Graphics/Canvas";
@@ -10,7 +10,7 @@ import Graphics from "@theme/CodeEditor/Editor/Result/Graphics";
 import Header from "@theme/CodeEditor/Editor/Header";
 import EditorAce from "@theme/CodeEditor/Editor/EditorAce";
 
-interface Props {
+export interface Props {
   slim: boolean;
   title: string;
   resettable: boolean;

@@ -14,6 +14,7 @@
  * 
  */
 
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import type { HtmlTags, LoadContext, Plugin } from '@docusaurus/types';
 // eslint-disable-next-line import/no-extraneous-dependencies, import/order
 import logger from '@docusaurus/logger';
@@ -30,6 +31,9 @@ const theme: Plugin<{ remoteHeadTags: HtmlTags[] }> = (
     context: LoadContext,
     options: ThemeOptions,
 ) => {
+    const {
+      i18n: {currentLocale},
+    } = context;
     const libDir = options.libDir || DEFAULT_LIB_DIR;
     return {
         name: NAME,
@@ -48,6 +52,12 @@ const theme: Plugin<{ remoteHeadTags: HtmlTags[] }> = (
                     return assets;
                 }
             }
+        },
+        getDefaultCodeTranslationMessages() {
+          return readDefaultCodeTranslationMessages({
+            locale: currentLocale,
+            name: NAME,
+          });
         },
         async contentLoaded({ content, actions }) {
             const { setGlobalData } = actions;
