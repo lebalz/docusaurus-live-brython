@@ -88,18 +88,18 @@ As of now (30.5.2024), Brython has a Bug that prevents it from working when the 
 
 ## Editor Configuration
 
-| Name         | Default                | Description                                                |
-|:-------------|:-----------------------|:-----------------------------------------------------------|
-| `title`     | The used Codeblock Language (`PYTHON`) | The title of the code block.                               |
-| `id`        | `''`                   | Persists the changes of the code editor.                   |
-| `slim`       | `false`                | Removes the header and hides the line numbers.             |
-| `readonly`   | `false`                | Makes the editor read-only.                                |
-| `versioned`  | `false`                | Saves versions of the code.                                |
-| `noDownload` | `false`                | Hides the download button.                                 |
-| `noCompare`  | `false`                | Hides the compare button.                                  |
-| `noReset`    | `false`                | Hides the reset button.                                    |
-| `noHistory`  | `false`                | Hides the version history.                                 |
-| `maxLines`  | `25`                   | The maximum number of lines before the editor will scroll. |
+| Name         | Default                                | Description                                                |
+|:-------------|:---------------------------------------|:-----------------------------------------------------------|
+| `title`      | The used Codeblock Language (`PYTHON`) | The title of the code block.                               |
+| `id`         | `''`                                   | Persists the changes of the code editor.                   |
+| `slim`       | `false`                                | Removes the header and hides the line numbers.             |
+| `readonly`   | `false`                                | Makes the editor read-only.                                |
+| `versioned`  | `false`                                | Saves versions of the code.                                |
+| `noDownload` | `false`                                | Hides the download button.                                 |
+| `noCompare`  | `false`                                | Hides the compare button.                                  |
+| `noReset`    | `false`                                | Hides the reset button.                                    |
+| `noHistory`  | `false`                                | Hides the version history.                                 |
+| `maxLines`   | `25`                                   | The maximum number of lines before the editor will scroll. |
 
 
 
