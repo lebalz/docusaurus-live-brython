@@ -86,6 +86,23 @@ As of now (30.5.2024), Brython has a Bug that prevents it from working when the 
 [Issue on Github#2449](https://github.com/brython-dev/brython/issues/2449)
 :::
 
+## Editor Configuration
+
+| Name         | Default                | Description                                                |
+|:-------------|:-----------------------|:-----------------------------------------------------------|
+| `title`     | The used Codeblock Language (`PYTHON`) | The title of the code block.                               |
+| `id`        | `''`                   | Persists the changes of the code editor.                   |
+| `slim`       | `false`                | Removes the header and hides the line numbers.             |
+| `readonly`   | `false`                | Makes the editor read-only.                                |
+| `versioned`  | `false`                | Saves versions of the code.                                |
+| `noDownload` | `false`                | Hides the download button.                                 |
+| `noCompare`  | `false`                | Hides the compare button.                                  |
+| `noReset`    | `false`                | Hides the reset button.                                    |
+| `noHistory`  | `false`                | Hides the version history.                                 |
+| `maxLines`  | `25`                   | The maximum number of lines before the editor will scroll. |
+
+
+
 ### Title (title)
 
 You can add a title to the code block by adding a `title` to the meta string.
@@ -117,7 +134,7 @@ print('Hello Title')
 
 ### Slim Mode (slim)
 
-Sometimes a big editor is not needed. For small code snippets, you can use the `slim` mode to reduce the size of the editor.
+Sometimes an editor with a header is visually too big. For small code snippets, you can use the `slim` mode to reduce the size of the editor. This will remove the header and hides the line numbers.
 
 ````md
 ```py live_py slim
@@ -250,6 +267,31 @@ print('Hello No History')
 ```
 ````
 
+### Max Line Number before Scroll (maxLines)
+
+You can specify the maximum number of lines before the editor will scroll. This is useful for long code snippets. The default value is `25`.
+
+````md
+```py live_py maxLines=5
+print('Line 1')
+print('Line 2')
+print('Line 3')
+print('Line 4')
+print('Line 5')
+print('Line 6 - scrolled')
+```
+````
+<BrowserWindow>
+
+```py live_py maxLines=5
+print('Line 1')
+print('Line 2')
+print('Line 3')
+print('Line 4')
+print('Line 5')
+print('Line 6 - scrolled')
+```
+</BrowserWindow>
 
 ### Imports
 
