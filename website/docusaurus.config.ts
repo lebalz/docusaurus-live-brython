@@ -24,13 +24,13 @@ const config: Config = {
       title: 'Live Brython',
       logo: {
         alt: 'Live Brython',
-        src: 'img/logo.png',
+        src: 'img/logo.svg',
       },
       items: [
         {
           to: 'docs',
           position: 'left',
-          label: 'Documentation'
+          label: 'Docs'
         },
         {
           to: 'demo',
@@ -70,18 +70,18 @@ const config: Config = {
     },
     metadata: [
       { name: 'keywords', content: 'docusaurus, brython, live, python, markdown, codeblock'},
-      { name: 'description', content: 'Execute your Markdown Python Codeblocks in your Browser'},
-      { name: 'og:title', content: 'Live Brython'},
-      { name: 'og:description', content: 'Execute your Markdown Python Codeblocks in your Browser'},
-      { name: 'og:image', content: 'https://lebalz.github.io/docusaurus-live-brython/img/logo.png'},
+      { name: 'description', content: 'Interact and execute your Markdown Python Codeblocks in Docusaurus 3'},
+      { name: 'og:title', content: 'Docusaurus Live Brython'},
+      { name: 'og:description', content: 'Interact and execute your Markdown Python Codeblocks in Docusaurus 3'},
+      { name: 'og:image', content: 'https://lebalz.github.io/docusaurus-live-brython/img/og_preview.png'},
       { name: 'og:url', content: 'https://lebalz.github.io/docusaurus-live-brython'},
-      // { name: 'og:type', content: 'website'},
-      // { name: 'twitter:card', content: 'summary'},
+      { name: 'og:type', content: 'website'},
+      { name: 'twitter:card', content: 'summary_large_image'},
       { name: 'twitter:site', content: '@lebalz'},
       { name: 'twitter:creator', content: '@lebalz'},
-      { name: 'twitter:title', content: 'Live Brython'},
-      { name: 'twitter:description', content: 'Execute your Markdown Python Codeblocks in your Browser'},
-      { name: 'twitter:image', content: 'https://lebalz.github.io/docusaurus-live-brython/img/logo.png'},
+      { name: 'twitter:title', content: 'Docusaurus Live Brython'},
+      { name: 'twitter:description', content: 'Interact and execute your Markdown Python Codeblocks in Docusaurus 3'},
+      { name: 'twitter:image', content: 'https://lebalz.github.io/docusaurus-live-brython/img/twitter_preview.png'},
     ]
   } satisfies Preset.ThemeConfig,
   presets: [
