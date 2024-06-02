@@ -11,12 +11,14 @@ print('Live Brython')
 from browser import alert
 from random import randint 
 
-number = randint(0, 100)*0+30
+number = randint(0, 100)
 guessed = -1
 attempt = 1
 
 while guessed != number:
     guessed = input(f'{attempt} Try: Enter a number from 0 to 100')
+    if guessed == '':
+        break
     try:
         guessed = int(guessed)
     except:
@@ -30,7 +32,11 @@ while guessed != number:
         alert(f'The entered number {guessed} is too big')
     else:
         alert(f'The entered number {guessed} ist too small')
-print(f'you found the number {number} you were looking for in 10 attempts. in {attempt} 🥳')
+
+if guessed==number:
+    print(f'you found the number {number} you were looking for in 10 attempts. in {attempt} 🥳')
+else:
+    print(f'The searched number was {number}')
 ```
 
 ## Turtle Graphics
