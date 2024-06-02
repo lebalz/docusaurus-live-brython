@@ -34,7 +34,7 @@ while guessed != number:
         alert(f'The entered number {guessed} ist too small')
 
 if guessed==number:
-    print(f'you found the number {number} you were looking for in 10 attempts. in {attempt} 🥳')
+    print(f'you found the number {number} you were looking for in {attempt} attempts. 🥳')
 else:
     print(f'The searched number was {number}')
 ```
