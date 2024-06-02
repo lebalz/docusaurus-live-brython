@@ -10,7 +10,7 @@ const BASE_URL = process.env.NODE_ENV === 'production' ? '/docusaurus-live-bryth
 
 const config: Config = {
   title: 'Live Brython',
-  tagline: 'Execute your Markdown Python Codeblocks in your Browser',
+  tagline: 'Execute and interact with your Markdown Python Codeblocks in Docusaurus 3',
   url: 'https://lebalz.github.io',
   baseUrl: BASE_URL,
   onBrokenLinks: 'throw',
