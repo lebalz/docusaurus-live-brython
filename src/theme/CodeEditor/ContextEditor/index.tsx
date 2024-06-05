@@ -23,7 +23,7 @@ const ContextEditor = (props: Props) => {
         lang = 'python';
     }
     if (ExecutionEnvironment.canUseDOM) {
-        const title = props.title || props.title;
+        const title = props.title || lang;
 
         const rawcode: string = (props.children as string || '').replace(/\s*\n$/, '');
         let code = rawcode;

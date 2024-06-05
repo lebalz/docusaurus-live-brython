@@ -20,7 +20,7 @@ const config: Config = {
   projectName: 'docusaurus-live-brython', // Usually your repo name.
   trailingSlash: false,
   future: {
-    experimental_router: 'hash'
+    experimental_router: 'browser'
   },
   themeConfig: {
     navbar: {
