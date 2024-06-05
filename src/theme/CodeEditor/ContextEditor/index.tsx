@@ -49,7 +49,7 @@ const ContextEditor = (props: Props) => {
                     versioned={!!props.versioned}
                     noHistory={!!props.noHistory}
                     noCompare={!!props.noCompare}
-                    title={props.title}
+                    title={title}
                 />
             </ScriptContext>
         );
