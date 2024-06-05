@@ -17,6 +17,10 @@
       "types": "./lib/theme/CodeEditor/hooks/index.d.ts",
       "default": "./lib/theme/CodeEditor/hooks/index.js"
     },
+    "./theme/CodeEditor/ContextEditor": {
+      "types": "./lib/theme/CodeEditor/ContextEditor/index.d.ts",
+      "default": "./lib/theme/CodeEditor/ContextEditor/index.jsx"
+    },
     "./theme/CodeEditor/Editor": {
       "types": "./lib/theme/CodeEditor/Editor/index.d.ts",
       "default": "./lib/theme/CodeEditor/Editor/index.jsx"

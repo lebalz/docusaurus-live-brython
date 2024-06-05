@@ -27,9 +27,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 .card {
   max-width: 550px;
   box-shadow: var(--ifm-global-shadow-tl);
+  margin: 2em;
+}
+.code {
+  width: 85%;
+  max-width: 550px;
   margin: 2em;
 }

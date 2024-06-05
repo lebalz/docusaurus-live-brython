@@ -7,6 +7,21 @@ import { useScript, useStore } from '@theme/CodeEditor/hooks';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import CodeHistory from '@theme/CodeEditor/CodeHistory';
 
+export interface MetaProps {
+    reference?: boolean;
+    live_jsx?: boolean;
+    live_py?: boolean;
+    id?: string;
+    slim?: boolean;
+    readonly?: boolean;
+    noReset?: boolean;
+    noDownload?: boolean;
+    versioned?: boolean;
+    noHistory?: boolean;
+    noCompare?: boolean;
+    maxLines?: string;
+    title?: string
+}
 export interface Props {
     slim: boolean;
     readonly: boolean;
@@ -21,6 +36,7 @@ export interface Props {
     precode: string;
     maxLines?: number;
     noHistory: boolean;
+    className?: string;
 }
 
 const CodeEditor = (props: Props) => {
@@ -32,7 +48,7 @@ const CodeEditor = (props: Props) => {
         >
             {() => {
                     return (
-                        <div className={clsx(styles.wrapper, 'notranslate')}>
+                        <div className={clsx(styles.wrapper, 'notranslate', props.className)}>
                             <div
                                 className={clsx(
                                     styles.playgroundContainer,

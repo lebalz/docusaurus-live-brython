@@ -2,28 +2,13 @@ import React from 'react';
 import CodeBlock, {type Props as CodeBlockType} from '@theme-init/CodeBlock';
 import type { WrapperProps } from '@docusaurus/types';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import CodeEditor from '@theme/CodeEditor';
+import CodeEditor, { type MetaProps } from '@theme/CodeEditor';
 
 import ScriptContext from '@theme/CodeEditor/WithScript/Store';
+import ContextEditor from '@theme/CodeEditor/ContextEditor';
 
 
 type Props = WrapperProps<typeof CodeBlockType>;
-
-interface MetaProps {
-        reference?: boolean;
-        live_jsx?: boolean;
-        live_py?: boolean;
-        id?: string;
-        slim?: boolean;
-        readonly?: boolean;
-        noReset?: boolean;
-        noDownload?: boolean;
-        versioned?: boolean;
-        noHistory?: boolean;
-        noCompare?: boolean;
-        maxLines?: string;
-        title?: string
-}
 
 
 const sanitizedTitle = (id: string) => {
@@ -66,29 +51,13 @@ export default function CodeBlockWrapper(props: Props): JSX.Element {
         const rawcode: string = (props.children as string || '').replace(/\s*\n$/, '');
         let code = rawcode;
         return (
-            <ScriptContext
-                id={metaProps.id}
-                lang={lang}
-                title={title}
-                raw={rawcode}
-                readonly={!!metaProps.readonly}
-                versioned={!!metaProps.versioned}
+            <ContextEditor
+                {...props}
+                {...metaProps}
+                title={sanitizedTitle(title) || lang}
             >
-                <CodeEditor
-                    {...props}
-                    {...metaProps}
-                    maxLines={metaProps.maxLines && Number.parseInt(metaProps.maxLines, 10)}
-                    readonly={!!metaProps.readonly}
-                    resettable={!metaProps.noReset}
-                    download={!metaProps.versioned && !metaProps.noDownload}
-                    slim={!!metaProps.slim}
-                    showLineNumbers={!(!!metaProps.slim && !/\n/.test(code))}
-                    versioned={!!metaProps.versioned}
-                    noHistory={!!metaProps.noHistory}
-                    noCompare={!!metaProps.noCompare}
-                    title={sanitizedTitle(title) || lang}
-                />
-            </ScriptContext>
+                {props.children}
+            </ContextEditor>
         );
     }
     return (

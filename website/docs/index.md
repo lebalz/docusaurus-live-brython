@@ -80,12 +80,6 @@ end_fill()
 ```
 </BrowserWindow>
 
-:::warning[Bug in Brython: Live Brython does not work from `/`]
-As of now (30.5.2024), Brython has a Bug that prevents it from working when the current page is served from the root directory `/`. To work around this issue, you can serve your website from a subdirectory like `/docs/`.
-
-[Issue on Github#2449](https://github.com/brython-dev/brython/issues/2449)
-:::
-
 ## Editor Configuration
 
 | Name         | Default                                | Description                                                |
