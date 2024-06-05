@@ -19,6 +19,9 @@ const config: Config = {
   organizationName: 'lebalz', // Usually your GitHub org/user name.
   projectName: 'docusaurus-live-brython', // Usually your repo name.
   trailingSlash: false,
+  future: {
+    experimental_router: 'hash'
+  },
   themeConfig: {
     navbar: {
       title: 'Live Brython',

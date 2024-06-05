@@ -55,6 +55,12 @@ export const DEFAULT_OPTIONS: ThemeOptions = {
     syncMaxOnceEvery: 1000
 };
 
+export type ThemeData = {
+    libDir: string;
+    syncMaxOnceEvery: number;
+    isHashRouter: boolean;
+}
+
 const ThemeOptionSchema = Joi.object<ThemeOptions>({
     brythonSrc: Joi.string().default(DEFAULT_OPTIONS.brythonSrc),
     brythonStdlibSrc: Joi.string().default(DEFAULT_OPTIONS.brythonStdlibSrc),
