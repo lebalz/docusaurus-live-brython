@@ -6,7 +6,7 @@ import CodeBlock from '@theme/CodeBlock';
 
 interface Props extends MetaProps {
     className?: string;
-    title: string;
+    title?: string;
     children: string | React.ReactNode;
 }
 
