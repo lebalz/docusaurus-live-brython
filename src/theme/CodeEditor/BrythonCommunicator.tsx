@@ -4,8 +4,8 @@ import { useStore, useScript } from '@theme/CodeEditor/hooks';
 import { type LogMessage } from '@theme/CodeEditor/WithScript/Types';
 
 const BrythonCommunicator = () => {
-    const { store } = useStore();
-    const codeId = useScript(store, (state) => state.codeId);
+    const store = useStore();
+    const codeId = useScript(store, 'codeId');
     
 
     const ref = React.useRef<HTMLDivElement>(null);

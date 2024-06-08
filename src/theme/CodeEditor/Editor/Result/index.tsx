@@ -4,8 +4,8 @@ import CodeBlock from '@theme/CodeBlock';
 import { useStore, useScript } from '@theme/CodeEditor/hooks';
 
 const Result = () => {
-    const { store } = useStore();
-    const logs = useScript(store, (state) => state.logs);
+    const store = useStore();
+    const logs = useScript(store, 'logs');
     if (logs.length === 0) {
         return null;
     }

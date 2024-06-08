@@ -24,12 +24,12 @@ export interface Props {
 }
 
 const Editor = (props: Props) => {
-  const { store } = useStore();
-  const lang = useScript(store, (state) => state.lang);
-  const codeId = useScript(store, (state) => state.codeId);
-  const hasCanvasOutput = useScript(store, (state) => state.hasCanvasOutput);
-  const hasTurtleOutput = useScript(store, (state) => state.hasTurtleOutput);
-  const isGraphicsmodalOpen = useScript(store, (state) => state.isGraphicsmodalOpen);
+  const store = useStore();
+  const lang = useScript(store, 'lang');
+  const codeId = useScript(store, 'codeId');
+  const hasCanvasOutput = useScript(store, 'hasCanvasOutput');
+  const hasTurtleOutput = useScript(store, 'hasTurtleOutput');
+  const isGraphicsmodalOpen = useScript(store, 'isGraphicsmodalOpen');
   
   return (
     <React.Fragment>

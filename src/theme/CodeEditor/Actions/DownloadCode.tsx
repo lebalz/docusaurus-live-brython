@@ -5,10 +5,10 @@ import { translate } from '@docusaurus/Translate';
 
 
 const DownloadCode = (props: {title: string}) => {
-    const { store } = useStore();
-    const code = useScript(store, (state) => state.code);
-    const lang = useScript(store, (state) => state.lang);
-    const id = useScript(store, (state) => state.id);
+    const store = useStore();
+    const code = useScript(store, 'code');
+    const lang = useScript(store, 'lang');
+    const id = useScript(store, 'id');
     return (
         <Button
             icon='Download'

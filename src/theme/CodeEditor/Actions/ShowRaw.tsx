@@ -4,8 +4,8 @@ import Button, { Color } from '@theme/CodeEditor/Button';
 import { translate } from '@docusaurus/Translate';
 
 const ShowRaw = () => {
-    const { store } = useStore();
-    const showRaw = useScript(store, (state) => state.showRaw);
+    const store = useStore();
+    const showRaw = useScript(store, 'showRaw');
 
     return (
         <Button

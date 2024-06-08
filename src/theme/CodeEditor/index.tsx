@@ -40,8 +40,8 @@ export interface Props {
 }
 
 const CodeEditor = (props: Props) => {
-    const { store } = useStore();
-    const lang = useScript(store, (state) => state.lang);
+    const store = useStore();
+    const lang = useScript(store, 'lang');
     return (
         <BrowserOnly
             fallback={<div>Loading...</div>}

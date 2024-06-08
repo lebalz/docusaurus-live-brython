@@ -17,10 +17,10 @@ export interface Props {
 }
 
 const Header = (props: Props) => {
-    const { store } = useStore();
+    const store = useStore();
 
-    const hasEdits = useScript(store, (state) => state.hasEdits);
-    const lang = useScript(store, (state) => state.lang);
+    const hasEdits = useScript(store, 'hasEdits');
+    const lang = useScript(store, 'lang');
     return (
         <div className={clsx(styles.controls, props.slim && styles.slim)}>
             {!props.slim && (

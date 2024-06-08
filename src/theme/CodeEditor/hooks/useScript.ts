@@ -1,9 +1,9 @@
-import {Selector, type Document } from "@theme/CodeEditor/WithScript/Types";
+import {Selector, type Script, type Document } from "@theme/CodeEditor/WithScript/Types";
 import { useCallback, useSyncExternalStore } from "react";
 
-export const useScript = <T, R>(store: Document<T>, selector: Selector<T, R>): R => {
+export const useScript = <T extends keyof Script>(store: Document, selector: T): Script[T] => {
     return useSyncExternalStore(
         store.subscribe,
-        useCallback(() => selector(store.getState()), [store, selector])
+        useCallback(() => store.getState()[selector], [store, selector])
     );
 }

@@ -26,9 +26,9 @@ const downloadCanvas = (canvasId: string) => {
   };
 
 const Canvas = () => {
-    const { store } = useStore();
+    const store = useStore();
     // const { codeId } = useStore(store, (state) => ({codeId: state.codeId}));
-    const codeId = useScript(store, (state) => state.codeId);
+    const codeId = useScript(store, 'codeId');
 
     return (
         <Graphics

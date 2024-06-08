@@ -11,8 +11,8 @@ export interface Props {
 }
 
 const RunCode = (props: Props) => {
-    const { store } = useStore();
-    const isExecuting = useScript(store, (state) => state.isExecuting);
+    const store = useStore();
+    const isExecuting = useScript(store, 'isExecuting');
     return (
         <Button
             icon={isExecuting ? 'Python' : 'Play'}

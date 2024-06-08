@@ -26,12 +26,12 @@ const ALIAS_LANG_MAP_ACE = {
 
 const EditorAce = (props: Props) => {
     const eRef = React.useRef<AceEditor>(null);
-    const { store } = useStore();
-    const code = useScript(store, (state) => state.code);
-    const pristineCode = useScript(store, (state) => state.pristineCode);
-    const lang = useScript(store, (state) => state.lang);
-    const codeId = useScript(store, (state) => state.codeId);
-    const showRaw = useScript(store, (state) => state.showRaw);
+    const store = useStore();
+    const code = useScript(store, 'code');
+    const pristineCode = useScript(store, 'pristineCode');
+    const lang = useScript(store, 'lang');
+    const codeId = useScript(store, 'codeId');
+    const showRaw = useScript(store, 'showRaw');
 
     React.useEffect(() => {
         if (eRef && eRef.current) {

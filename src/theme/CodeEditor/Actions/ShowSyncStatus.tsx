@@ -4,9 +4,9 @@ import Icon, { Color } from '@theme/CodeEditor/Icon';
 import { Status } from '@theme/CodeEditor/WithScript/Types';
 
 const ShowSyncStatus = () => {
-    const { store } = useStore();
-    const isLoaded = useScript(store, (state) => state.isLoaded);
-    const status = useScript(store, (state) => state.status);
+    const store = useStore();
+    const isLoaded = useScript(store, 'isLoaded');
+    const status = useScript(store, 'status');
 
     React.useEffect(() => {
         if (status !== Status.IDLE) {

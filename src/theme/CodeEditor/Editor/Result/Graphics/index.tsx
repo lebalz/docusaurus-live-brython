@@ -11,8 +11,8 @@ export interface Props {
     main?: JSX.Element;
 }
 const Graphics = (props: Props) => {
-    const { store } = useStore();
-    const codeId = useScript(store, (state) => state.codeId);
+    const store = useStore();
+    const codeId = useScript(store, 'codeId');
     return (
         <Draggable
             onStop={checkForButtonClick}

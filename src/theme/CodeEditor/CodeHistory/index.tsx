@@ -25,13 +25,13 @@ const highlightSyntax = (str: string) => {
 
 const CodeHistory = () => {
     const [version, setVersion] = React.useState(1);
-    const { store } = useStore();
-    const versions = useScript(store, (state) => state.versions);
-    const versionsLoaded = useScript(store, (state) => state.versionsLoaded);
-
+    const store = useStore();
+    const versions = []; // useScript(store, 'versions');
+    const versionsLoaded = useScript(store, 'versionsLoaded');
     if (versions?.length < 2) {
         return null;
     }
+
     return (
         <div className={clsx(styles.codeHistory)}>
             <Details

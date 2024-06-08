@@ -8,9 +8,9 @@ import Button from '@theme/CodeEditor/Button';
 import clsx from 'clsx';
 
 const Turtle = () => {
-    const { store } = useStore();
-    const codeId = useScript(store, (state) => state.codeId);
-    const code = useScript(store, (state) => state.code);
+    const store = useStore();
+    const codeId = useScript(store, 'codeId');
+    const code = useScript(store, 'code');
     return (
         <Graphics
             controls={

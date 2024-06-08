@@ -4,8 +4,8 @@ import Button, { Color } from '@theme/CodeEditor/Button';
 import { translate } from '@docusaurus/Translate';
 
 const Reset = () => {
-    const { store } = useStore();
-    const pristine = useScript(store, (state) => state.pristineCode);
+    const store = useStore();
+    const pristine = useScript(store, 'pristineCode');
     
     const onReset = () => {
         const shouldReset = window.confirm(translate({
