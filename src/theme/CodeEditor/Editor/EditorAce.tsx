@@ -10,7 +10,7 @@ import 'ace-builds/src-noconflict/mode-svg';
 import 'ace-builds/src-noconflict/theme-dracula';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import 'ace-builds/webpack-resolver';
-import { useScript, useStore } from '@theme/CodeEditor/hooks';
+import { useStore, useScript } from '@theme/CodeEditor/hooks';
 // import 'ace-builds/src-noconflict/theme-textmate';
 // import('ace-builds/src-noconflict/snippets/python'),
 
@@ -26,12 +26,12 @@ const ALIAS_LANG_MAP_ACE = {
 
 const EditorAce = (props: Props) => {
     const eRef = React.useRef<AceEditor>(null);
-    const { store } = useScript();
-    const code = useStore(store, (state) => state.code);
-    const pristineCode = useStore(store, (state) => state.pristineCode);
-    const lang = useStore(store, (state) => state.lang);
-    const codeId = useStore(store, (state) => state.codeId);
-    const showRaw = useStore(store, (state) => state.showRaw);
+    const { store } = useStore();
+    const code = useScript(store, (state) => state.code);
+    const pristineCode = useScript(store, (state) => state.pristineCode);
+    const lang = useScript(store, (state) => state.lang);
+    const codeId = useScript(store, (state) => state.codeId);
+    const showRaw = useScript(store, (state) => state.showRaw);
 
     React.useEffect(() => {
         if (eRef && eRef.current) {

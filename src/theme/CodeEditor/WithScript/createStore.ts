@@ -1,12 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 import { createStorageSlot } from "@docusaurus/theme-common";
 import { getStorageScript, syncStorageScript } from "@theme/CodeEditor/WithScript/Storage";
-import { checkCanvasOutput, checkGraphicsOutput, checkTurtleOutput, getPreCode, sanitizePyScript } from "@theme/CodeEditor/WithScript/helpers";
-import { type InitState, type LogMessage, type Script, Status, type Store, type StoredScript, type Version } from "@theme/CodeEditor/WithScript/Types";
+import { checkCanvasOutput, checkGraphicsOutput, checkTurtleOutput, splitPreCode as splitPreCode, sanitizePyScript } from "@theme/CodeEditor/WithScript/helpers";
+import { type InitState, type LogMessage, type Script, Status, type Document, type StoredScript, type Version } from "@theme/CodeEditor/WithScript/Types";
 import { DOM_ELEMENT_IDS } from "@theme/CodeEditor/constants";
 import throttle from 'lodash/throttle';
 
-export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: number): Store => {
+export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: number): Document => {
     const canSave = !!props.id;
     const id = props.id || uuidv4();
     const codeId = `code.${props.title || props.lang}.${id}`.replace(/(-|\.)/g, '_');
@@ -56,9 +56,9 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
 
     const prepareCode = (raw: string, config: { codeOnly?: boolean, stateNotInitialized?: boolean } = {}) => {
         const { pre, code } = config.codeOnly 
-                                ? { pre: getPreCode(state.pristineCode).pre, code: raw }
-                                : getPreCode(raw);
-        const hasEdits = code !== (config.stateNotInitialized ? getPreCode(props.raw).code : state.pristineCode);
+                                ? { pre: splitPreCode(state.pristineCode).pre, code: raw }
+                                : splitPreCode(raw);
+        const hasEdits = code !== (config.stateNotInitialized ? splitPreCode(props.raw).code : state.pristineCode);
         const updatedAt = new Date();
         const hasCanvasOutput = checkCanvasOutput(raw);
         const hasTurtleOutput = checkTurtleOutput(raw);
@@ -243,5 +243,5 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         stopScript,
         load, 
         loadVersions
-    } satisfies Store;
+    } satisfies Document;
 };

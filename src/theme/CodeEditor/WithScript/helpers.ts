@@ -16,7 +16,7 @@ export const checkCanvasOutput = (raw: string): boolean => {
     return CANVAS_OUTPUT_TESTER.test(raw) || GRID_IMPORTS_TESTER.test(raw);
 }
 
-export const getPreCode = (rawcode: string) => {
+export const splitPreCode = (rawcode: string) => {
     const match = rawcode.match(/\n###\s*PRE.*?\n/);
     if (match) {
         return {

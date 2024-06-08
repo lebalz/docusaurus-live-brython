@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useScript, useStore } from '@theme/CodeEditor/hooks';
+import { useStore, useScript } from '@theme/CodeEditor/hooks';
 import Button, { Color } from '@theme/CodeEditor/Button';
 import { translate } from '@docusaurus/Translate';
 import styles from './styles.module.css';
@@ -11,8 +11,8 @@ export interface Props {
 }
 
 const RunCode = (props: Props) => {
-    const { store } = useScript();
-    const isExecuting = useStore(store, (state) => state.isExecuting);
+    const { store } = useStore();
+    const isExecuting = useScript(store, (state) => state.isExecuting);
     return (
         <Button
             icon={isExecuting ? 'Python' : 'Play'}

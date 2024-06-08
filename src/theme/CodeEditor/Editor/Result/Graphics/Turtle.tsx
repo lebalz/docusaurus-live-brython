@@ -3,14 +3,14 @@ import styles from './styles.module.css';
 import { DOM_ELEMENT_IDS } from '@theme/CodeEditor/constants';
 import Graphics from '@theme/CodeEditor/Editor/Result/Graphics';
 import { saveSvg } from '@theme/CodeEditor/Editor/utils/saveSvg';
-import { useScript, useStore } from '@theme/CodeEditor/hooks';
+import { useStore, useScript } from '@theme/CodeEditor/hooks';
 import Button from '@theme/CodeEditor/Button';
 import clsx from 'clsx';
 
 const Turtle = () => {
-    const { store } = useScript();
-    const codeId = useStore(store, (state) => state.codeId);
-    const code = useStore(store, (state) => state.code);
+    const { store } = useStore();
+    const codeId = useScript(store, (state) => state.codeId);
+    const code = useScript(store, (state) => state.code);
     return (
         <Graphics
             controls={

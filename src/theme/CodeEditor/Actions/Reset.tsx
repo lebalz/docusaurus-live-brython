@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { useScript, useStore } from '@theme/CodeEditor/hooks';
+import { useStore, useScript } from '@theme/CodeEditor/hooks';
 import Button, { Color } from '@theme/CodeEditor/Button';
 import { translate } from '@docusaurus/Translate';
 
 const Reset = () => {
-    const { store } = useScript();
-    const pristine = useStore(store, (state) => state.pristineCode);
+    const { store } = useStore();
+    const pristine = useScript(store, (state) => state.pristineCode);
     
     const onReset = () => {
         const shouldReset = window.confirm(translate({

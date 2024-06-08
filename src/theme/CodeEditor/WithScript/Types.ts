@@ -76,7 +76,7 @@ export interface InitState {
     versioned: boolean;
 }
 
-export interface Store<T = Script> {
+export interface Document<T = Script> {
     getState: () => T;
     setState: (fn: (state: Script) => Script) => void;
     subscribe: (listener: () => void) => () => void;

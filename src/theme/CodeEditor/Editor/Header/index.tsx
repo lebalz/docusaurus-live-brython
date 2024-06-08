@@ -1,7 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import { useScript, useStore } from '@theme/CodeEditor/hooks';
+import { useStore, useScript } from '@theme/CodeEditor/hooks';
 import ShowSyncStatus from '@theme/CodeEditor/Actions/ShowSyncStatus';
 import Reset from '@theme/CodeEditor/Actions/Reset';
 import DownloadCode from '@theme/CodeEditor/Actions/DownloadCode';
@@ -17,10 +17,10 @@ export interface Props {
 }
 
 const Header = (props: Props) => {
-    const { store } = useScript();
+    const { store } = useStore();
 
-    const hasEdits = useStore(store, (state) => state.hasEdits);
-    const lang = useStore(store, (state) => state.lang);
+    const hasEdits = useScript(store, (state) => state.hasEdits);
+    const lang = useScript(store, (state) => state.lang);
     return (
         <div className={clsx(styles.controls, props.slim && styles.slim)}>
             {!props.slim && (

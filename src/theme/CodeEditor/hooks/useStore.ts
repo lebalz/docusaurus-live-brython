@@ -1,9 +1,15 @@
-import {Selector, type Store } from "@theme/CodeEditor/WithScript/Types";
-import { useCallback, useSyncExternalStore } from "react";
+import { Context } from "@theme/CodeEditor/WithScript/ScriptContext";
+import {type Document } from "@theme/CodeEditor/WithScript/Types";
+import { ReactContextError } from "@docusaurus/theme-common";
+import { useContext } from "react";
 
-export const useStore = <T, R>(store: Store<T>, selector: Selector<T, R>): R => {
-    return useSyncExternalStore(
-        store.subscribe,
-        useCallback(() => selector(store.getState()), [store, selector])
-    );
+export function useStore(): {store: Document} {
+    const context = useContext(Context);
+    if (context === null) {
+      throw new ReactContextError(
+        'ScriptContextProvider',
+        'The Component must be a child of the ScriptContextProvider component',
+      );
+    }
+    return context;
 }

@@ -1,11 +1,11 @@
 import * as React from "react";
 import { BRYTHON_NOTIFICATION_EVENT, DOM_ELEMENT_IDS } from "@theme/CodeEditor/constants";
-import { useScript, useStore } from '@theme/CodeEditor/hooks';
+import { useStore, useScript } from '@theme/CodeEditor/hooks';
 import { type LogMessage } from '@theme/CodeEditor/WithScript/Types';
 
 const BrythonCommunicator = () => {
-    const { store } = useScript();
-    const codeId = useStore(store, (state) => state.codeId);
+    const { store } = useStore();
+    const codeId = useScript(store, (state) => state.codeId);
     
 
     const ref = React.useRef<HTMLDivElement>(null);

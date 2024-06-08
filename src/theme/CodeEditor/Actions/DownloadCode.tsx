@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { useScript, useStore } from '@theme/CodeEditor/hooks';
+import { useStore, useScript } from '@theme/CodeEditor/hooks';
 import Button, { Color } from '@theme/CodeEditor/Button';
 import { translate } from '@docusaurus/Translate';
 
 
 const DownloadCode = (props: {title: string}) => {
-    const { store } = useScript();
-    const code = useStore(store, (state) => state.code);
-    const lang = useStore(store, (state) => state.lang);
-    const id = useStore(store, (state) => state.id);
+    const { store } = useStore();
+    const code = useScript(store, (state) => state.code);
+    const lang = useScript(store, (state) => state.lang);
+    const id = useScript(store, (state) => state.id);
     return (
         <Button
             icon='Download'

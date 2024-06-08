@@ -3,7 +3,7 @@ import styles from './styles.module.css';
 import Editor from '@theme/CodeEditor/Editor';
 import BrythonCommunicator from '@theme/CodeEditor/BrythonCommunicator';
 import clsx from 'clsx';
-import { useScript, useStore } from '@theme/CodeEditor/hooks';
+import { useStore, useScript } from '@theme/CodeEditor/hooks';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import CodeHistory from '@theme/CodeEditor/CodeHistory';
 
@@ -40,8 +40,8 @@ export interface Props {
 }
 
 const CodeEditor = (props: Props) => {
-    const { store } = useScript();
-    const lang = useStore(store, (state) => state.lang);
+    const { store } = useStore();
+    const lang = useScript(store, (state) => state.lang);
     return (
         <BrowserOnly
             fallback={<div>Loading...</div>}

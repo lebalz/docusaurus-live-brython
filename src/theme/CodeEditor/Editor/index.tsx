@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   DOM_ELEMENT_IDS,
 } from "@theme/CodeEditor/constants";
-import { useScript, useStore } from '@theme/CodeEditor/hooks';
+import { useStore, useScript } from '@theme/CodeEditor/hooks';
 import Result from "@theme/CodeEditor/Editor/Result";
 import Turtle from "@theme/CodeEditor/Editor/Result/Graphics/Turtle";
 import Canvas from "@theme/CodeEditor/Editor/Result/Graphics/Canvas";
@@ -24,12 +24,12 @@ export interface Props {
 }
 
 const Editor = (props: Props) => {
-  const { store } = useScript();
-  const lang = useStore(store, (state) => state.lang);
-  const codeId = useStore(store, (state) => state.codeId);
-  const hasCanvasOutput = useStore(store, (state) => state.hasCanvasOutput);
-  const hasTurtleOutput = useStore(store, (state) => state.hasTurtleOutput);
-  const isGraphicsmodalOpen = useStore(store, (state) => state.isGraphicsmodalOpen);
+  const { store } = useStore();
+  const lang = useScript(store, (state) => state.lang);
+  const codeId = useScript(store, (state) => state.codeId);
+  const hasCanvasOutput = useScript(store, (state) => state.hasCanvasOutput);
+  const hasTurtleOutput = useScript(store, (state) => state.hasTurtleOutput);
+  const isGraphicsmodalOpen = useScript(store, (state) => state.isGraphicsmodalOpen);
   
   return (
     <React.Fragment>

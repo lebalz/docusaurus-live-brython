@@ -4,7 +4,7 @@ import type { WrapperProps } from '@docusaurus/types';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import CodeEditor, { type MetaProps } from '@theme/CodeEditor';
 
-import ScriptContext from '@theme/CodeEditor/WithScript/Store';
+import ScriptContext from '@theme/CodeEditor/WithScript/ScriptContext';
 import ContextEditor from '@theme/CodeEditor/ContextEditor';
 
 

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styles from './styles.module.css';
 import CodeBlock from '@theme/CodeBlock';
-import { useScript, useStore } from '@theme/CodeEditor/hooks';
+import { useStore, useScript } from '@theme/CodeEditor/hooks';
 
 const Result = () => {
-    const { store } = useScript();
-    const logs = useStore(store, (state) => state.logs);
+    const { store } = useStore();
+    const logs = useScript(store, (state) => state.logs);
     if (logs.length === 0) {
         return null;
     }

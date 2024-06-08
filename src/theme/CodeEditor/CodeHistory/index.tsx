@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 import { Prism } from 'prism-react-renderer';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import { useScript, useStore } from '@theme/CodeEditor/hooks';
+import { useStore, useScript } from '@theme/CodeEditor/hooks';
 import Translate, { translate } from '@docusaurus/Translate';
 import Button from '@theme/CodeEditor/Button';
 import DiffViewer from 'react-diff-viewer-continued';
@@ -25,9 +25,9 @@ const highlightSyntax = (str: string) => {
 
 const CodeHistory = () => {
     const [version, setVersion] = React.useState(1);
-    const { store } = useScript();
-    const versions = useStore(store, (state) => state.versions);
-    const versionsLoaded = useStore(store, (state) => state.versionsLoaded);
+    const { store } = useStore();
+    const versions = useScript(store, (state) => state.versions);
+    const versionsLoaded = useScript(store, (state) => state.versionsLoaded);
 
     if (versions?.length < 2) {
         return null;

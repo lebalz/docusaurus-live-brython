@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { useScript, useStore } from '@theme/CodeEditor/hooks';
+import { useStore, useScript } from '@theme/CodeEditor/hooks';
 import Button, { Color } from '@theme/CodeEditor/Button';
 import { translate } from '@docusaurus/Translate';
 
 const ShowRaw = () => {
-    const { store } = useScript();
-    const showRaw = useStore(store, (state) => state.showRaw);
+    const { store } = useStore();
+    const showRaw = useScript(store, (state) => state.showRaw);
 
     return (
         <Button

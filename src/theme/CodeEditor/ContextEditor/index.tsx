@@ -1,7 +1,7 @@
 import React from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import CodeEditor, { type MetaProps } from '@theme/CodeEditor';
-import ScriptContext from '@theme/CodeEditor/WithScript/Store';
+import ScriptContext from '@theme/CodeEditor/WithScript/ScriptContext';
 import CodeBlock from '@theme/CodeBlock';
 
 interface Props extends MetaProps {

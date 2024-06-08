@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { useScript, useStore } from '@theme/CodeEditor/hooks';
+import { useStore, useScript } from '@theme/CodeEditor/hooks';
 import Icon, { Color } from '@theme/CodeEditor/Icon';
 import { Status } from '@theme/CodeEditor/WithScript/Types';
 
 const ShowSyncStatus = () => {
-    const { store } = useScript();
-    const isLoaded = useStore(store, (state) => state.isLoaded);
-    const status = useStore(store, (state) => state.status);
+    const { store } = useStore();
+    const isLoaded = useScript(store, (state) => state.isLoaded);
+    const status = useScript(store, (state) => state.status);
 
     React.useEffect(() => {
         if (status !== Status.IDLE) {
