@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-live-brython",
-  "version": "3.0.0-beta.13",
+  "version": "3.0.0-beta.14",
   "description": "Docusaurus live code block component for python.",
   "publishConfig": {
     "access": "public"
@@ -104,7 +104,7 @@
     "prism-react-renderer": "^2.3.1",
     "rc-slider": "^10.6.2",
     "react-ace": "^11.0.1",
-    "react-diff-viewer": "^3.1.1",
+    "react-diff-viewer-continued": "^3.4.0",
     "react-draggable": "^4.4.6",
     "svg-parser": "^2.0.4",
     "uuid": "^9.0.1"

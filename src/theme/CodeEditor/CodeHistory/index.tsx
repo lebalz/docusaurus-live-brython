@@ -7,7 +7,7 @@ import 'rc-slider/assets/index.css';
 import { useScript, useStore } from '@theme/CodeEditor/hooks';
 import Translate, { translate } from '@docusaurus/Translate';
 import Button from '@theme/CodeEditor/Button';
-import DiffViewer from 'react-diff-viewer';
+import DiffViewer from 'react-diff-viewer-continued';
 import Details from '@theme/Details';
 
 const highlightSyntax = (str: string) => {
