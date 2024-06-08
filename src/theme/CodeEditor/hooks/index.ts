@@ -1,2 +1,2 @@
-export {useScript} from './useScript';
-export {useStore} from './useStore';
+export {useScript} from '@theme/CodeEditor/hooks/useScript';
+export {useStore} from '@theme/CodeEditor/hooks/useStore';
