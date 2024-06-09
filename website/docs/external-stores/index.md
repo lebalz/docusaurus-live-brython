@@ -331,10 +331,7 @@ export const useScript = <T extends keyof Document>(model: Document, selector: T
     }
     return useSyncExternalStore(
         useCallback((callback) => {
-            const disposer = model.subscribe(callback, selector);
-            return () => {
-                disposer()
-            };
+            return model.subscribe(callback, selector);
         }, [model, selector]),
         useCallback(
             () => {
@@ -400,10 +397,7 @@ export const useScript = <T extends keyof Document>(model: Document, selector: T
          */
         return useSyncExternalStore(
             useCallback((callback) => {
-                const disposer = model.subscribe(callback, selector);
-                return () => {
-                    disposer()
-                };
+                return model.subscribe(callback, selector);
             }, [model, selector]),
             useCallback(
                 useStableSnapshot(() => {
@@ -415,10 +409,7 @@ export const useScript = <T extends keyof Document>(model: Document, selector: T
     }
     return useSyncExternalStore(
         useCallback((callback) => {
-            const disposer = model.subscribe(callback, selector);
-            return () => {
-                disposer()
-            };
+            return model.subscribe(callback, selector);
         }, [model, selector]),
         useCallback(
             () => {
@@ -432,6 +423,8 @@ export const useScript = <T extends keyof Document>(model: Document, selector: T
 </details>
 
 Since the state in `docusaurus-live-brython` is passed down through the `ScriptContext`, you need to swizzle the `ScriptContext` to provide the mobx `Document` to the `CodeEditor` and all of it's components.
+
+Here you can see, that the `Document` is created when the `ScriptContext` is mounted and added to the `DocumentStore`.
 
 ```ts title="src/theme/CodeEditor/WithScript/ScriptContext.tsx"
 import React from "react";

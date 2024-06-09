@@ -12,7 +12,7 @@ import BrowserWindow from '@site/src/components/BrowserWindow';
 This theme provides a `@theme/CodeEditor` component that is powered by [Brython](https://brython.info/). It allows you to execute and edit Python code blocks directly in your markdown files.
 Docusaurus Theme to display markdown code blocks as an executable and editable Brython Live Editor.
 
-![NPM Version](https://img.shields.io/npm/v/docusaurus-live-brython)
+[![NPM Version](https://img.shields.io/npm/v/docusaurus-live-brython)](https://www.npmjs.com/package/docusaurus-live-brython/)
 
 ## Interactive code editor
 

@@ -46,6 +46,11 @@ const config: Config = {
           label: 'Playground'
         },
         {
+          href: 'https://www.npmjs.com/package/docusaurus-live-brython',
+          label: 'npm',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/lebalz/docusaurus-live-brython',
           label: 'GitHub',
           position: 'right',
