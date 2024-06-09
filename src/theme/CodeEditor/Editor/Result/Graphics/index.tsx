@@ -13,12 +13,14 @@ export interface Props {
 const Graphics = (props: Props) => {
     const store = useStore();
     const codeId = useScript(store, 'codeId');
+    const nodeRef = React.useRef(null);
     return (
         <Draggable
             onStop={checkForButtonClick}
-            positionOffset={{ x: 0, y: '-50%' }}
+            positionOffset={{ x: '15%', y: '25%' }}
+            nodeRef={nodeRef}
         >
-            <div className={styles.brythonGraphicsResult}>
+            <div className={styles.brythonGraphicsResult} ref={nodeRef}>
                 <div className={styles.brythonGraphicsResultHead}>
                     <span>Output</span>
                     <span className={styles.spacer}></span>

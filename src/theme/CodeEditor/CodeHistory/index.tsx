@@ -26,7 +26,7 @@ const highlightSyntax = (str: string) => {
 const CodeHistory = () => {
     const [version, setVersion] = React.useState(1);
     const store = useStore();
-    const versions = []; // useScript(store, 'versions');
+    const versions = useScript(store, 'versions');
     const versionsLoaded = useScript(store, 'versionsLoaded');
     if (versions?.length < 2) {
         return null;
