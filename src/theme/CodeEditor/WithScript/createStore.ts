@@ -143,6 +143,10 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         return Status.ERROR;
     };
 
+    const setIsPasted = (isPasted: boolean) => {   
+        setState((s) => ({ ...s, isPasted: isPasted }));
+    }
+
     const set = throttle(
         _set,
         syncMaxOnceEvery,
@@ -229,6 +233,14 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         return Promise.resolve();
     }
 
+    const setShowRaw = (showRaw: boolean) => {
+        setState((s) => ({...s, showRaw: showRaw}));
+    };
+
+    const setStatus = (status: Status) => {
+        setState((s) => ({...s, status: status}));
+    };
+
     return { 
         getState, 
         setState, 
@@ -242,6 +254,9 @@ run("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})
         setExecuting, 
         stopScript,
         load, 
+        setIsPasted,
+        setShowRaw,
+        setStatus,
         loadVersions
     } satisfies Document;
 };

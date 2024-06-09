@@ -10,7 +10,7 @@ const ShowRaw = () => {
     return (
         <Button
             icon={showRaw ? 'EditCode' : 'Code'}
-            onClick={() => store.setState((state) => ({...state, showRaw: !showRaw}))}
+            onClick={() => store.setShowRaw(!showRaw)}
             color={showRaw ? Color.Primary : Color.Secondary}
             title={
                 showRaw 

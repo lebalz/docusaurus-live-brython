@@ -83,7 +83,7 @@ const EditorAce = (props: Props) => {
                         /**
                          * Save immediately as pasted content
                          */
-                        store.setState((s) => ({ ...s, isPasted: true }));
+                        store.setIsPasted(true);
                     }
                 }}
                 focus={false}

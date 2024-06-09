@@ -26,7 +26,7 @@ const BrythonCommunicator = () => {
                         store.setExecuting(false);
                         break;
                     default:
-                        store.addLogMessage(data);
+                        store.addLogMessage({ type: data.type, output: data.output, timeStamp: data.timeStamp });
                         break;
                 }
             }

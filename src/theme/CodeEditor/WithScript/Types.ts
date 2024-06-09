@@ -90,4 +90,7 @@ export interface Document<T = Script> {
     clearLogMessages: () => void;
     load: () => Promise<Status>;
     loadVersions: () => Promise<void>;
+    setIsPasted: (isPasted: boolean) => void;
+    setShowRaw: (showRaw: boolean) => void;
+    setStatus: (status: Status) => void;
 }

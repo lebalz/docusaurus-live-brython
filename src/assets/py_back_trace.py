@@ -1,5 +1,6 @@
 from browser import document, window # type: ignore
 import sys
+import time
 
 # @source https://github.com/brython-dev/brython/blob/master/www/src/Lib/tb.py
 # instead of "print()" to "console.log()" in the original code, we use "notify()" to send the output to the react world
@@ -23,7 +24,7 @@ class EventOutput:
 
     def flush(self):
         if len(self.buf) > 0:
-            notify(self.node_id, {'type': self.out_type, 'output': self.buf})
+            notify(self.node_id, {'type': self.out_type, 'output': self.buf, 'time': time.time()})
         self.buf = ''
 
     def __len__(self):

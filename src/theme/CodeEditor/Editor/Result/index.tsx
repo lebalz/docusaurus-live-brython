@@ -11,7 +11,7 @@ const Result = () => {
     }
     const errors: string[] = []
     let lineNr = 1;
-    const code = logs.map((msg) => {
+    const code = logs.slice().map((msg) => {
         const msgLen = (msg.output || '').split('\n').length - 1;
         if (msg.type === 'stderr') {
             errors.push(`${lineNr}-${lineNr + msgLen}`);

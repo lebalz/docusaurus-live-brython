@@ -11,7 +11,7 @@ const ShowSyncStatus = () => {
     React.useEffect(() => {
         if (status !== Status.IDLE) {
             const disposer = setTimeout(() => {
-                store.setState((state) => ({ ...state, status: Status.IDLE }));
+                store.setStatus(Status.IDLE);
             }, 1200);
             return () => clearTimeout(disposer);
         }
