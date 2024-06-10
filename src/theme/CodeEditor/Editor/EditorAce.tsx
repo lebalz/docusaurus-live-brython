@@ -65,7 +65,7 @@ const EditorAce = (props: Props) => {
                 }
             };
         }
-    }, [eRef, lang]);
+    }, [eRef, lang, store]);
 
     return (
         <div className={clsx(styles.editor)}>
