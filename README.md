@@ -1,6 +1,6 @@
 # Docusaurus Live Codeblock for Python
 
-![NPM Version](https://img.shields.io/npm/v/docusaurus-live-brython)
+[![NPM Version](https://img.shields.io/npm/v/docusaurus-live-brython)](https://www.npmjs.com/package/docusaurus-live-brython/)
 
 
 > [!NOTE]\
