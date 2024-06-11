@@ -114,7 +114,7 @@ export default class Document {
         this._pristineCode = props.code;
         this.code = props.code;
         if (this.isVersioned) {
-            this.versions.push({code: code, createdAt: new Date(), version: 1});
+            this.versions.push({code: props.code, createdAt: new Date(), version: 1});
         }
         this.preCode = props.preCode;
         this.postCode = props.postCode;
@@ -184,11 +184,8 @@ export default class Document {
     );
 
     @computed
-    get codeToExecute() {
-        if (this.preCode.length > 0) {
-            return `${this.preCode}\n${this.code}`;
-        }
-        return `${this.code}`;
+    get _codeToExecute() {
+        return `${this.preCode}\n${this.code}\n${this.postCode}`;
     }
 
     @action
@@ -197,7 +194,7 @@ export default class Document {
             this.isGraphicsmodalOpen = true;
         }
         this.isExecuting = true;
-        runCode(this.code, this.preCode, this.postCode, this.codeId, DocumentStore.libDir, DocumentSore.router)
+        runCode(this.code, this.preCode, this.postCode, this.codeId, DocumentStore.libDir, DocumentStore.router);
     }
 
     @action
@@ -223,18 +220,18 @@ export default class Document {
 
     @computed
     get hasGraphicsOutput() {
-        return this.hasTurtleOutput || this.hasCanvasOutput || GRAPHICS_OUTPUT_TESTER.test(this.codeToExecute);
+        return this.hasTurtleOutput || this.hasCanvasOutput || GRAPHICS_OUTPUT_TESTER.test(this._codeToExecute);
     }
 
     @computed
     get hasTurtleOutput() {
-        return TURTLE_IMPORTS_TESTER.test(this.codeToExecute);
+        return TURTLE_IMPORTS_TESTER.test(this._codeToExecute);
     }
 
 
     @computed
     get hasCanvasOutput() {
-        return CANVAS_OUTPUT_TESTER.test(this.codeToExecute) || GRID_IMPORTS_TESTER.test(this.codeToExecute);
+        return CANVAS_OUTPUT_TESTER.test(this._codeToExecute) || GRID_IMPORTS_TESTER.test(this._codeToExecute);
     }
 
     @computed
