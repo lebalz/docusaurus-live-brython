@@ -110,8 +110,7 @@ const theme: Plugin<{ remoteHeadTags: HtmlTags[] }> = (
             const libUrl = isRemote ? libDir : path.join(context.baseUrl, libDir, '/');
             setGlobalData({ 
                 libDir: libUrl, 
-                syncMaxOnceEvery: options.syncMaxOnceEvery || DEFAULT_OPTIONS.syncMaxOnceEvery,
-                isHashRouter: isHashRouter
+                syncMaxOnceEvery: options.syncMaxOnceEvery || DEFAULT_OPTIONS.syncMaxOnceEvery
             });
         },
         configureWebpack() {

@@ -10,6 +10,16 @@ interface Props extends MetaProps {
     children: string | React.ReactNode;
 }
 
+const SPLIT_CODE_REGEX = /^(?:(?<pre>.*?)\n###\s*PRE\s*)?(?<code>.*?)(?:\n###\s*POST\s*(?<post>.*))?$/s;
+const splitCode = (rawCode: string) => {
+    const {pre, code, post} = rawCode.replace(/\s*\n$/, '').match(SPLIT_CODE_REGEX).groups || {};
+    return {
+        pre: pre || '',
+        code: code || '',
+        post: post || ''
+    };
+}
+
 /**
  * Use this component when you want a working CodeEditor.
  * The CodeEditor must be wrapped in a ScriptContext - this component does that.
@@ -24,15 +34,15 @@ const ContextEditor = (props: Props) => {
     }
     if (ExecutionEnvironment.canUseDOM) {
         const title = props.title || lang;
-
-        const rawcode: string = (props.children as string || '').replace(/\s*\n$/, '');
-        let code = rawcode;
+        const {pre, code, post} = splitCode(props.children as string || '');
         return (
             <ScriptContext
                 id={props.id}
                 lang={lang}
                 title={title}
-                raw={rawcode}
+                code={code}
+                preCode={pre}
+                postCode={post}
                 readonly={!!props.readonly}
                 versioned={!!props.versioned}
             >

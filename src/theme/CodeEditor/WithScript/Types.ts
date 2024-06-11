@@ -31,6 +31,7 @@ export interface Script extends StoredScript {
     showRaw: boolean;
     isExecuting?: boolean;
     preCode: string;
+    postCode: string;
     lang: 'py' | string;
     logs: LogMessage[];
     isGraphicsmodalOpen: boolean;
@@ -71,7 +72,9 @@ export interface InitState {
     id: string | undefined;
     lang: 'py' | string;
     title: string;
-    raw: string;
+    code: string;
+    preCode: string;
+    postCode: string;
     readonly: boolean;
     versioned: boolean;
 }
