@@ -1,0 +1,56 @@
+.container > .toggleButton {
+    position: absolute;
+    left: 50%;
+    top: 0px;
+    z-index: var(--ifm-z-index-dropdown);
+    opacity: var(--show-hidden-code-toggle-opacity);
+    transition: opacity 0.6s ease; /* Adjust timing as needed */
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: var(--ifm-color-info-darkest);
+    cursor: pointer;
+}
+.container > .toggleButton:hover {
+    color: var(--ifm-color-info);
+}
+
+.container > .toggleButton.post {
+    left: 50%;
+    top: unset;
+    bottom: 0px;
+}
+.toggleButton>svg {
+    transition: all 0.1s ease; /* Adjust timing as needed */
+}
+
+.container > .toggleButton.open {
+    color: var(--ifm-color-danger);
+}
+.container > .toggleButton.open:hover {
+    color: var(--ifm-color-danger-darkest);
+}
+
+.hiddenCode {
+    margin-bottom: 0;
+    --ifm-pre-padding: 0 3em;
+}
+.hiddenCode pre {
+    border-radius: 0;
+}
+.hiddenCode pre > code {
+    background-color: var(--ifm-color-secondary-dark);
+    border-radius: 0;
+}
+.hiddenCode > div[class^='codeBlockContent'] > div[class^='buttonGroup'] {
+    right: 0;
+    top: 0;
+}
+
+
+
+html[data-theme='dark'] {
+    .hiddenCode pre > code {
+        background-color: var(--ifm-card-background-color);
+    }
+}

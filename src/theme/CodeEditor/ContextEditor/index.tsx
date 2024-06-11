@@ -47,9 +47,10 @@ const ContextEditor = (props: Props) => {
                 versioned={!!props.versioned}
             >
                 <CodeEditor
-                    {...props}
+                    code={code}
                     lang={lang}
-                    precode=''
+                    preCode={pre}
+                    postCode={post}
                     maxLines={props.maxLines && Number.parseInt(props.maxLines, 10)}
                     readonly={!!props.readonly}
                     resettable={!props.noReset}

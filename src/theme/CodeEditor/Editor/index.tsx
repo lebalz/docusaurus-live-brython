@@ -9,6 +9,9 @@ import Canvas from "@theme/CodeEditor/Editor/Result/Graphics/Canvas";
 import Graphics from "@theme/CodeEditor/Editor/Result/Graphics";
 import Header from "@theme/CodeEditor/Editor/Header";
 import EditorAce from "@theme/CodeEditor/Editor/EditorAce";
+import clsx from 'clsx';
+import styles from './styles.module.css';
+import HiddenCode from "@theme/CodeEditor/Editor/HiddenCode";
 
 export interface Props {
   slim: boolean;
@@ -18,7 +21,8 @@ export interface Props {
   download: boolean;
   lang: string;
   noCompare: boolean;
-  precode: string;
+  preCode: string;
+  postCode: string;
   maxLines?: number;
   versioned?: boolean;
 }
@@ -40,11 +44,15 @@ const Editor = (props: Props) => {
         download={props.download}
         noCompare={props.noCompare}
       />
-      <EditorAce
-        showLineNumbers={props.showLineNumbers} 
-        maxLines={props.maxLines}
-        versioned={props.versioned}
-      />
+      <div className={clsx(styles.editorContainer)}>
+        <HiddenCode type="pre" code={props.preCode} />
+        <EditorAce
+          showLineNumbers={props.showLineNumbers} 
+          maxLines={props.maxLines}
+          versioned={props.versioned}
+        />
+        <HiddenCode type="post" code={props.postCode} />
+      </div>
       {lang === 'python' &&
         <>
           <Result />

@@ -25,7 +25,6 @@ export interface MetaProps {
 export interface Props {
     slim: boolean;
     readonly: boolean;
-    children: React.ReactNode;
     noCompare: boolean;
     title: string;
     versioned: boolean;
@@ -33,7 +32,9 @@ export interface Props {
     download: boolean;
     showLineNumbers: boolean;
     lang: string;
-    precode: string;
+    preCode: string;
+    postCode: string;
+    code: string;
     maxLines?: number;
     noHistory: boolean;
     className?: string;

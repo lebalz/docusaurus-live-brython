@@ -1,5 +1,9 @@
-.editor {
+.editorContainer {
 	grid-area: editor;
+	position: relative;
+	--show-hidden-code-toggle-opacity: 0;
+}
+.editor {
     display: flex;
     flex-wrap: wrap;
 }
@@ -17,4 +21,8 @@
 	flex-basis: 80ch;
 	/*rtl:ignore*/
 	direction: ltr;
+}
+
+.editorContainer:hover {
+	--show-hidden-code-toggle-opacity: 1;
 }

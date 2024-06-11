@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-live-brython",
-  "version": "3.0.0-beta.19",
+  "version": "3.0.0-beta.20",
   "description": "Docusaurus live code block component for python.",
   "publishConfig": {
     "access": "public"
@@ -40,6 +40,10 @@
     "./theme/CodeEditor/CodeHistory": {
       "types": "./lib/theme/CodeEditor/CodeHistory/index.d.ts",
       "default": "./lib/theme/CodeEditor/CodeHistory/index.jsx"
+    },
+    "./theme/CodeEditor/HiddenCode": {
+      "types": "./lib/theme/CodeEditor/HiddenCode/index.d.ts",
+      "default": "./lib/theme/CodeEditor/HiddenCode/index.jsx"
     },
     "./theme/CodeEditor/Icon": {
       "types": "./lib/theme/CodeEditor/Icon/index.d.ts",

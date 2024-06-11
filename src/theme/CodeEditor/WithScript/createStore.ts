@@ -6,7 +6,7 @@ import { type InitState, type LogMessage, type Script, Status, type Document, ty
 import { DOM_ELEMENT_IDS } from "@theme/CodeEditor/constants";
 import throttle from 'lodash/throttle';
 import { RouterType } from '@docusaurus/types';
-import { runCode } from './bryRunner';
+import { runCode } from '@theme/CodeEditor/WithScript/bryRunner';
 
 export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: number, router: RouterType): Document => {
     const canSave = !!props.id;
