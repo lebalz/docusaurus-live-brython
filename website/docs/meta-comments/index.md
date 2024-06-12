@@ -27,6 +27,7 @@ print(f'Time taken: {t1 - t0:.6f} seconds')
 
 
 ```py live_py
+#
 from time import time
 t0 = time()
 ### PRE
@@ -38,6 +39,7 @@ a_5 = fib(27)
 ### POST
 t1 = time()
 print(f'Time taken: {t1 - t0:.6f} seconds')
+#
 ```
 
 :::tip[Hover over the code block]
