@@ -49,8 +49,6 @@
 
 
 
-html[data-theme='dark'] {
-    .hiddenCode pre > code {
-        background-color: var(--ifm-card-background-color);
-    }
+html[data-theme='dark'] .hiddenCode pre > code {
+    background-color: var(--ifm-card-background-color);
 }
