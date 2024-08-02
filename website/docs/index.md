@@ -615,7 +615,7 @@ A good way to ensure unique IDs is to use a UUID. For VS Code users, the extensi
 export default {
   themes: [
     [
-      '@docusaurus/theme-live-codeblock',
+      'theme-live-codeblock',
       {
         /**
          * The path to the brython source file.
