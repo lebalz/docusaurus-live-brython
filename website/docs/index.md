@@ -182,28 +182,6 @@ Yes, this only works secure if you swizzle the `Store.tsxt`/`Storage.ts` compone
 </details>
 :::
 
-### Save Versions (versioned)
-
-You can save versions of the code by adding the `versioned` meta string. This will add a version history to the editor. Every Change is saved as a new version, but not more than once every 1 second (configurable through the `syncMaxOnceEvery` option in the `docusaurus.config.js`).
-
-
-````md
-```py live_py versioned id=fe506dd7-1507-4929-ad07-302d22529d79
-print('Hello Versioned Mode')
-```
-````
-<BrowserWindow>
-
-Try it by changing the code and then clicking on the version history details.
-```py live_py versioned id=fe506dd7-1507-4929-ad07-302d22529d79
-print('Hello Versioned Mode')
-```
-</BrowserWindow>
-
-:::warning[Only in Persisted Mode]
-The versioned mode only works in combination with the `id` attribute. The `id` attribute is used to store the versions in the local storage.
-:::
-
 ### Hide Download Button (noDownload)
 
 You can hide the download button by adding the `noDownload` meta string.
@@ -255,16 +233,6 @@ Edit the code and note that the reset button is hidden.
 print('Hello No Reset Button')
 ```
 </BrowserWindow>
-
-### Hide the Version History (noHistory)
-
-You can hide the version history by adding the `noHistory` meta string. This will only hide the history, but has no impact on the `versioned` prop.
-
-````md
-```py live_py noHistory
-print('Hello No History')
-```
-````
 
 ### Max Line Number before Scroll (maxLines)
 
@@ -607,6 +575,41 @@ Make sure that the IDs on the entire website (not just on this page) are unique,
 :::tip[UUID]
 A good way to ensure unique IDs is to use a UUID. For VS Code users, the extension [UUID Generator by Motivesoft](https://marketplace.visualstudio.com/items?itemName=motivesoft.vscode-uuid-generator) is handy to insert new UUIDs with `Alt+Shift+U`.
 :::
+
+
+
+### Save Versions (versioned)
+
+You can save versions of the code by adding the `versioned` meta string. This will add a version history to the editor. Every Change is saved as a new version, but not more than once every 1 second (configurable through the `syncMaxOnceEvery` option in the `docusaurus.config.js`).
+
+
+````md
+```py live_py versioned id=fe506dd7-1507-4929-ad07-302d22529d79
+print('Hello Versioned Mode')
+```
+````
+<BrowserWindow>
+
+Try it by changing the code and then clicking on the version history details.
+```py live_py versioned id=fe506dd7-1507-4929-ad07-302d22529d79
+print('Hello Versioned Mode')
+```
+</BrowserWindow>
+
+:::warning[Only in Persisted Mode]
+The versioned mode only works in combination with the `id` attribute. The `id` attribute is used to store the versions in the local storage.
+:::
+
+
+### Hide the Version History (noHistory)
+
+You can hide the version history by adding the `noHistory` meta string. This will only hide the history, but has no impact on the `versioned` prop.
+
+````md
+```py live_py versioned noHistory
+print('Hello No History')
+```
+````
 
 
 ## Configuration
