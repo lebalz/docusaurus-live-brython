@@ -48,8 +48,8 @@ export type ThemeOptions = {
 export type Options = Partial<ThemeOptions>;
 
 export const DEFAULT_OPTIONS: ThemeOptions = {
-    brythonSrc: 'https://raw.githack.com/brython-dev/brython/master/www/src/brython.js',
-    brythonStdlibSrc: 'https://raw.githack.com/brython-dev/brython/master/www/src/brython_stdlib.js',
+    brythonSrc: 'https://cdn.jsdelivr.net/npm/brython@3.12.4/brython.min.js',
+    brythonStdlibSrc: 'https://cdn.jsdelivr.net/npm/brython@3.12.4/brython_stdlib.js',
     libDir: '/bry-libs/',
     skipCopyAssetsToLibDir: false,
     syncMaxOnceEvery: 1000
