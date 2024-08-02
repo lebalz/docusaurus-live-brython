@@ -11,11 +11,11 @@ export enum Color {
     Info = 'button--info',
     Warning = 'button--warning',
     Danger = 'button--danger',
-    Link = 'button--link',
+    Link = 'button--link'
 }
 export enum Size {
     Small = 'button--sm',
-    Large = 'button--lg',
+    Large = 'button--lg'
 }
 
 export interface Props {
@@ -29,23 +29,27 @@ export interface Props {
     className?: string;
 }
 
-
 const Button = (props: Props) => {
-
     return (
-        <button 
-            className={clsx('button', props.color || Color.Secondary, props.size || Size.Small, styles.button, props.className)}
+        <button
+            className={clsx(
+                'button',
+                props.color || Color.Secondary,
+                props.size || Size.Small,
+                styles.button,
+                props.className
+            )}
             onClick={props.onClick}
             title={props.title}
         >
-            <Icon 
+            <Icon
                 icon={props.icon}
                 className={styles.icon}
                 spin={props.spin}
                 size={props.iconSize || '1.6em'}
             />
         </button>
-    )
-}
+    );
+};
 
 export default Button;

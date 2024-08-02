@@ -13,12 +13,18 @@ const ShowRaw = () => {
             onClick={() => store.setShowRaw(!showRaw)}
             color={showRaw ? Color.Primary : Color.Secondary}
             title={
-                showRaw 
-                ? translate({ message: 'Show edited Code', id: 'theme.CodeEditor.Actions.ShowCode.showEdited'})
-                : translate({ message: 'Show initial code', id: 'theme.CodeEditor.Actions.ShowCode.showRaw'})
+                showRaw
+                    ? translate({
+                          message: 'Show edited Code',
+                          id: 'theme.CodeEditor.Actions.ShowCode.showEdited'
+                      })
+                    : translate({
+                          message: 'Show initial code',
+                          id: 'theme.CodeEditor.Actions.ShowCode.showRaw'
+                      })
             }
         />
-    )
-}
+    );
+};
 
 export default ShowRaw;

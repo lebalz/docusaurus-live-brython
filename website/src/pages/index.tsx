@@ -22,16 +22,10 @@ function HomepageHeader() {
                 </Heading>
                 <p className="hero__subtitle">{siteConfig.tagline}</p>
                 <div className={styles.buttons}>
-                    <Link
-                        className="button button--lg button--success"
-                        to={withBaseUrl('docs')}
-                    >
+                    <Link className="button button--lg button--success" to={withBaseUrl('docs')}>
                         Get Started
                     </Link>
-                    <Link
-                        className="button button--secondary button--lg"
-                        to={withBaseUrl('/demo')}
-                    >
+                    <Link className="button button--secondary button--lg" to={withBaseUrl('/demo')}>
                         Live Demo
                     </Link>
                 </div>
@@ -43,26 +37,25 @@ function HomepageHeader() {
 export default function Home(): JSX.Element {
     const { siteConfig } = useDocusaurusContext();
     return (
-        <Layout
-            title={'Interactive Python Codeblocks'}
-            description={siteConfig.tagline}>
+        <Layout title={'Interactive Python Codeblocks'} description={siteConfig.tagline}>
             <HomepageHeader />
             <main>
                 <section className={clsx(styles.section)}>
                     <div className={clsx('card', styles.card)}>
                         <div className="card__image">
-                            <img src={require('./images/brython-demo.gif').default} style={{clipPath: 'inset(0px 0px 2px 0px)'}} />
+                            <img
+                                src={require('./images/brython-demo.gif').default}
+                                style={{ clipPath: 'inset(0px 0px 2px 0px)' }}
+                            />
                         </div>
                         <div className="card__footer">
-                            <a className="button button--primary button--block" href={useBaseUrl('/demo')}>Try It!</a>
+                            <a className="button button--primary button--block" href={useBaseUrl('/demo')}>
+                                Try It!
+                            </a>
                         </div>
                     </div>
-                    <ContextEditor
-                        className={clsx('language-py', styles.code)}
-                    >
-                        {
-                            `print('Hello Live Brython! ❤️')`
-                        }
+                    <ContextEditor className={clsx('language-py', styles.code)}>
+                        {`print('Hello Live Brython! ❤️')`}
                     </ContextEditor>
                 </section>
             </main>

@@ -12,13 +12,13 @@ interface Props extends MetaProps {
 
 const SPLIT_CODE_REGEX = /^(?:(?<pre>.*?)\n###\s*PRE\s*)?(?<code>.*?)(?:\n###\s*POST\s*(?<post>.*))?$/s;
 const splitCode = (rawCode: string) => {
-    const {pre, code, post} = rawCode.replace(/\s*\n$/, '').match(SPLIT_CODE_REGEX).groups || {};
+    const { pre, code, post } = rawCode.replace(/\s*\n$/, '').match(SPLIT_CODE_REGEX).groups || {};
     return {
         pre: pre || '',
         code: code || '',
         post: post || ''
     };
-}
+};
 
 /**
  * Use this component when you want a working CodeEditor.
@@ -34,7 +34,7 @@ const ContextEditor = (props: Props) => {
     }
     if (ExecutionEnvironment.canUseDOM) {
         const title = props.title || lang;
-        const {pre, code, post} = splitCode(props.children as string || '');
+        const { pre, code, post } = splitCode((props.children as string) || '');
         return (
             <ScriptContext
                 id={props.id}
@@ -66,9 +66,7 @@ const ContextEditor = (props: Props) => {
             </ScriptContext>
         );
     }
-    return (
-        <CodeBlock {...props} />
-    );
-}
+    return <CodeBlock {...props} />;
+};
 
 export default ContextEditor;

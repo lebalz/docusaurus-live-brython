@@ -9,7 +9,7 @@ const Result = () => {
     if (logs.length === 0) {
         return null;
     }
-    const errors: string[] = []
+    const errors: string[] = [];
     let lineNr = 1;
     const code = logs.slice().map((msg) => {
         const msgLen = (msg.output || '').split('\n').length - 1;
@@ -21,9 +21,7 @@ const Result = () => {
     });
     return (
         <div className={styles.result}>
-            <CodeBlock metastring={`{${errors.join(',')}}`}>
-                {code.join('')}
-            </CodeBlock>
+            <CodeBlock metastring={`{${errors.join(',')}}`}>{code.join('')}</CodeBlock>
         </div>
     );
 };

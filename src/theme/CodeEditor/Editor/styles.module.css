@@ -1,7 +1,7 @@
 .editorContainer {
-	grid-area: editor;
-	position: relative;
-	--show-hidden-code-toggle-opacity: 0;
+    grid-area: editor;
+    position: relative;
+    --show-hidden-code-toggle-opacity: 0;
 }
 .editor {
     display: flex;
@@ -9,20 +9,20 @@
 }
 
 .editor .noGutter :global(.ace_scroller) {
-	left: 4px !important;
+    left: 4px !important;
 }
 
 .editor :global(.ace_scrollbar.ace_scrollbar-h) {
-	overflow-x: hidden !important;
+    overflow-x: hidden !important;
 }
 
 .brythonEditor {
-	flex-grow: 1;
-	flex-basis: 80ch;
-	/*rtl:ignore*/
-	direction: ltr;
+    flex-grow: 1;
+    flex-basis: 80ch;
+    /*rtl:ignore*/
+    direction: ltr;
 }
 
 .editorContainer:hover {
-	--show-hidden-code-toggle-opacity: 1;
+    --show-hidden-code-toggle-opacity: 1;
 }

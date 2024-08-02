@@ -1,54 +1,54 @@
-.codeHistory>.historyDetails {
-	cursor: pointer;
-	margin-bottom: 0;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
+.codeHistory > .historyDetails {
+    cursor: pointer;
+    margin-bottom: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 .summary {
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
 }
 .spacer {
-	flex-grow: 1;
-	flex-shrink: 1;
-	flex-basis: 0;
-} 
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+}
 
 .versionControl {
-	padding: 1em 2em;
-	box-shadow: var(--ifm-global-shadow-lw);
-	border-radius: var(--ifm-global-radius);
+    padding: 1em 2em;
+    box-shadow: var(--ifm-global-shadow-lw);
+    border-radius: var(--ifm-global-radius);
 }
 
 .faButton {
-	margin-left: 1em;
+    margin-left: 1em;
 }
 
 .faButton:hover {
-	transform: scale(1.2);
+    transform: scale(1.2);
 }
 
 .diffViewer {
-	--ifm-pre-background: rgba(255, 255, 255, 0);
-	--ifm-alert-background-color: rgba(255, 255, 255, 0);
-	--ifm-alert-background-color-highlight: rgba(255, 255, 255, 0);
-	--ifm-table-stripe-background: rgba(255, 255, 255, 0);
-	font-family: monospace;
-	overflow: auto;
+    --ifm-pre-background: rgba(255, 255, 255, 0);
+    --ifm-alert-background-color: rgba(255, 255, 255, 0);
+    --ifm-alert-background-color-highlight: rgba(255, 255, 255, 0);
+    --ifm-table-stripe-background: rgba(255, 255, 255, 0);
+    font-family: monospace;
+    overflow: auto;
 }
 
 .diffViewer table tbody tr td {
-	padding-top: 0;
-	padding-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .diffViewer table tbody tr td pre {
-	white-space: nowrap;
-	padding-top: 0;
-	padding-bottom: 0;
-	line-height: 18px;
+    white-space: nowrap;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 18px;
 }
 .diffHeader {
-	display: flex;
-	justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }

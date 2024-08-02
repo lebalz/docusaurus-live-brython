@@ -1,43 +1,41 @@
 .containerBig {
-	display: grid;
-	flex-grow: 1;
-	flex-shrink: 1;
-	flex-basis: 250px;
-	grid-template-columns: 100%;
-	grid-template-rows: min-content 1fr min-content;
-	gap: 0px 0px;
-	grid-auto-flow: row;
-	grid-template-areas: 'controls' 'editor' 'result';
+    display: grid;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 250px;
+    grid-template-columns: 100%;
+    grid-template-rows: min-content 1fr min-content;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas: 'controls' 'editor' 'result';
 }
 
 .containerSlim {
-	display: grid;
-	grid-template-columns: 1fr min-content;
-	grid-template-rows: 1fr min-content;
-	gap: 0px 0px;
-	grid-auto-flow: row;
-	grid-template-areas: 'editor controls' 'result result';
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    grid-template-rows: 1fr min-content;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas: 'editor controls' 'result result';
 }
-
 
 .containerSlim .headerButton {
-	z-index: calc(var(--ifm-z-index-fixed) - 2);
-	height: 100%;
-	border-radius: 0px;
-	padding: 2px 6px;
-	margin: 0px;
+    z-index: calc(var(--ifm-z-index-fixed) - 2);
+    height: 100%;
+    border-radius: 0px;
+    padding: 2px 6px;
+    margin: 0px;
 }
 
-
 .wrapper:last-child .playgroundContainer {
-	margin-bottom: inherit;
+    margin-bottom: inherit;
 }
 
 .playgroundContainer {
-	margin-bottom: var(--ifm-leading);
-	border-radius: var(--ifm-global-radius);
-	box-shadow: var(--ifm-global-shadow-lw);
-	overflow: hidden;
-	flex-grow: 1;
-	flex-shrink: 1;
+    margin-bottom: var(--ifm-leading);
+    border-radius: var(--ifm-global-radius);
+    box-shadow: var(--ifm-global-shadow-lw);
+    overflow: hidden;
+    flex-grow: 1;
+    flex-shrink: 1;
 }

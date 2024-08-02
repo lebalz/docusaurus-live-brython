@@ -1,4 +1,4 @@
-import type { StorageSlot, StoredScript } from "@theme/CodeEditor/WithScript/Types";
+import type { StorageSlot, StoredScript } from '@theme/CodeEditor/WithScript/Types';
 
 export const getStorageScript = (storage: StorageSlot): StoredScript | undefined => {
     const storedCode = storage.get();
@@ -14,7 +14,7 @@ export const getStorageScript = (storage: StorageSlot): StoredScript | undefined
         }
     }
     return;
-}
+};
 
 export const syncStorageScript = (script: StoredScript, storage: StorageSlot): boolean => {
     try {
@@ -24,4 +24,4 @@ export const syncStorageScript = (script: StoredScript, storage: StorageSlot): b
         console.warn(`Failed to save the code ${script}`, e);
         return false;
     }
-}
+};

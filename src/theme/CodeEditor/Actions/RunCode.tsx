@@ -21,12 +21,15 @@ const RunCode = (props: Props) => {
             className={clsx(styles.runCode, props.slim && styles.slim)}
             iconSize={props.slim ? '1.2em' : '1.6em'}
             onClick={() => {
-                store.execScript()
+                store.execScript();
             }}
-            title={translate({
-                message: 'Run code snippet {title}',
-                id: 'theme.CodeEditor.Actions.RunCode.title'
-            }, {title: props.title})}
+            title={translate(
+                {
+                    message: 'Run code snippet {title}',
+                    id: 'theme.CodeEditor.Actions.RunCode.title'
+                },
+                { title: props.title }
+            )}
         />
     );
 };

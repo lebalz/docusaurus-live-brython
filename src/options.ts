@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Joi} from '@docusaurus/utils-validation';
+import { Joi } from '@docusaurus/utils-validation';
 
-import type {ThemeConfigValidationContext} from '@docusaurus/types';
+import type { ThemeConfigValidationContext } from '@docusaurus/types';
 
 export type ThemeOptions = {
     /**
@@ -42,8 +42,7 @@ export type ThemeOptions = {
      * @default 1000
      */
     syncMaxOnceEvery: number;
-}
-
+};
 
 export type Options = Partial<ThemeOptions>;
 
@@ -63,9 +62,10 @@ const ThemeOptionSchema = Joi.object<ThemeOptions>({
     syncMaxOnceEvery: Joi.number().default(DEFAULT_OPTIONS.syncMaxOnceEvery)
 });
 
-export function validateThemeConfig(
-    {themeConfig, validate}: ThemeConfigValidationContext<Options, ThemeOptions>
-): ThemeOptions {
-  const validatedConfig = validate(ThemeOptionSchema, themeConfig);
-  return validatedConfig;
+export function validateThemeConfig({
+    themeConfig,
+    validate
+}: ThemeConfigValidationContext<Options, ThemeOptions>): ThemeOptions {
+    const validatedConfig = validate(ThemeOptionSchema, themeConfig);
+    return validatedConfig;
 }

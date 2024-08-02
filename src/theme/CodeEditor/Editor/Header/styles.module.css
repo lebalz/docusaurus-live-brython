@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     letter-spacing: 0.08em;
-    
+
     z-index: calc(var(--ifm-z-index-fixed) - 2);
     padding: 0.2em;
     padding-left: 0.5em;
@@ -15,11 +15,11 @@
 }
 
 .controls > .title {
-	flex-shrink: 1;
-	flex-grow: 1;
-	overflow-x: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+    flex-shrink: 1;
+    flex-grow: 1;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .controls.slim {

@@ -16,24 +16,28 @@ const Turtle = () => {
             controls={
                 <React.Fragment>
                     <Button
-                        icon='AnimationPlay'
+                        icon="AnimationPlay"
                         onClick={() => {
-                            const turtleResult = (document.getElementById(DOM_ELEMENT_IDS.turtleSvgContainer(codeId)) as any) as SVGSVGElement;
+                            const turtleResult = document.getElementById(
+                                DOM_ELEMENT_IDS.turtleSvgContainer(codeId)
+                            ) as any as SVGSVGElement;
                             if (turtleResult) {
-                                saveSvg(turtleResult, `${codeId}`, code, true)
+                                saveSvg(turtleResult, `${codeId}`, code, true);
                             }
                         }}
                         className={clsx(styles.slimStrippedButton)}
-                        iconSize='12px'
+                        iconSize="12px"
                         title="Download Animated SVG"
                     />
                     <Button
-                        icon='Download'
-                        iconSize='12px'
+                        icon="Download"
+                        iconSize="12px"
                         onClick={() => {
-                            const turtleResult = (document.getElementById(DOM_ELEMENT_IDS.turtleSvgContainer(codeId)) as any) as SVGSVGElement;
+                            const turtleResult = document.getElementById(
+                                DOM_ELEMENT_IDS.turtleSvgContainer(codeId)
+                            ) as any as SVGSVGElement;
                             if (turtleResult) {
-                                saveSvg(turtleResult, `${codeId}`, code)
+                                saveSvg(turtleResult, `${codeId}`, code);
                             }
                         }}
                         title="Download SVG"
@@ -42,7 +46,7 @@ const Turtle = () => {
                 </React.Fragment>
             }
         />
-    )
-}
+    );
+};
 
 export default Turtle;

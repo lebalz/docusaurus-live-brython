@@ -20,7 +20,7 @@ export interface MetaProps {
     noHistory?: boolean;
     noCompare?: boolean;
     maxLines?: string;
-    title?: string
+    title?: string;
 }
 export interface Props {
     slim: boolean;
@@ -44,31 +44,26 @@ const CodeEditor = (props: Props) => {
     const store = useStore();
     const lang = useScript(store, 'lang');
     return (
-        <BrowserOnly
-            fallback={<div>Loading...</div>}
-        >
+        <BrowserOnly fallback={<div>Loading...</div>}>
             {() => {
-                    return (
-                        <div className={clsx(styles.wrapper, 'notranslate', props.className)}>
-                            <div
-                                className={clsx(
-                                    styles.playgroundContainer,
-                                    props.slim ? styles.containerSlim : styles.containerBig,
-                                    'live_py'
-                                )}
-                            >
-                                <Editor {...props} />
-                                {!props.noHistory && (
-                                    <CodeHistory />
-                                )}
-                            </div>
-                            {lang === 'python' && <BrythonCommunicator />}
+                return (
+                    <div className={clsx(styles.wrapper, 'notranslate', props.className)}>
+                        <div
+                            className={clsx(
+                                styles.playgroundContainer,
+                                props.slim ? styles.containerSlim : styles.containerBig,
+                                'live_py'
+                            )}
+                        >
+                            <Editor {...props} />
+                            {!props.noHistory && <CodeHistory />}
                         </div>
-                    )
+                        {lang === 'python' && <BrythonCommunicator />}
+                    </div>
+                );
             }}
         </BrowserOnly>
     );
 };
 
 export default CodeEditor;
-

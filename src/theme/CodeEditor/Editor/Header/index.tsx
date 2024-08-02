@@ -27,15 +27,9 @@ const Header = (props: Props) => {
                 <React.Fragment>
                     <div className={styles.title}>{props.title}</div>
                     <ShowSyncStatus />
-                    {hasEdits && props.resettable && (
-                        <Reset />
-                    )}
-                    {props.download && (
-                        <DownloadCode title={props.title} />
-                    )}
-                    {hasEdits && !props.noCompare && (
-                       <ShowRaw />
-                    )}
+                    {hasEdits && props.resettable && <Reset />}
+                    {props.download && <DownloadCode title={props.title} />}
+                    {hasEdits && !props.noCompare && <ShowRaw />}
                 </React.Fragment>
             )}
             {lang === 'python' && <RunCode title={props.title} slim={props.slim} />}

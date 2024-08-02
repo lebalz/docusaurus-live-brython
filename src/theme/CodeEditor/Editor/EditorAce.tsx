@@ -21,8 +21,8 @@ export interface Props {
 }
 
 const ALIAS_LANG_MAP_ACE = {
-    mpy: 'python',
-}
+    mpy: 'python'
+};
 
 const EditorAce = (props: Props) => {
     const eRef = React.useRef<AceEditor>(null);
@@ -41,7 +41,7 @@ const EditorAce = (props: Props) => {
                     // commands is array of key bindings.
                     name: 'execute',
                     bindKey: { win: 'Ctrl-Enter', mac: 'Command-Enter' },
-                    exec: () => store.execScript(),
+                    exec: () => store.execScript()
                 });
             }
             node.editor.commands.addCommand({
@@ -50,7 +50,7 @@ const EditorAce = (props: Props) => {
                 bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
                 exec: () => {
                     store.saveNow();
-                },
+                }
             });
             return () => {
                 if (node && node.editor) {
@@ -92,7 +92,7 @@ const EditorAce = (props: Props) => {
                 ref={eRef}
                 mode={ALIAS_LANG_MAP_ACE[lang as keyof typeof ALIAS_LANG_MAP_ACE] ?? lang}
                 theme="dracula"
-                onChange={(value: string, e: {action: 'insert' | 'remove'}) => {
+                onChange={(value: string, e: { action: 'insert' | 'remove' }) => {
                     store.setCode(value, e.action);
                 }}
                 readOnly={showRaw}
@@ -103,7 +103,7 @@ const EditorAce = (props: Props) => {
                 setOptions={{
                     displayIndentGuides: true,
                     vScrollBarAlwaysVisible: false,
-                    highlightGutterLine: false,
+                    highlightGutterLine: false
                 }}
                 showPrintMargin={false}
                 highlightActiveLine={false}

@@ -1,14 +1,31 @@
 import { v4 as uuidv4 } from 'uuid';
-import { createStorageSlot } from "@docusaurus/theme-common";
-import { getStorageScript, syncStorageScript } from "@theme/CodeEditor/WithScript/Storage";
-import { checkCanvasOutput, checkGraphicsOutput, checkTurtleOutput } from "@theme/CodeEditor/WithScript/helpers";
-import { type InitState, type LogMessage, type Script, Status, type Document, type StoredScript, type Version } from "@theme/CodeEditor/WithScript/Types";
-import { DOM_ELEMENT_IDS } from "@theme/CodeEditor/constants";
+import { createStorageSlot } from '@docusaurus/theme-common';
+import { getStorageScript, syncStorageScript } from '@theme/CodeEditor/WithScript/Storage';
+import {
+    checkCanvasOutput,
+    checkGraphicsOutput,
+    checkTurtleOutput
+} from '@theme/CodeEditor/WithScript/helpers';
+import {
+    type InitState,
+    type LogMessage,
+    type Script,
+    Status,
+    type Document,
+    type StoredScript,
+    type Version
+} from '@theme/CodeEditor/WithScript/Types';
+import { DOM_ELEMENT_IDS } from '@theme/CodeEditor/constants';
 import throttle from 'lodash/throttle';
 import { RouterType } from '@docusaurus/types';
 import { runCode } from '@theme/CodeEditor/WithScript/bryRunner';
 
-export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: number, router: RouterType): Document => {
+export const createStore = (
+    props: InitState,
+    libDir: string,
+    syncMaxOnceEvery: number,
+    router: RouterType
+): Document => {
     const canSave = !!props.id;
     const id = props.id || uuidv4();
     const codeId = `code.${props.title || props.lang}.${id}`.replace(/(-|\.)/g, '_');
@@ -29,17 +46,17 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
             }
         }
     });
-    
+
     const loadData = (store) => {
-        setState((s) => ({...s, status: canSave ? Status.SYNCING : s.status}));
+        setState((s) => ({ ...s, status: canSave ? Status.SYNCING : s.status }));
         const script = getStorageScript(store);
         const loadedCode = script?.code ? prepareCode(script.code, { codeOnly: true }) : {};
         addVersion.cancel();
         if (!state.isLoaded) {
             setState((s) => ({
-                ...s, 
-                isLoaded: true, 
-                ...(script || {}), 
+                ...s,
+                isLoaded: true,
+                ...(script || {}),
                 ...loadedCode,
                 versions: script?.versions || [],
                 versionsLoaded: true,
@@ -48,15 +65,23 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
             return Status.SUCCESS;
         }
         if (script) {
-            setState((s) => ({...s, ...script, ...loadedCode, status: canSave ? Status.SUCCESS : s.status, versionsLoaded: true}));
+            setState((s) => ({
+                ...s,
+                ...script,
+                ...loadedCode,
+                status: canSave ? Status.SUCCESS : s.status,
+                versionsLoaded: true
+            }));
             return Status.SUCCESS;
         }
-        setState((s) => ({...s, status: canSave ? Status.ERROR : s.status}));
+        setState((s) => ({ ...s, status: canSave ? Status.ERROR : s.status }));
         return Status.ERROR;
-    }
+    };
 
-
-    const prepareCode = (code: string, config: { codeOnly?: boolean, stateNotInitialized?: boolean } = {}) => {
+    const prepareCode = (
+        code: string,
+        config: { codeOnly?: boolean; stateNotInitialized?: boolean } = {}
+    ) => {
         const hasEdits = code !== (config.stateNotInitialized ? code : state.pristineCode);
         const updatedAt = new Date();
         const allCode = `${props.preCode}\n${code}\n${props.postCode}`;
@@ -64,7 +89,11 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
         const hasTurtleOutput = checkTurtleOutput(allCode);
         const hasGraphicsOutput = checkGraphicsOutput(allCode);
         if (props.versioned && !config.stateNotInitialized) {
-            addVersion({code: code, createdAt: updatedAt, version: state.versions.length + 1});
+            addVersion({
+                code: code,
+                createdAt: updatedAt,
+                version: state.versions.length + 1
+            });
         }
         return {
             code: code,
@@ -74,21 +103,24 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
             hasEdits: hasEdits,
             updatedAt: updatedAt
         };
-    }
+    };
 
     const setCode = (raw: string, action?: 'insert' | 'remove' | string) => {
         if (state.isPasted && action === 'remove') {
             return;
         }
         const data = prepareCode(raw);
-        setState(
-            (state) => ({
-                ...state,
-                ...data
-            })
-        );
+        setState((state) => ({
+            ...state,
+            ...data
+        }));
         if (props.id) {
-            const toStore: StoredScript = {code: data.code, createdAt: state.createdAt, updatedAt: data.updatedAt, versions: state.versions};
+            const toStore: StoredScript = {
+                code: data.code,
+                createdAt: state.createdAt,
+                updatedAt: data.updatedAt,
+                versions: state.versions
+            };
             if (state.isPasted) {
                 addVersion.flush();
                 if (toStore.versions.length > 0) {
@@ -104,7 +136,11 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
     };
 
     const execScript = () => {
-        setState((s) => ({...s, isExecuting: true, isGraphicsmodalOpen: state.hasGraphicsOutput}));
+        setState((s) => ({
+            ...s,
+            isExecuting: true,
+            isGraphicsmodalOpen: state.hasGraphicsOutput
+        }));
         runCode(state.code, state.preCode, state.postCode, codeId, libDir, router);
     };
 
@@ -113,24 +149,23 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
     };
 
     const _set = async (script: StoredScript) => {
-        setState((s) => ({...s, status: canSave ? Status.SYNCING : s.status}));
+        setState((s) => ({ ...s, status: canSave ? Status.SYNCING : s.status }));
         if (syncStorageScript(script, storage)) {
-            setState((s) => ({...s, status: canSave ? Status.SUCCESS : s.status}));
+            setState((s) => ({ ...s, status: canSave ? Status.SUCCESS : s.status }));
             return Status.SUCCESS;
         }
-        setState((s) => ({...s, status: canSave ? Status.ERROR : s.status}));
+        setState((s) => ({ ...s, status: canSave ? Status.ERROR : s.status }));
         return Status.ERROR;
     };
 
-    const setIsPasted = (isPasted: boolean) => {   
+    const setIsPasted = (isPasted: boolean) => {
         setState((s) => ({ ...s, isPasted: isPasted }));
-    }
+    };
 
-    const set = throttle(
-        _set,
-        syncMaxOnceEvery,
-        {leading: false, trailing: true}
-    );
+    const set = throttle(_set, syncMaxOnceEvery, {
+        leading: false,
+        trailing: true
+    });
 
     const _addVersion = (version: Version) => {
         if (!props.versioned || !props.id) {
@@ -138,35 +173,34 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
         }
         const versions = [...state.versions];
         versions.push(version);
-        setState((s) => ({...s, versions: versions}));
-    }
-    const addVersion = throttle(
-        _addVersion,
-        syncMaxOnceEvery,
-        {leading: false, trailing: true}
-    );
+        setState((s) => ({ ...s, versions: versions }));
+    };
+    const addVersion = throttle(_addVersion, syncMaxOnceEvery, {
+        leading: false,
+        trailing: true
+    });
 
     const saveNow = async () => {
         addVersion.flush();
         return set.flush();
-    }
+    };
 
     const del = async () => {
         storage.del();
         return Status.SUCCESS;
-    }
+    };
     const codeData = prepareCode(props.code, { stateNotInitialized: true });
     const setExecuting = (isExecuting: boolean) => {
-        setState((s) => ({...s, isExecuting: isExecuting}))
+        setState((s) => ({ ...s, isExecuting: isExecuting }));
     };
     const addLogMessage = (log: LogMessage) => {
-        setState((s) => ({...s, logs: [...s.logs, log]}));
+        setState((s) => ({ ...s, logs: [...s.logs, log] }));
     };
     const clearLogMessages = () => {
-        setState((s) => ({...s, logs: []}));
+        setState((s) => ({ ...s, logs: [] }));
     };
     const closeGraphicsModal = () => {
-        setState((s) => ({...s, isGraphicsmodalOpen: false}));
+        setState((s) => ({ ...s, isGraphicsmodalOpen: false }));
     };
     const stopScript = () => {
         const code = document.getElementById(DOM_ELEMENT_IDS.communicator(state.codeId));
@@ -194,7 +228,6 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
         postCode: props.postCode,
         ...codeData
     };
-    
 
     const getState = () => state;
     const listeners = new Set<() => void>();
@@ -210,31 +243,31 @@ export const createStore = (props: InitState, libDir: string, syncMaxOnceEvery: 
         // noop
         state.isLoaded = false;
         load();
-        setState((s) => ({...s, versionsLoaded: true}));
+        setState((s) => ({ ...s, versionsLoaded: true }));
         return Promise.resolve();
-    }
+    };
 
     const setShowRaw = (showRaw: boolean) => {
-        setState((s) => ({...s, showRaw: showRaw}));
+        setState((s) => ({ ...s, showRaw: showRaw }));
     };
 
     const setStatus = (status: Status) => {
-        setState((s) => ({...s, status: status}));
+        setState((s) => ({ ...s, status: status }));
     };
 
-    return { 
-        getState, 
-        setState, 
-        subscribe, 
-        saveNow, 
-        addLogMessage, 
-        clearLogMessages, 
-        closeGraphicsModal, 
-        setCode, 
-        execScript, 
-        setExecuting, 
+    return {
+        getState,
+        setState,
+        subscribe,
+        saveNow,
+        addLogMessage,
+        clearLogMessages,
+        closeGraphicsModal,
+        setCode,
+        execScript,
+        setExecuting,
         stopScript,
-        load, 
+        load,
         setIsPasted,
         setShowRaw,
         setStatus,

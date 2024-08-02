@@ -38,6 +38,6 @@
     margin-right: 0;
 }
 
-html[data-theme='dark'] .brythonGraphicsResult {    
+html[data-theme='dark'] .brythonGraphicsResult {
     background-color: rgba(179, 179, 179, 0.671);
 }

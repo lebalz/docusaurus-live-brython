@@ -3,39 +3,39 @@
  * and scoped locally.
  */
 
- .heroBanner {
-  padding: 4rem 0;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+.heroBanner {
+    padding: 4rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
 @media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+    .heroBanner {
+        padding: 2rem;
+    }
 }
 
 .buttons {
-  display: flex;
-  gap: 1em;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 }
 .section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 .card {
-  max-width: 550px;
-  box-shadow: var(--ifm-global-shadow-tl);
-  margin: 2em;
+    max-width: 550px;
+    box-shadow: var(--ifm-global-shadow-tl);
+    margin: 2em;
 }
 .code {
-  width: 85%;
-  max-width: 550px;
-  margin: 2em;
+    width: 85%;
+    max-width: 550px;
+    margin: 2em;
 }

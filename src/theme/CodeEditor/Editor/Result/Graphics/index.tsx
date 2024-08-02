@@ -15,11 +15,7 @@ const Graphics = (props: Props) => {
     const codeId = useScript(store, 'codeId');
     const nodeRef = React.useRef(null);
     return (
-        <Draggable
-            onStop={checkForButtonClick}
-            positionOffset={{ x: '15%', y: '25%' }}
-            nodeRef={nodeRef}
-        >
+        <Draggable onStop={checkForButtonClick} positionOffset={{ x: '15%', y: '25%' }} nodeRef={nodeRef}>
             <div className={styles.brythonGraphicsResult} ref={nodeRef}>
                 <div className={styles.brythonGraphicsResultHead}>
                     <span>Output</span>
@@ -32,13 +28,10 @@ const Graphics = (props: Props) => {
                             store.stopScript();
                             store.closeGraphicsModal();
                         }}
-                        iconSize='12px'
+                        iconSize="12px"
                     />
                 </div>
-                <div
-                    id={DOM_ELEMENT_IDS.graphicsResult(codeId)}
-                    className="brython-graphics-result"
-                >
+                <div id={DOM_ELEMENT_IDS.graphicsResult(codeId)} className="brython-graphics-result">
                     {props.main}
                 </div>
             </div>

@@ -17,7 +17,7 @@ const highlightSyntax = (str: string) => {
     return (
         <span
             dangerouslySetInnerHTML={{
-                __html: Prism.highlight(str, Prism.languages.python, 'python'),
+                __html: Prism.highlight(str, Prism.languages.python, 'python')
             }}
         />
     );
@@ -40,16 +40,26 @@ const CodeHistory = () => {
                     <summary>
                         <div className={clsx(styles.summary)}>
                             <span className="badge badge--secondary">
-                                {
-                                    versionsLoaded
-                                        ? translate({message: '{n} Versions', id: 'CodeHistory.nVersions.text'}, {n: versions.length})
-                                        : translate({message: 'Load Versions', id: 'CodeHistory.LoadVersions.text'})
-                                }
+                                {versionsLoaded
+                                    ? translate(
+                                          {
+                                              message: '{n} Versions',
+                                              id: 'CodeHistory.nVersions.text'
+                                          },
+                                          { n: versions.length }
+                                      )
+                                    : translate({
+                                          message: 'Load Versions',
+                                          id: 'CodeHistory.LoadVersions.text'
+                                      })}
                             </span>
                             <span className={clsx(styles.spacer)}></span>
                             <Button
-                                icon='Sync'
-                                title={translate({message: 'Sync Versions', id: 'CodeHistory.LoadVersions.text'})}
+                                icon="Sync"
+                                title={translate({
+                                    message: 'Sync Versions',
+                                    id: 'CodeHistory.LoadVersions.text'
+                                })}
                                 onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
@@ -80,9 +90,7 @@ const CodeHistory = () => {
                             max={versions.length - 1}
                             dots={versions.length < 50}
                         />
-                        <span className="badge badge--primary">
-                            V{version}
-                        </span>
+                        <span className="badge badge--primary">V{version}</span>
                     </div>
                     <div className={clsx(styles.diffViewer)}>
                         {versions.length > 1 && (
@@ -95,7 +103,9 @@ const CodeHistory = () => {
                                         {`V${version}`}
                                         {versions[version].pasted && (
                                             <span className={clsx('badge', 'badge--danger')}>
-                                                <Translate id="CodeHistory.PastedBadge.Text">Pasted</Translate>
+                                                <Translate id="CodeHistory.PastedBadge.Text">
+                                                    Pasted
+                                                </Translate>
                                             </span>
                                         )}
                                     </div>
@@ -105,7 +115,9 @@ const CodeHistory = () => {
                                         {`V${version}`}
                                         {versions[version].pasted && (
                                             <span className={clsx('badge', 'badge--danger')}>
-                                                <Translate id="CodeHistory.PastedBadge.Text">Pasted</Translate>
+                                                <Translate id="CodeHistory.PastedBadge.Text">
+                                                    Pasted
+                                                </Translate>
                                             </span>
                                         )}
                                     </div>

@@ -19,23 +19,15 @@ const ShowSyncStatus = () => {
 
     return (
         <>
-            {!isLoaded && (
-                <Icon icon='Sync' spin size={'1.2em'} color={Color.Primary}/>
-            )}
-            <div style={{flexGrow: 1, flexShrink: 1, flexBasis: 0}}></div>
+            {!isLoaded && <Icon icon="Sync" spin size={'1.2em'} color={Color.Primary} />}
+            <div style={{ flexGrow: 1, flexShrink: 1, flexBasis: 0 }}></div>
             <span style={{ minWidth: '1em' }}>
-                {status === Status.SYNCING && (
-                    <Icon icon='Sync' spin size={'1.2em'} color={Color.Primary}/>
-                )}
-                {status === Status.SUCCESS && (
-                    <Icon icon='Check' size={'1.2em'} color={Color.Success}/>
-                )}
-                {status === Status.ERROR && (
-                    <Icon icon='Close' size={'1.2em'} color={Color.Danger}/>
-                )}
+                {status === Status.SYNCING && <Icon icon="Sync" spin size={'1.2em'} color={Color.Primary} />}
+                {status === Status.SUCCESS && <Icon icon="Check" size={'1.2em'} color={Color.Success} />}
+                {status === Status.ERROR && <Icon icon="Close" size={'1.2em'} color={Color.Danger} />}
             </span>
         </>
-    )
-}
+    );
+};
 
 export default ShowSyncStatus;

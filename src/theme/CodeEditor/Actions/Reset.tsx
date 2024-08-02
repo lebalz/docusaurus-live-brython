@@ -6,11 +6,13 @@ import { translate } from '@docusaurus/Translate';
 const Reset = () => {
     const store = useStore();
     const pristine = useScript(store, 'pristineCode');
-    
+
     const onReset = () => {
-        const shouldReset = window.confirm(translate({
-            message: 'Discard your edits? Your changes will be lost!'
-        }));
+        const shouldReset = window.confirm(
+            translate({
+                message: 'Discard your edits? Your changes will be lost!'
+            })
+        );
         if (shouldReset) {
             store.setCode(pristine);
         }
@@ -21,11 +23,11 @@ const Reset = () => {
             title={translate({
                 message: 'Discard Changes',
                 description: 'Reset the code to its original state',
-                id: 'theme.CodeEditor.Header.reset',
+                id: 'theme.CodeEditor.Header.reset'
             })}
             icon="Reset"
         />
-    )
-}
+    );
+};
 
 export default Reset;

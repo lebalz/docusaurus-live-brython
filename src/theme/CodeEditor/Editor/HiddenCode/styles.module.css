@@ -20,7 +20,7 @@
     top: unset;
     bottom: 0px;
 }
-.toggleButton>svg {
+.toggleButton > svg {
     transition: all 0.1s ease; /* Adjust timing as needed */
 }
 
@@ -46,8 +46,6 @@
     right: 0;
     top: 0;
 }
-
-
 
 html[data-theme='dark'] .hiddenCode pre > code {
     background-color: var(--ifm-card-background-color);

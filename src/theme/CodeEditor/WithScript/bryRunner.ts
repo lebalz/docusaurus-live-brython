@@ -1,6 +1,6 @@
-import { RouterType } from "@docusaurus/types";
-import { DOM_ELEMENT_IDS } from "../constants";
-import { sanitizePyScript } from "./helpers";
+import { RouterType } from '@docusaurus/types';
+import { DOM_ELEMENT_IDS } from '../constants';
+import { sanitizePyScript } from './helpers';
 
 export const runCode = (
     code: string,
@@ -10,9 +10,12 @@ export const runCode = (
     libDir: string,
     router: RouterType
 ) => {
-    const lineShift = preCode.trim().split(/\n/).filter(l => l.length > 0).length;
-    const pre = lineShift > 0 ? `${preCode.trim()}\n` : ''
-    const post = postCode.trim().length > 0 ? `\n${postCode.trim()}` : ''
+    const lineShift = preCode
+        .trim()
+        .split(/\n/)
+        .filter((l) => l.length > 0).length;
+    const pre = lineShift > 0 ? `${preCode.trim()}\n` : '';
+    const post = postCode.trim().length > 0 ? `\n${postCode.trim()}` : '';
     const toExec = `${pre}${code}${post}`;
     const src = `from brython_runner import run\nrun("""${sanitizePyScript(toExec || '')}""", '${codeId}', ${lineShift})\n`;
     if (!(window as any).__BRYTHON__) {
@@ -26,12 +29,9 @@ export const runCode = (
      * Otherwise, the brython script will not be able to access the graphics output.
      */
     setTimeout(() => {
-        (window as any).__BRYTHON__.runPythonSource(
-            src,
-            {
-                pythonpath: router === 'hash' ? [] : [libDir]
-            }
-        );
+        (window as any).__BRYTHON__.runPythonSource(src, {
+            pythonpath: router === 'hash' ? [] : [libDir]
+        });
     }, 0);
     return src;
-}
+};

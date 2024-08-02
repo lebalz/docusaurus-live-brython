@@ -9,6 +9,5 @@
 }
 
 html[data-theme='dark'] .runCode {
-        color: white
-} 
-  
+    color: white;
+}

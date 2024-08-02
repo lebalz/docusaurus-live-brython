@@ -1,4 +1,3 @@
-
 export interface Version {
     code: string;
     createdAt: Date;
@@ -23,7 +22,7 @@ export interface Script extends StoredScript {
      * this is the codeId used to
      * - identify dom elements for this block
      * - setup the brython communicator with this id
-     * - when using the default storage, this is the key used to 
+     * - when using the default storage, this is the key used to
      *   store the code to local storage
      */
     codeId: string;
@@ -41,11 +40,11 @@ export interface Script extends StoredScript {
     hasEdits: boolean;
     /**
      * Storage props
-    */
-   isLoaded: boolean;
-   status: Status;
-   versionsLoaded: boolean;
-   isPasted: boolean;
+     */
+    isLoaded: boolean;
+    status: Status;
+    versionsLoaded: boolean;
+    isPasted: boolean;
 }
 
 export interface LogMessage {
@@ -86,7 +85,7 @@ export interface Document<T = Script> {
     saveNow: () => Promise<Status>;
     setCode: (code: string, action?: 'insert' | 'remove' | string) => void;
     setExecuting: (executing: boolean) => void;
-    execScript: () => void,
+    execScript: () => void;
     stopScript: () => void;
     closeGraphicsModal: () => void;
     addLogMessage: (log: LogMessage) => void;
