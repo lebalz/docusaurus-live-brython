@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 // @ts-ignore
 import ContextEditor from '@theme/CodeEditor/ContextEditor';
 import styles from './styles.module.css';
@@ -9,24 +8,72 @@ import { useLocation, useHistory } from '@docusaurus/router';
 import React from 'react';
 import Title from '../components/SnippetComponents/Title';
 import Description from '../components/SnippetComponents/Description';
+import pako from 'pako';
+
+interface CodeSnippet {
+    title: string;
+    description: string;
+    code: string;
+}
+const DEFAULT_SNIPPET: CodeSnippet = Object.freeze({
+    title: '',
+    description: '',
+    code: ''
+});
+const encodeToBase64 = (str: string) => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(str);
+    const compressed = pako.gzip(data);
+    return btoa(String.fromCharCode(...new Uint8Array(compressed)));
+};
+
+const decodeFromBase64 = (base64: string) => {
+    const binaryString = atob(base64);
+    const binaryLen = binaryString.length;
+    const bytes = new Uint8Array(binaryLen);
+    for (let i = 0; i < binaryLen; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    const decompressed = pako.ungzip(bytes);
+    const decoder = new TextDecoder();
+    return decoder.decode(decompressed);
+};
+
+const decodeSnippet = (raw: string): CodeSnippet => {
+    try {
+        const snippet = JSON.parse(decodeFromBase64(decodeURIComponent(raw)));
+        return {...DEFAULT_SNIPPET, ...snippet};
+    } catch (e) {
+        console.warn('Failed to decode snippet', e);
+        return {...DEFAULT_SNIPPET};
+    }
+};
+
+const encodeSnippet = (snippet: CodeSnippet): string => {
+    return encodeURIComponent(encodeToBase64(JSON.stringify(snippet)));
+};
 
 export default function Snippet(): JSX.Element {
     const location = useLocation();
     const history = useHistory();
     const [initialized, setInitialized] = React.useState(false);
-    const [code, setCode] = React.useState<string>('');
-    const [edited, setEdited] = React.useState('');
+    const [code, setCode] = React.useState('');
+    const [init, setInit] = React.useState<CodeSnippet>({...DEFAULT_SNIPPET});
     const [title, setTitle] = React.useState('');
+    const [description, setDescription] = React.useState('');
+
     const [copyied, setCopyied] = React.useState(false);
 
     React.useEffect(() => {
         if (location.search) {
             const params = new URLSearchParams(location.search);
-            if (params.has('code')) {
-                const snippet = params.get('code') || '';
-                console.log(snippet);
-                setCode(snippet);
-                setEdited(snippet);
+            if (params.has('snippet')) {
+                const raw = params.get('snippet');
+                const snippet = decodeSnippet(raw);
+                setCode(snippet.code);
+                setTitle(snippet.title);
+                setDescription(snippet.description);
+                setInit(snippet);
             }
         }
         setInitialized(true);
@@ -36,16 +83,25 @@ export default function Snippet(): JSX.Element {
         if (!initialized) {
             return;
         }
-        const params = new URLSearchParams(location.search);
-        if (edited) {
-            params.set('code', edited);
-        } else if (params.has('code')) {
-            params.delete('code');
+        const data: Partial<CodeSnippet> = {};
+        if (code.length > 0) {
+            data.code = code;
         }
+        if (title.length > 0) {
+            data.title = title;
+        }
+        if (description.length > 0) {
+            data.description = description;
+        }
+        if (Object.keys(data).length === 0) {
+            return;
+        }
+        const enc = encodeSnippet(data as CodeSnippet);
+        console.log(decodeSnippet(enc), enc);
         history.replace({
-            search: params.toString()
+            search: enc ? `?snippet=${enc}` : ''
         });
-    }, [initialized, edited]);
+    }, [initialized, code, title, description]);
 
     React.useEffect(() => {
         const timeoutId = setTimeout(() => {
@@ -91,18 +147,20 @@ export default function Snippet(): JSX.Element {
                     <p style={{ marginBottom: 0 }}>
                         Share your Python code snippets by editing the code below and then sharing the link.
                     </p>
-                    <div>
-                        <Title onChange={(title) => setTitle(title)} />
-                        <Description />
-                    </div>
                     {initialized && (
-                        <ContextEditor
-                            className={clsx('language-py')}
-                            title={title || 'snippet.py'}
-                            onChange={(code: string) => setEdited(code)}
-                        >
-                            {code || "print('Hello Python Snippet')"}
-                        </ContextEditor>
+                        <>
+                            <div>
+                                <Title onChange={setTitle} title={init.title} />
+                                <Description onChange={setDescription} description={init.description} />
+                            </div>
+                            <ContextEditor
+                                className={clsx('language-py')}
+                                title={title || 'snippet.py'}
+                                onChange={(code: string) => setCode(code)}
+                            >
+                                {init.code || "print('Hello Python Snippet')"}
+                            </ContextEditor>
+                        </>
                     )}
                 </div>
             </main>

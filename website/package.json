@@ -20,6 +20,7 @@
     "@mdx-js/react": "3.0.1",
     "clsx": "^2.1.1",
     "docusaurus-live-brython": "link:../lib/",
+    "pako": "^2.1.0",
     "prism-react-renderer": "^2.3.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

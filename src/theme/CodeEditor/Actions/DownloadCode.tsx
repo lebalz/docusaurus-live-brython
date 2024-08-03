@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useStore, useScript } from '@theme/CodeEditor/hooks';
-import Button, { Color } from '@theme/CodeEditor/Button';
+import Button from '@theme/CodeEditor/Button';
 import { translate } from '@docusaurus/Translate';
 
 const DownloadCode = (props: { title: string }) => {

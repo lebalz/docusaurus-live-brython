@@ -27,7 +27,7 @@ function HomepageHeader() {
                     <Link className="button button--secondary button--lg" to={withBaseUrl('/demo')}>
                         Live Demo
                     </Link>
-                    <Link className="button button--secondary button--lg" to={withBaseUrl('/snippet')}>
+                    <Link className="button button--secondary button--lg" to={withBaseUrl('/snippets')}>
                         Share Code
                     </Link>
                 </div>
