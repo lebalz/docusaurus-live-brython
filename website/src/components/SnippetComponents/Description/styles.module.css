@@ -1,0 +1,29 @@
+.input {
+    width: 100%;
+    padding: var(--ifm-global-spacing);
+    padding-left: 0px;
+    margin-top: 0;
+    padding-top: 0;
+    margin-bottom: var(--ifm-global-spacing);
+    border: none;
+    font-size: var(--ifm-font-size-base);
+    line-height: 1.2;
+    color: var(--ifm-font-color-base);
+    background-color: transparent;
+    resize: none;
+    transition: font-size 0.3s;
+
+    /* Non-focus state */
+    display: block;
+    font-weight: bold;
+}
+
+.input:focus {
+    border: 1px solid var(--ifm-toc-border-color);
+    border-radius: var(--ifm-global-radius);
+    box-shadow: var(--ifm-global-shadow-lw);
+    font-size: var(--ifm-font-size-base);
+    background-color: var(--ifm-font-color-base-inverse);
+    outline: none;
+    padding: calc(var(--ifm-global-spacing) / 2) var(--ifm-global-spacing);
+}

@@ -18,6 +18,7 @@ export interface Props {
     versioned?: boolean;
     showLineNumbers: boolean;
     maxLines?: number;
+    onChange?: (code: string) => void;
 }
 
 const ALIAS_LANG_MAP_ACE = {
@@ -94,6 +95,9 @@ const EditorAce = (props: Props) => {
                 theme="dracula"
                 onChange={(value: string, e: { action: 'insert' | 'remove' }) => {
                     store.setCode(value, e.action);
+                    if (props.onChange) {
+                        props.onChange(value);
+                    }
                 }}
                 readOnly={showRaw}
                 value={showRaw ? pristineCode : code}

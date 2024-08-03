@@ -40,6 +40,11 @@ const config: Config = {
                     label: 'Demo'
                 },
                 {
+                    to: 'snippet',
+                    position: 'left',
+                    label: 'Shareable Snippet'
+                },
+                {
                     to: 'playground',
                     position: 'left',
                     label: 'Playground'

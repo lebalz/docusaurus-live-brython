@@ -23,6 +23,7 @@ export interface Props {
     postCode: string;
     maxLines?: number;
     versioned?: boolean;
+    onChange?: (code: string) => void;
 }
 
 const Editor = (props: Props) => {
@@ -48,6 +49,7 @@ const Editor = (props: Props) => {
                     showLineNumbers={props.showLineNumbers}
                     maxLines={props.maxLines}
                     versioned={props.versioned}
+                    onChange={props.onChange}
                 />
                 <HiddenCode type="post" code={props.postCode} />
             </div>

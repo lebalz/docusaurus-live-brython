@@ -1,0 +1,30 @@
+.titleInput {
+    width: 100%;
+    padding: var(--ifm-global-spacing);
+    margin: var(--ifm-global-spacing) 0;
+    border: 1px solid var(--ifm-toc-border-color);
+    border-radius: var(--ifm-global-radius);
+    font-size: var(--ifm-font-size-base);
+    line-height: 1.5;
+    color: var(--ifm-font-color-base);
+    background-color: var(--ifm-font-color-base-inverse);
+    transition: border-color 0.3s;
+    padding-left: 0px;
+}
+
+.titleInput:not(:focus) {
+    display: inline-block;
+    font-size: var(--ifm-h2-font-size);
+    font-weight: bold;
+    border: none;
+    background-color: transparent;
+}
+
+.titleInput:focus {
+    padding-left: var(--ifm-global-spacing);
+    border-color: var(--ifm-color-primary);
+    box-shadow: var(--ifm-global-shadow-tl);
+    outline: none;
+    transition: box-shadow 0.3s;
+    margin: calc(5.25px + var(--ifm-global-spacing)) 0;
+}

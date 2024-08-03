@@ -8,6 +8,7 @@ interface Props extends MetaProps {
     className?: string;
     title?: string;
     children: string | React.ReactNode;
+    onChange?: (code: string) => void;
 }
 
 const SPLIT_CODE_REGEX = /^(?:(?<pre>.*?)\n###\s*PRE\s*)?(?<code>.*?)(?:\n###\s*POST\s*(?<post>.*))?$/s;
@@ -62,6 +63,7 @@ const ContextEditor = (props: Props) => {
                     noCompare={!!props.noCompare}
                     title={title}
                     className={props.className}
+                    onChange={props.onChange}
                 />
             </ScriptContext>
         );

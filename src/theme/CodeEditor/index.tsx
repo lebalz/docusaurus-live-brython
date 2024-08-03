@@ -38,6 +38,7 @@ export interface Props {
     maxLines?: number;
     noHistory: boolean;
     className?: string;
+    onChange?: (code: string) => void;
 }
 
 const CodeEditor = (props: Props) => {
