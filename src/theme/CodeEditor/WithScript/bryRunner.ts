@@ -23,7 +23,7 @@ export const runCode = (
         return;
     }
     const active = document.getElementById(DOM_ELEMENT_IDS.communicator(codeId));
-    active.setAttribute('data--start-time', `${Date.now()}`);
+    active!.setAttribute('data--start-time', `${Date.now()}`);
     /**
      * ensure that the script is executed after the current event loop.
      * Otherwise, the brython script will not be able to access the graphics output.

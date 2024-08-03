@@ -13,6 +13,7 @@ export interface Props {
 const Graphics = (props: Props) => {
     const store = useStore();
     const codeId = useScript(store, 'codeId');
+    const graphicsModalExecutionNr = useScript(store, 'graphicsModalExecutionNr');
     const nodeRef = React.useRef(null);
     return (
         <Draggable onStop={checkForButtonClick} positionOffset={{ x: '15%', y: '25%' }} nodeRef={nodeRef}>
@@ -31,7 +32,7 @@ const Graphics = (props: Props) => {
                         iconSize="12px"
                     />
                 </div>
-                <div id={DOM_ELEMENT_IDS.graphicsResult(codeId)} className="brython-graphics-result">
+                <div id={DOM_ELEMENT_IDS.graphicsResult(codeId)} className="brython-graphics-result" key={`exec-${graphicsModalExecutionNr}`}>
                     {props.main}
                 </div>
             </div>

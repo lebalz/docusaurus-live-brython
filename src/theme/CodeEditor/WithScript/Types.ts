@@ -33,7 +33,7 @@ export interface Script extends StoredScript {
     postCode: string;
     lang: 'py' | string;
     logs: LogMessage[];
-    isGraphicsmodalOpen: boolean;
+    graphicsModalExecutionNr: number;
     hasGraphicsOutput: boolean;
     hasTurtleOutput: boolean;
     hasCanvasOutput: boolean;

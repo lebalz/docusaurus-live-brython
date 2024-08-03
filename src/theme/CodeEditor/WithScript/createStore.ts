@@ -139,7 +139,7 @@ export const createStore = (
         setState((s) => ({
             ...s,
             isExecuting: true,
-            isGraphicsmodalOpen: state.hasGraphicsOutput
+            graphicsModalExecutionNr: state.hasGraphicsOutput ? state.graphicsModalExecutionNr + 1 : 0
         }));
         runCode(state.code, state.preCode, state.postCode, codeId, libDir, router);
     };
@@ -200,7 +200,7 @@ export const createStore = (
         setState((s) => ({ ...s, logs: [] }));
     };
     const closeGraphicsModal = () => {
-        setState((s) => ({ ...s, isGraphicsmodalOpen: false }));
+        setState((s) => ({ ...s, graphicsModalExecutionNr: 0 }));
     };
     const stopScript = () => {
         const code = document.getElementById(DOM_ELEMENT_IDS.communicator(state.codeId));
@@ -216,7 +216,7 @@ export const createStore = (
         pristineCode: codeData.code,
         isExecuting: false,
         logs: [],
-        isGraphicsmodalOpen: false,
+        graphicsModalExecutionNr: 0,
         hasEdits: false,
         createdAt: createdAt,
         isLoaded: false,

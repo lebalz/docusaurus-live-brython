@@ -32,7 +32,7 @@ const Editor = (props: Props) => {
     const codeId = useScript(store, 'codeId');
     const hasCanvasOutput = useScript(store, 'hasCanvasOutput');
     const hasTurtleOutput = useScript(store, 'hasTurtleOutput');
-    const isGraphicsmodalOpen = useScript(store, 'isGraphicsmodalOpen');
+    const graphicsModalExecutionNr = useScript(store, 'graphicsModalExecutionNr');
 
     return (
         <React.Fragment>
@@ -57,7 +57,7 @@ const Editor = (props: Props) => {
                 <>
                     <Result />
                     <div id={DOM_ELEMENT_IDS.outputDiv(codeId)}></div>
-                    {isGraphicsmodalOpen && (
+                    {graphicsModalExecutionNr > 0 && (
                         <>
                             {hasTurtleOutput && <Turtle />}
                             {hasCanvasOutput && <Canvas />}

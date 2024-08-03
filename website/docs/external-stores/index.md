@@ -96,7 +96,7 @@ export default class Document {
     @observable accessor showRaw: boolean;
     @observable accessor isLoaded: boolean;
     @observable accessor status: Status = Status.IDLE;
-    @observable accessor isGraphicsmodalOpen: boolean;
+    @observable accessor graphicsModalExecutionNr: number; /* 0 = closed, >0 = open */
     @observable accessor isPasted: boolean = false;
     versions = observable.array<Version>([], {deep: false});
     logs = observable.array<LogMessage>([], {deep: false});
@@ -191,7 +191,7 @@ export default class Document {
     @action
     execScript() {
         if (this.hasGraphicsOutput) {
-            this.isGraphicsmodalOpen = true;
+            this.graphicsModalExecutionNr = this.graphicsModalExecutionNr + 1;
         }
         this.isExecuting = true;
         runCode(this.code, this.preCode, this.postCode, this.codeId, DocumentStore.libDir, DocumentStore.router);
@@ -247,7 +247,7 @@ export default class Document {
 
     @action
     closeGraphicsModal() {
-        this.isGraphicsmodalOpen = false;
+        this.graphicsModalExecutionNr = 0;
     }
 
     subscribe(listener: () => void, selector: keyof Document) {
