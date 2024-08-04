@@ -4,7 +4,7 @@ import type { WrapperProps } from '@docusaurus/types';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import { type MetaProps } from '@theme/CodeEditor';
 
-import ContextEditor from '@theme/CodeEditor/ContextEditor';
+import ContextEditor, { splitCode } from '@theme/CodeEditor/ContextEditor';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 
 type Props = WrapperProps<typeof CodeBlockType>;
@@ -57,10 +57,9 @@ export default function CodeBlockWrapper(props: Props): JSX.Element {
     // }
     if (metaProps.live_py) {
         const title = props.title || metaProps.title;
-
-        const rawcode: string = ((props.children as string) || '').replace(/\s*\n$/, '');
+        const { code } = splitCode((props.children as string) || '');
         return (
-            <BrowserOnly fallback={<CodeBlock {...props} />}>
+            <BrowserOnly fallback={<CodeBlock language={lang}>{code}</CodeBlock>}>
                 {() => {
                     return (
                         <ContextEditor {...props} {...metaProps} title={sanitizedTitle(title) || lang}>

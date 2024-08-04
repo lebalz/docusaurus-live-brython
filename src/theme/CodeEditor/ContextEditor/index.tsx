@@ -12,7 +12,7 @@ interface Props extends MetaProps {
 }
 
 const SPLIT_CODE_REGEX = /^(?:(?<pre>.*?)\n###\s*PRE\s*)?(?<code>.*?)(?:\n###\s*POST\s*(?<post>.*))?$/s;
-const splitCode = (rawCode: string) => {
+export const splitCode = (rawCode: string) => {
     const { pre, code, post } = rawCode.replace(/\s*\n$/, '').match(SPLIT_CODE_REGEX).groups || {};
     return {
         pre: pre || '',
