@@ -4,7 +4,6 @@ import Heading from '@theme/Heading';
 // @ts-ignore
 import ContextEditor from '@theme/CodeEditor/ContextEditor';
 import styles from './snippets.module.css';
-import { useLocation, useHistory } from '@docusaurus/router';
 import React from 'react';
 import Title from '../components/SnippetComponents/Title';
 import Description from '../components/SnippetComponents/Description';
