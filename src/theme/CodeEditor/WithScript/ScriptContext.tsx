@@ -25,7 +25,7 @@ const ScriptContext = (props: InitState & { children: React.ReactNode }) => {
         <BrowserOnly fallback={<CodeBlock language={props.lang}>{props.code}</CodeBlock>}>
             {() => {
                 if (!store) {
-                    return <div>Load</div>;
+                    return (<CodeBlock language={props.lang}>{props.code}</CodeBlock>);
                 }
                 return <Context.Provider value={store}>{props.children}</Context.Provider>;
             }}

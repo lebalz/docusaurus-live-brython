@@ -408,6 +408,8 @@ import { observer } from "mobx-react-lite";
 import { InitState } from "docusaurus-live-brython/theme/CodeEditor/WithScript/Types";
 import Document from "@site/src/models/Document";
 import { useStore } from "@site/src/hooks/useStore";
+import BrowserOnly from '@docusaurus/BrowserOnly';
+import CodeBlock from '@theme/CodeBlock';
 export const Context = React.createContext<Document | undefined>(undefined);
 import { v4 as uuidv4 } from 'uuid';
 
@@ -423,13 +425,19 @@ const ScriptContext = observer((props: InitState & { children: React.ReactNode; 
         documentStore.addDocument(document);
     }, [props.id, documentStore]);
     
-    if (!documentStore.find(id)) {
-        return <div>Load</div>;
-        }
     return (
-        <Context.Provider value={documentStore.find(id)}>
-            {props.children}
-        </Context.Provider>
+        <BrowserOnly fallback={<CodeBlock language={props.lang}>{props.code}</CodeBlock>}>
+            {() => {
+                if (!documentStore.find(id)) {
+                    return (<CodeBlock language={props.lang}>{props.code}</CodeBlock>);
+                }
+                return (
+                    <Context.Provider value={documentStore.find(id)}>
+                        {props.children}
+                    </Context.Provider>
+                );
+            }}
+        </BrowserOnly>
     );
 });
 
