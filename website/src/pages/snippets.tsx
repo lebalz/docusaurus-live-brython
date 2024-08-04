@@ -53,28 +53,21 @@ const encodeSnippet = (snippet: CodeSnippet): string => {
     return encodeURIComponent(encodeToBase64(JSON.stringify(snippet)));
 };
 
-export default function Snippet(): JSX.Element {
-    const location = useLocation();
-    const history = useHistory();
-    const [initialized, setInitialized] = React.useState(false);
+function Snippet(): JSX.Element {
     const [code, setCode] = React.useState('');
     const [init, setInit] = React.useState<CodeSnippet>({...DEFAULT_SNIPPET});
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
-
-    const [copyied, setCopyied] = React.useState(false);
-
+    const [initialized, setInitialized] = React.useState(false);
     React.useEffect(() => {
-        if (location.search) {
-            const params = new URLSearchParams(location.search);
-            if (params.has('snippet')) {
-                const raw = params.get('snippet');
-                const snippet = decodeSnippet(raw);
-                setCode(snippet.code);
-                setTitle(snippet.title);
-                setDescription(snippet.description);
-                setInit(snippet);
-            }
+        const url = new URL(window.location.href);
+        const snippetParam = url.searchParams.get('snippet');
+        if (snippetParam) {
+            const snippet = decodeSnippet(snippetParam);
+            setCode(snippet.code);
+            setTitle(snippet.title);
+            setDescription(snippet.description);
+            setInit(snippet);
         }
         setInitialized(true);
     }, []);
@@ -97,11 +90,32 @@ export default function Snippet(): JSX.Element {
             return;
         }
         const enc = encodeSnippet(data as CodeSnippet);
-        console.log(decodeSnippet(enc), enc);
-        history.replace({
-            search: enc ? `?snippet=${enc}` : ''
-        });
+        window.history.replaceState(null, '', `${location.pathname}?snippet=${enc}`);
     }, [initialized, code, title, description]);
+
+    if (!initialized) {
+        return null;
+    }
+
+    return (
+        <>
+            <div>
+                <Title onChange={setTitle} title={init.title} />
+                <Description onChange={setDescription} description={init.description} />
+            </div>
+            <ContextEditor
+                className={clsx('language-py')}
+                title={title || 'snippet.py'}
+                onChange={(code: string) => setCode(code)}
+            >
+                {init.code || "print('Hello Python Snippet')"}
+            </ContextEditor>
+        </>
+    )
+}
+
+export default function SnippetPage(): JSX.Element {
+    const [copyied, setCopyied] = React.useState(false);
 
     React.useEffect(() => {
         const timeoutId = setTimeout(() => {
@@ -128,7 +142,6 @@ export default function Snippet(): JSX.Element {
                             )}
                             title="Copy the link to share the snippet"
                             onClick={() => {
-                                console.log(window.location.href);
                                 navigator.clipboard
                                     .writeText(window.location.href)
                                     .then(() => {
@@ -147,21 +160,7 @@ export default function Snippet(): JSX.Element {
                     <p style={{ marginBottom: 0 }}>
                         Share your Python code snippets by editing the code below and then sharing the link.
                     </p>
-                    {initialized && (
-                        <>
-                            <div>
-                                <Title onChange={setTitle} title={init.title} />
-                                <Description onChange={setDescription} description={init.description} />
-                            </div>
-                            <ContextEditor
-                                className={clsx('language-py')}
-                                title={title || 'snippet.py'}
-                                onChange={(code: string) => setCode(code)}
-                            >
-                                {init.code || "print('Hello Python Snippet')"}
-                            </ContextEditor>
-                        </>
-                    )}
+                    <Snippet />
                 </div>
             </main>
         </Layout>
