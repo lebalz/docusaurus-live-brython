@@ -2,10 +2,10 @@ import React from 'react';
 import CodeBlock, { type Props as CodeBlockType } from '@theme-init/CodeBlock';
 import type { WrapperProps } from '@docusaurus/types';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import CodeEditor, { type MetaProps } from '@theme/CodeEditor';
+import { type MetaProps } from '@theme/CodeEditor';
 
-import ScriptContext from '@theme/CodeEditor/WithScript/ScriptContext';
 import ContextEditor from '@theme/CodeEditor/ContextEditor';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
 type Props = WrapperProps<typeof CodeBlockType>;
 
@@ -55,15 +55,20 @@ export default function CodeBlockWrapper(props: Props): JSX.Element {
     // if (metaProps.live_jsx) {
     //     return <Playground scope={ReactLiveScope} {...props} />;
     // }
-    if (metaProps.live_py && ExecutionEnvironment.canUseDOM) {
+    if (metaProps.live_py) {
         const title = props.title || metaProps.title;
 
         const rawcode: string = ((props.children as string) || '').replace(/\s*\n$/, '');
-        let code = rawcode;
         return (
-            <ContextEditor {...props} {...metaProps} title={sanitizedTitle(title) || lang}>
-                {props.children}
-            </ContextEditor>
+            <BrowserOnly fallback={<CodeBlock {...props} />}>
+                {() => {
+                    return (
+                        <ContextEditor {...props} {...metaProps} title={sanitizedTitle(title) || lang}>
+                            {props.children}
+                        </ContextEditor>
+                    );
+                }}
+            </BrowserOnly>
         );
     }
     return <CodeBlock {...props} />;

@@ -3,6 +3,8 @@ import { usePluginData } from '@docusaurus/useGlobalData';
 import { type InitState, type Document } from '@theme/CodeEditor/WithScript/Types';
 import { createStore } from '@theme/CodeEditor/WithScript/createStore';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import BrowserOnly from '@docusaurus/BrowserOnly';
+import CodeBlock from '@theme/CodeBlock';
 export const Context = React.createContext<Document | undefined>(undefined);
 
 const ScriptContext = (props: InitState & { children: React.ReactNode }) => {
@@ -19,11 +21,16 @@ const ScriptContext = (props: InitState & { children: React.ReactNode }) => {
         store.load();
     }, [props.id, libDir, siteConfig]);
 
-    if (!store) {
-        return <div>Load</div>;
-    }
-
-    return <Context.Provider value={store}>{props.children}</Context.Provider>;
+    return (
+        <BrowserOnly fallback={<CodeBlock language={props.lang}>{props.code}</CodeBlock>}>
+            {() => {
+                if (!store) {
+                    return <div>Load</div>;
+                }
+                return <Context.Provider value={store}>{props.children}</Context.Provider>;
+            }}
+        </BrowserOnly>
+    );
 };
 
 export default ScriptContext;

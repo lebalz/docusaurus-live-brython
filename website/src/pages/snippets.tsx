@@ -41,10 +41,10 @@ const decodeFromBase64 = (base64: string) => {
 const decodeSnippet = (raw: string): CodeSnippet => {
     try {
         const snippet = JSON.parse(decodeFromBase64(decodeURIComponent(raw)));
-        return {...DEFAULT_SNIPPET, ...snippet};
+        return { ...DEFAULT_SNIPPET, ...snippet };
     } catch (e) {
         console.warn('Failed to decode snippet', e);
-        return {...DEFAULT_SNIPPET};
+        return { ...DEFAULT_SNIPPET };
     }
 };
 
@@ -54,7 +54,7 @@ const encodeSnippet = (snippet: CodeSnippet): string => {
 
 function Snippet(): JSX.Element {
     const [code, setCode] = React.useState('');
-    const [init, setInit] = React.useState<CodeSnippet>({...DEFAULT_SNIPPET});
+    const [init, setInit] = React.useState<CodeSnippet>({ ...DEFAULT_SNIPPET });
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [initialized, setInitialized] = React.useState(false);
@@ -110,7 +110,7 @@ function Snippet(): JSX.Element {
                 {init.code || "print('Hello Python Snippet')"}
             </ContextEditor>
         </>
-    )
+    );
 }
 
 export default function SnippetPage(): JSX.Element {

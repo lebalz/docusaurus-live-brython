@@ -32,7 +32,11 @@ const Graphics = (props: Props) => {
                         iconSize="12px"
                     />
                 </div>
-                <div id={DOM_ELEMENT_IDS.graphicsResult(codeId)} className="brython-graphics-result" key={`exec-${graphicsModalExecutionNr}`}>
+                <div
+                    id={DOM_ELEMENT_IDS.graphicsResult(codeId)}
+                    className="brython-graphics-result"
+                    key={`exec-${graphicsModalExecutionNr}`}
+                >
                     {props.main}
                 </div>
             </div>

@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { useStore, useScript } from '@theme/CodeEditor/hooks';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import CodeHistory from '@theme/CodeEditor/CodeHistory';
+import CodeBlock from '@theme/CodeBlock';
 
 export interface MetaProps {
     reference?: boolean;
@@ -45,7 +46,7 @@ const CodeEditor = (props: Props) => {
     const store = useStore();
     const lang = useScript(store, 'lang');
     return (
-        <BrowserOnly fallback={<div>Loading...</div>}>
+        <BrowserOnly fallback={<CodeBlock language={props.lang}>{props.code}</CodeBlock>}>
             {() => {
                 return (
                     <div className={clsx(styles.wrapper, 'notranslate', props.className)}>

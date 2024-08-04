@@ -15,8 +15,8 @@ const Title = (props: Props) => {
             type="text"
             value={title}
             onChange={(e) => {
-                setTitle(e.target.value)
-                props.onChange(e.target.value)
+                setTitle(e.target.value);
+                props.onChange(e.target.value);
             }}
             placeholder="Snippet Title"
             className={clsx(styles.titleInput)}
