@@ -3,7 +3,7 @@ import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 // @ts-ignore
 import ContextEditor from '@theme/CodeEditor/ContextEditor';
-import styles from './styles.module.css';
+import styles from './snippets.module.css';
 import { useLocation, useHistory } from '@docusaurus/router';
 import React from 'react';
 import Title from '../components/SnippetComponents/Title';
