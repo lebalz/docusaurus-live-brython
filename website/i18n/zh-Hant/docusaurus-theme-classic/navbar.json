@@ -1,0 +1,34 @@
+{
+  "title": {
+    "message": "Live Brython",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "Live Brython",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Docs": {
+    "message": "文檔",
+    "description": "Navbar item with label Docs"
+  },
+  "item.label.Demo": {
+    "message": "範例",
+    "description": "Navbar item with label Demo"
+  },
+  "item.label.Shareable Snippet": {
+    "message": "代碼塊",
+    "description": "Navbar item with label Shareable Snippet"
+  },
+  "item.label.Playground": {
+    "message": "線上測試",
+    "description": "Navbar item with label Playground"
+  },
+  "item.label.npm": {
+    "message": "npm",
+    "description": "Navbar item with label npm"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}

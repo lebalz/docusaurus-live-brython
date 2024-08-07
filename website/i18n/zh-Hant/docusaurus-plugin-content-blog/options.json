@@ -1,0 +1,14 @@
+{
+  "title": {
+    "message": "部落格",
+    "description": "The title for the blog used in SEO"
+  },
+  "description": {
+    "message": "在 Docusaurus 3 中執行你的 Markdown Python 程式碼塊並互動",
+    "description": "The description for the blog used in SEO"
+  },
+  "sidebar.title": {
+    "message": "部落格",
+    "description": "The label for the left sidebar"
+  }
+}

@@ -18,6 +18,10 @@ const config: Config = {
     organizationName: 'lebalz', // Usually your GitHub org/user name.
     projectName: 'docusaurus-live-brython', // Usually your repo name.
     trailingSlash: false,
+    i18n: {
+        defaultLocale: 'en',
+        locales: ['en', 'zh-Hant']
+    },
     future: {
         experimental_router: 'browser'
     },
@@ -57,6 +61,10 @@ const config: Config = {
                 {
                     href: 'https://github.com/lebalz/docusaurus-live-brython',
                     label: 'GitHub',
+                    position: 'right'
+                },
+                {
+                    type: 'localeDropdown',
                     position: 'right'
                 }
             ]
