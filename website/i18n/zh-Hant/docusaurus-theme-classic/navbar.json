@@ -8,15 +8,15 @@
     "description": "The alt text of navbar logo"
   },
   "item.label.Docs": {
-    "message": "Docs",
+    "message": "文檔",
     "description": "Navbar item with label Docs"
   },
   "item.label.Demo": {
-    "message": "Demo",
+    "message": "範例",
     "description": "Navbar item with label Demo"
   },
   "item.label.Shareable Snippet": {
-    "message": "Shareable Snippet",
+    "message": "分享程式碼",
     "description": "Navbar item with label Shareable Snippet"
   },
   "item.label.Playground": {
