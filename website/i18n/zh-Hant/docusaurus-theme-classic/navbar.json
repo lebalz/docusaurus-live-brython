@@ -16,11 +16,11 @@
     "description": "Navbar item with label Demo"
   },
   "item.label.Shareable Snippet": {
-    "message": "分享程式碼",
+    "message": "代碼塊",
     "description": "Navbar item with label Shareable Snippet"
   },
   "item.label.Playground": {
-    "message": "Playground",
+    "message": "線上測試",
     "description": "Navbar item with label Playground"
   },
   "item.label.npm": {
