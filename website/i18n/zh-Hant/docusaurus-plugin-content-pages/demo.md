@@ -1,4 +1,4 @@
-# Brython 示範
+# Brython 範例
 
 ```py live_py
 print('Live Brython')

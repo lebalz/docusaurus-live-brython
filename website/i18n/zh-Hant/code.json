@@ -316,5 +316,20 @@
   "theme.unlistedContent.message": {
     "message": "此頁面未列出。搜索引擎不會對其索引，只有擁有直接連結的用戶才能訪問。",
     "description": "The unlisted content banner message"
+  },
+  "Get Started": {
+    "message": "立即開始"
+  },
+  "Live Demo": {
+    "message": "線上範例"
+  },
+  "Share Code": {
+    "message": "分享代碼"
+  },
+  "Try It!": {
+    "message": "試試看！"
+  },
+  "Execute and interact with your Markdown Python Codeblocks in Docusaurus 3": {
+    "message": "在 Docusaurus 3 中執行 Markdown Python 程式碼區塊並與之互動"
   }
 }
