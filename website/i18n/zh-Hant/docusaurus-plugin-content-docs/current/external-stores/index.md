@@ -294,7 +294,7 @@ export default class Document {
 
 </details>
 
-With the `useSyncExternalStore` hook you can setup the synchronization between `docusaurus-live-brython` and the `Document` Model tracked by mobx.
+使用 `useSyncExternalStore` 鉤子，您可以設置 `docusaurus-live-brython` 和由 mobx 跟蹤的 `Document` 模型之間的同步。
 
 ```ts title="src/theme/CodeEditor/hooks/useScript.ts"
 import Document from "@site/src/models/Document";
@@ -318,7 +318,7 @@ export const useScript = <T extends keyof Document>(model: Document, selector: T
 }
 ```
 
-The `model` provides a `subscribe` method, which sets up a reaction on changes on the specified `selector`.
+`model` 提供了一個 `subscribe` 函式，用於設置對指定 `selector` 變化的反應。
 
 ```ts title="src/models/Document.ts"
     subscribe(listener: () => void, selector: keyof Document) {
@@ -335,10 +335,8 @@ The `model` provides a `subscribe` method, which sets up a reaction on changes o
     }
 ```
 
-
-
 <details>
-<summary>Full `useScript.ts` Source</summary>
+<summary>完整 `useScript.ts` 來源</summary>
 
 ```ts title="src/theme/CodeEditor/hooks/useScript.ts"
 import Document from "@site/src/models/Document";
@@ -360,7 +358,6 @@ const useStableSnapshot = (getSnapshot: () => Array<any>) => {
         return prevResult;
     };
 };
-
 
 export const useScript = <T extends keyof Document>(model: Document, selector: T): Document[T] => {
     const isArray = Array.isArray(model[selector]);
@@ -397,9 +394,9 @@ export const useScript = <T extends keyof Document>(model: Document, selector: T
 ```
 </details>
 
-Since the state in `docusaurus-live-brython` is passed down through the `ScriptContext`, you need to swizzle the `ScriptContext` to provide the mobx `Document` to the `CodeEditor` and all of it's components.
+由於 `docusaurus-live-brython` 中的狀態通過 `ScriptContext` 傳遞，您需要交換 `ScriptContext` 以將 mobx 的 `Document` 提供給 `CodeEditor` 及其所有組件。
 
-Here you can see, that the `Document` is created when the `ScriptContext` is mounted and added to the `DocumentStore`.
+這裡您可以看到，當 `ScriptContext` 被掛載時創建了 `Document` 並將其添加到 `DocumentStore`。
 
 ```ts title="src/theme/CodeEditor/WithScript/ScriptContext.tsx"
 import React from "react";
