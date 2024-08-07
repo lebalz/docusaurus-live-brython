@@ -189,3 +189,329 @@ class Rectangle():
     def __repr__(self):
         return self.color
 
+class RectLine():
+    line: list = []
+    n = 0
+    max = 0
+    def __init__(self, grid, row, cols: int | list, color: str = ''):
+        self.grid = grid
+        if type(cols) == list:
+            self.line = cols # type: ignore
+        else:
+            self.line = [Rectangle(grid, col, row, color) for col in range(cols)] # type: ignore
+        self.max = len(self.line) # type: ignore
+    
+    def __getitem__(self, key):
+        return self.line[key]
+
+    def __setitem__(self, key, value):
+        self.line[key].color = value
+
+    def __repr__(self):
+        return ', '.join([f'{r.color}' for r in self.line])
+
+    def __iter__(self):
+        self.n = 0
+        return self
+
+    def __next__(self):
+        if self.n < self.max:
+            result = self[self.n]
+            self.n += 1
+            return result
+        else:
+            raise StopIteration
+    
+    def __len__(self):
+        return self.max
+
+    def draw(self):
+        for rect in self.line:
+            rect.draw()
+    
+    def copy(self, grid):
+        return RectLine(grid, self.line[0].row, [l.copy(grid) for l in self.line]) # type: ignore
+
+class Grid():
+    lines = []
+    n = 0
+    max = 0
+    CANVAS_ID = ''
+    WIDTH = 500
+    HEIGHT = 500
+    scale = 10
+    record_gif = False
+    frames = {}
+
+    def __init__(self, rows: int, cols: int, color: str = '', scale: int = -1):
+        if scale < 0:
+            if rows > 0 and cols > 0:
+                scale = min(Grid.WIDTH // cols, Grid.HEIGHT // rows)
+            else:
+                scale = 10
+        self.scale = scale
+        self.lines = [RectLine(self, row, cols, color) for row in range(rows)]
+        self.max = rows
+    
+    @staticmethod
+    def setup(width: int, height: int, record_gif: bool = False):
+        Grid.HEIGHT = height
+        Grid.WIDTH = width
+        Grid.record_gif = record_gif
+        Grid.frames = {}
+        canvas = document[Config.CANVAS_ID]
+        parent = canvas.parent
+        parent.replaceChildren()
+    
+        canv = document.createElement('canvas')
+        canv.style.display = 'block'
+        canv.id = Config.CANVAS_ID;
+        canv.attrs['height'] = height
+        canv.attrs['width'] = width
+        canv.style.width = f'{width}px'
+        canv.style.height = f'{height}px'
+        parent.appendChild(canv)
+
+    @staticmethod
+    def from_bin_text(bin_text: str, colors={'s': 'black', '1': 'black', 'x': 'black', 'bg': ''}):
+        lines = bin_text.lower().splitlines()
+        if 'bg' not in colors:
+            colors['bg'] = ''
+        while len(lines) > 0 and len(lines[0]) == 0:
+            lines.pop(0)
+        size_y = len(lines)
+        if size_y < 1:
+            raise Exception('Grid must have at least one non empty line')
+        size_x = max(map(lambda x: len(x), lines))
+
+        scale = min(Grid.WIDTH // size_x, Grid.HEIGHT // size_y)
+        grid = Grid(0, 0, colors['bg'], scale)
+        raw_grid = []
+        for line in lines:
+            raw_line = []
+            for x in range(size_x):
+                if x < len(line):
+                    raw_line.append(Rectangle(grid, x, len(raw_grid), colors.get(line[x], colors['bg'])))
+                else:
+                    raw_line.append(Rectangle(grid, x, len(raw_grid), colors['bg']))
+            raw_grid.append(RectLine(grid, len(raw_grid), raw_line))
+        grid.set_lines(raw_grid)
+        grid.draw()
+        return grid
+        
+
+    def set_lines(self, lines):
+        self.lines = lines
+        self.max = len(lines)
+
+        
+    def tolist(self):
+        return [[c.color for c in l.line] for l in self.lines]
+
+    @property
+    def color_grid(self):
+        return self.tolist()
+
+    @property
+    def grid(self):
+        return self.tolist()
+
+    @property
+    def size(self):
+        return (self.dim_y, self.dim_x)
+
+    @property
+    def dim_x(self):
+        if self.max < 1:
+            return 0
+        return len(self[0])
+
+    @property
+    def dim_y(self):
+        return len(self.lines)
+
+    @staticmethod
+    def clear_canvas():
+        try:
+            canvas = document[Config.CANVAS_ID]
+            ctx = canvas.getContext('2d')
+            ctx.clearRect(0, 0, Grid.WIDTH, Grid.HEIGHT) # type: ignore
+        except:
+            pass
+
+
+    def draw(self):
+        for line in self.lines:
+            line.draw()
+
+    @staticmethod
+    def gif_add():
+        if Grid.record_gif:
+            canvas = document[Config.CANVAS_ID]
+            frameName = 'frame_' + str(len(Grid.frames)).rjust(3, '0')
+            Grid.frames[frameName] = canvas.toDataURL('image/png');
+
+
+
+    def fill(self, color: str = ''):
+        for line in self.lines:
+            for cell in line:
+                cell.color = color
+
+    def copy(self):
+        cp = Grid(0, 0)
+        lines = [l.copy(cp) for l in self.lines]
+        cp.set_lines(lines)
+        return cp
+
+
+    def __getitem__(self, key):
+        return self.lines[key]
+
+    def __setitem__(self, key, value):
+        self.lines[key] = value
+        
+    def __repr__(self):
+        rep = ''
+        for line in self.lines:
+            rep += f'{line}'
+            rep += '\n'
+        return rep
+    
+    def __iter__(self):
+        self.n = 0
+        return self
+
+    def __next__(self):
+        if self.n < self.max:
+            result = self[self.n]
+            self.n += 1
+            return result
+        else:
+            raise StopIteration
+
+    def __len__(self):
+        return self.max
+```
+</details>
+
+```py live_py title=grid__example.py
+from grid import Grid
+Grid.clear_canvas()
+smile = Grid.from_text('''
+       
+ x    x
+ 
+ 
+ 
+ x    x 
+ xxxxxx
+ 
+''')
+smile.draw()
+```
+
+### 持久化變更 (id)
+
+您可以通過為代碼區塊添加 `id` 來持久化編輯器中的變更。這些變更將存儲在本地儲存中，並且當頁面重新加載時，內容將會恢復。
+
+````md
+```py live_py id=example
+# 此代碼區塊中的變更將被存儲在本地儲存中
+```
+````
+
+<BrowserWindow>
+
+```py live_py id=example
+# 此代碼區塊中的變更將被存儲在本地儲存中
+```
+
+</BrowserWindow>
+
+:::warning[唯一 ID]
+確保整個網站上的 ID（不僅僅是這一頁）是唯一的，否則用戶可能會遇到意外的行為。（代碼將被具有相同 ID 的最後一個變更的代碼區塊覆蓋）。
+:::
+:::tip[UUID]
+確保唯一 ID 的一個好方法是使用 UUID。對於 VS Code 用戶，擴展 [UUID Generator by Motivesoft](https://marketplace.visualstudio.com/items?itemName=motivesoft.vscode-uuid-generator) 可以輕鬆插入新的 UUID，使用快捷鍵 `Alt+Shift+U`。
+:::
+
+### 保存版本 (versioned)
+
+您可以通過添加 `versioned` 元數據字串來保存代碼的版本。這將為編輯器添加版本歷史。每次更改都會保存為新版本，但每秒不超過一次（可以通過 `docusaurus.config.js` 中的 `syncMaxOnceEvery` 選項進行配置）。
+
+````md
+```py live_py versioned id=fe506dd7-1507-4929-ad07-302d22529d79
+print('Hello Versioned Mode')
+```
+````
+
+<BrowserWindow>
+
+嘗試更改代碼，然後點擊版本歷史詳細信息。
+```py live_py versioned id=fe506dd7-1507-4929-ad07-302d22529d79
+print('Hello Versioned Mode')
+```
+</BrowserWindow>
+
+:::warning[僅在持久化模式下]
+版本模式僅在與 `id` 屬性一起使用時有效。`id` 屬性用於將版本存儲在本地儲存中。
+:::
+
+### 隱藏版本歷史 (noHistory)
+
+您可以通過添加 `noHistory` 元數據字串來隱藏版本歷史。這只會隱藏歷史記錄，對 `versioned` 屬性沒有影響。
+
+````md
+```py live_py versioned noHistory
+print('Hello No History')
+```
+````
+
+## 配置
+
+```js title=docusaurus.config.js
+export default {
+  themes: [
+    [
+      'theme-live-codeblock',
+      {
+        /**
+         * brython 源文件的路徑。
+         * @default 'https://raw.githack.com/brython-dev/brython/master/www/src/brython.js'
+         */
+        brythonSrc: string;
+        /**
+         * brython 標準庫源文件的路徑。
+         * @default 'https://raw.githack.com/brython-dev/brython/master/www/src/brython_stdlib.js'
+         */
+        brythonStdlibSrc: string;
+        /**
+         * brython 特定庫的資料夾路徑。
+         * 當 Python 文件導入模塊時，該模塊將在
+         * `libDir` 目錄中查找。
+         * 默認情況下，libDir 會在靜態資料夾中創建，並將所需的
+         * Python 文件複製到那裡。這可以通過將 
+         * `skipCopyAssetsToLibDir` 設置為 true 並將 libDir 設置為自定義路徑來更改。
+         * 請確保將所需的 Python 文件複製到自定義 libDir。
+         * @default '/bry-libs/'
+         */
+        libDir: string;
+        /**
+         * 跳過將 brython 特定庫複製到 `libDir`。
+         * 請確保自行將所需的 Python 文件複製到自定義 libDir。
+         * @ref [所需的 Python 文件](https://github.com/lebalz/docusaurus-live-brython/tree/main/src/assets)
+         * @default false
+         */
+        skipCopyAssetsToLibDir: boolean;
+        /**
+         * 指定等待的時間（以毫秒為單位），以在將當前變更同步到本地存儲之前等待。
+         * 這有助於防止每次按鍵時都存儲代碼。
+         * @default 1000
+         */
+        syncMaxOnceEvery: number;  
+      }
+    ]
+  ],
+};
+```
