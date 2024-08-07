@@ -4,7 +4,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import Translate, {translate} from '@docusaurus/Translate';
+import Translate from '@docusaurus/Translate';
 // @ts-ignore
 import ContextEditor from '@theme/CodeEditor/ContextEditor';
 
@@ -20,16 +20,18 @@ function HomepageHeader() {
                 <Heading as="h1" className="hero__title">
                     {siteConfig.title}
                 </Heading>
-                <p className="hero__subtitle"><Translate>Execute and interact with your Markdown Python Codeblocks in Docusaurus 3</Translate></p>
+                <p className="hero__subtitle">
+                    <Translate id="homepage.subtitle">Execute and interact with your Markdown Python Codeblocks in Docusaurus 3</Translate>
+                </p>
                 <div className={styles.buttons}>
                     <Link className="button button--lg button--success" to={withBaseUrl('docs')}>
-                        <Translate>Get Started</Translate>
+                        <Translate id="homepage.getStarted">Get Started</Translate>
                     </Link>
                     <Link className="button button--secondary button--lg" to={withBaseUrl('/demo')}>
-                        <Translate>Live Demo</Translate>
+                        <Translate id="homepage.liveDemo">Live Demo</Translate>
                     </Link>
                     <Link className="button button--secondary button--lg" to={withBaseUrl('/snippets')}>
-                        <Translate>Share Code</Translate>
+                        <Translate id="homepage.shareCode">Share Code</Translate>
                     </Link>
                 </div>
             </div>
@@ -53,7 +55,7 @@ export default function Home(): JSX.Element {
                         </div>
                         <div className="card__footer">
                             <a className="button button--primary button--block" href={useBaseUrl('/demo')}>
-                                <Translate>Try It!</Translate>
+                                <Translate id="homepage.tryIt">Try It!</Translate>
                             </a>
                         </div>
                     </div>
