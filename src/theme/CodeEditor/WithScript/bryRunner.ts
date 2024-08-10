@@ -8,7 +8,8 @@ export const runCode = (
     postCode: string,
     codeId: string,
     libDir: string,
-    router: RouterType
+    router: RouterType,
+    cache: boolean = true
 ) => {
     const lineShift = preCode
         .trim()
@@ -30,7 +31,8 @@ export const runCode = (
      */
     setTimeout(() => {
         (window as any).__BRYTHON__.runPythonSource(src, {
-            pythonpath: router === 'hash' ? [] : [libDir]
+            pythonpath: router === 'hash' ? [] : [libDir],
+            cache: cache
         });
     }, 0);
     return src;
