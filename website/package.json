@@ -14,9 +14,10 @@
     "write-heading-ids": "docusaurus write-heading-ids"
   },
   "dependencies": {
-    "@docusaurus/core": "^3.4.0",
-    "@docusaurus/preset-classic": "^3.4.0",
-    "@docusaurus/tsconfig": "^3.4.0",
+    "@docusaurus/core": "^3.6.1",
+    "@docusaurus/faster": "^3.6.1",
+    "@docusaurus/preset-classic": "^3.6.1",
+    "@docusaurus/tsconfig": "^3.6.1",
     "@mdx-js/react": "3.0.1",
     "clsx": "^2.1.1",
     "docusaurus-live-brython": "link:../lib/",
@@ -38,7 +39,8 @@
     ]
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.3.2",
+    "@docusaurus/module-type-aliases": "^3.6.1",
+    "@docusaurus/types": "^3.6.1",
     "@types/react": "^18.3.1",
     "typescript": "^5.2.2"
   }

@@ -1,9 +1,6 @@
 import type { Config } from '@docusaurus/types';
-import * as Preset from '@docusaurus/preset-classic';
-const { themes } = require('prism-react-renderer');
-
-const lightCodeTheme = themes.vsLight;
-const darkCodeTheme = themes.vsDark;
+import type * as Preset from '@docusaurus/preset-classic';
+import { themes as prismThemes } from 'prism-react-renderer';
 
 const BASE_URL = process.env.NODE_ENV === 'production' ? '/docusaurus-live-brython/' : '/';
 
@@ -23,7 +20,8 @@ const config: Config = {
         locales: ['en', 'zh-Hant']
     },
     future: {
-        experimental_router: 'browser'
+        experimental_faster: true,
+        experimental_router: 'browser',
     },
     themeConfig: {
         navbar: {
@@ -85,8 +83,8 @@ const config: Config = {
             copyright: `Copyright © ${new Date().getFullYear()} Le Balz. Built with Docusaurus.`
         },
         prism: {
-            theme: lightCodeTheme,
-            darkTheme: darkCodeTheme
+            theme: prismThemes.github,
+            darkTheme: prismThemes.dracula,
         },
         metadata: [
             {

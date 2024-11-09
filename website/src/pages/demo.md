@@ -1,4 +1,10 @@
+---
+image: https://lebalz.github.io/docusaurus-live-brython/img/og_preview.png
+---
+
 # Brython Demo
+
+Explore interactive Python code execution directly in your browser with Live Python Playgrounds using Brython.
 
 ```py live_py
 print('Live Brython')
