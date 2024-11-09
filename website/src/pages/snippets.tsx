@@ -126,7 +126,12 @@ export default function SnippetPage(): JSX.Element {
     }, [copyied]);
 
     return (
-        <Layout title={'Interactive Python Codeblocks'} description="Snippet Editor">
+        <Layout 
+            title={'Interactive Python Codeblocks'}
+            description={
+                `Create, execute, and share your Python code seamlessly in your browser using our interactive playground. Perfect for coding enthusiasts and learners alike!`
+            }
+        >
             <main className={clsx(styles.main, 'container container--fluid margin-vert--lg')}>
                 <div className={clsx(styles.snippetContainer)}>
                     <div className={styles.title}>
