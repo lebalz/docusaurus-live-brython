@@ -1,6 +1,5 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
-// Aggiungiamo questa definizione manuale per dire a TS che Details esiste
 declare module '@theme/Details' {
   import { ReactNode } from 'react';
   export interface Props {
