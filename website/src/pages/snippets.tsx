@@ -52,7 +52,7 @@ const encodeSnippet = (snippet: CodeSnippet): string => {
     return encodeURIComponent(encodeToBase64(JSON.stringify(snippet)));
 };
 
-function Snippet(): JSX.Element {
+function Snippet(): React.ReactNode {
     const [code, setCode] = React.useState('');
     const [init, setInit] = React.useState<CodeSnippet>({ ...DEFAULT_SNIPPET });
     const [title, setTitle] = React.useState('');
@@ -126,7 +126,7 @@ export default function SnippetPage(): JSX.Element {
     }, [copyied]);
 
     return (
-        <Layout 
+        <Layout
             title={'Interactive Python Codeblocks'}
             description={
                 `Create, execute, and share your Python code seamlessly in your browser using our interactive playground. Perfect for coding enthusiasts and learners alike!`

@@ -117,6 +117,9 @@ yarn link docusaurus-live-brython
 
 Then start the website
 ```sh
+# in root
+yarn run watch
+# in website/
 yarn run start
 ```
 

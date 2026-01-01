@@ -7,8 +7,8 @@ import { useStore, useScript } from '@theme/CodeEditor/hooks';
 import Button from '@theme/CodeEditor/Button';
 import clsx from 'clsx';
 export interface Props {
-    controls?: JSX.Element;
-    main?: JSX.Element;
+    controls?: React.ReactNode;
+    main?: React.ReactNode;
 }
 const Graphics = (props: Props) => {
     const store = useStore();

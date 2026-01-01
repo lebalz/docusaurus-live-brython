@@ -7,5 +7,5 @@ declare module '@theme/Details' {
     readonly children: ReactNode;
     [key: string]: any;
   }
-  export default function Details(props: Props): JSX.Element;
+  export default function Details(props: Props): React.ReactNode;
 }

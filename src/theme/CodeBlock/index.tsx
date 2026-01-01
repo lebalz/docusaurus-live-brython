@@ -34,10 +34,10 @@ const extractMetaProps = (props: { metastring?: string }): MetaProps => {
                 value === 'true'
                     ? true
                     : value === 'false'
-                      ? false
-                      : !Number.isNaN(Number(value))
-                        ? Number(value)
-                        : value || true;
+                        ? false
+                        : !Number.isNaN(Number(value))
+                            ? Number(value)
+                            : value || true;
             acc[key] = val;
             return acc;
         },
@@ -45,7 +45,7 @@ const extractMetaProps = (props: { metastring?: string }): MetaProps => {
     );
 };
 
-export default function CodeBlockWrapper(props: Props): JSX.Element {
+export default function CodeBlockWrapper(props: Props): React.ReactNode {
     const metaProps = extractMetaProps(props);
     const langMatch = ((props.className || '') as string).match(/language-(?<lang>\w*)/);
     let lang = langMatch?.groups?.lang?.toLocaleLowerCase() ?? '';

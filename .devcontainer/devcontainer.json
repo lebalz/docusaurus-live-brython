@@ -1,0 +1,38 @@
+{
+    "name": "docusaurus-live-brython",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:24-bookworm",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "pomdtr.excalidraw-editor",
+                "zhuangtongfa.Material-theme",
+                "mhutchie.git-graph",
+                "esbenp.prettier-vscode",
+                "dbaeumer.vscode-eslint",
+                "unifiedjs.vscode-mdx",
+                "motivesoft.vscode-uuid-generator",
+                "lukas-tr.materialdesignicons-intellisense"
+            ],
+            "settings": {
+                "workbench.colorTheme": "One Dark Pro",
+                "extensions.ignoreRecommendations": true,
+                "git.autofetch": true,
+                "editor.tabSize": 4,
+                "[mdx]": {
+                    "editor.defaultFormatter": "unifiedjs.vscode-mdx"
+                }
+            }
+        }
+    },
+    "remoteEnv": {
+        "OFFLINE_API": "true"
+    },
+    "postStartCommand": "yarn install",
+    "forwardPorts": [3000],
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "24.12"
+        }
+    },
+    "runArgs": ["--network=host"]
+}

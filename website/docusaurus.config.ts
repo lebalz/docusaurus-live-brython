@@ -10,7 +10,6 @@ const config: Config = {
     url: 'https://lebalz.github.io',
     baseUrl: BASE_URL,
     onBrokenLinks: 'throw',
-    onBrokenMarkdownLinks: 'warn',
     favicon: 'img/favicon.ico',
     organizationName: 'lebalz', // Usually your GitHub org/user name.
     projectName: 'docusaurus-live-brython', // Usually your repo name.
@@ -20,8 +19,14 @@ const config: Config = {
         locales: ['en', 'zh-Hant']
     },
     future: {
+        v4: true,
         experimental_faster: true,
         experimental_router: 'browser',
+    },
+    markdown: {
+        hooks: {
+            onBrokenMarkdownLinks: 'warn',
+        }
     },
     themeConfig: {
         navbar: {
