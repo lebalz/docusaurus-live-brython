@@ -13,10 +13,11 @@
     "target": "esnext",
     "declarationMap": true,
     "baseUrl": ".",
+    "skipLibCheck": true,
     "paths": {
       "@theme/*": ["src/theme/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src/**/*"],
   "exclude": ["**/__tests__/**"]
 }
